@@ -1,0 +1,223 @@
+/* ===== GLOBAL WRAPPER ===== */
+.jk_account_container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px;
+  background: linear-gradient(135deg, #f6f8fc, #eef2f7);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* ===== FORM CARD ===== */
+.jk_account_form {
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.jk_account_form:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+/* ===== GRID ===== */
+.jk_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+/* ===== INPUT BOX ===== */
+.jk_input_box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.jk_input_box label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: 0.3px;
+}
+
+/* ===== INPUT FIELD ===== */
+.jk_input_box input {
+  height: 46px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: all 0.25s ease;
+}
+
+.jk_input_box input:focus {
+  background: #fff;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+  outline: none;
+}
+
+/* ===== LOGO SECTION ===== */
+.jk_logo_section {
+  margin-top: 35px;
+}
+
+.jk_logo_title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.jk_logo_box {
+  width: 160px;
+  height: 160px;
+  border-radius: 14px;
+  border: 2px dashed #d0d0d0;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.jk_logo_box:hover {
+  border-color: #4f46e5;
+  background: #f5f7ff;
+}
+
+.jk_logo_box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== DUMMY LOGO ===== */
+.jk_dummy_logo {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #111, #333);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* ===== BUTTON LINKS ===== */
+.jk_change_btn {
+  display: inline-block;
+  margin-top: 10px;
+  color: #4f46e5;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.jk_change_btn:hover {
+  color: #3730a3;
+  text-decoration: underline;
+}
+
+/* ===== UPDATE BUTTON ===== */
+.jk_update_btn {
+  margin-top: 35px;
+  width: 220px;
+  height: 48px;
+  border: none;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(79,70,229,0.25);
+  transition: all 0.3s ease;
+}
+
+.jk_update_btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(79,70,229,0.35);
+}
+
+/* ===== FULL WIDTH FIELD ===== */
+.jk_full_width {
+  grid-column: span 2;
+}
+
+/* ===== EDITOR MOCK ===== */
+.jk_editor_mock {
+  border: 1px solid #e2e2e2;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.jk_editor_toolbar {
+  background: #f7f7f9;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e2e2e2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #555;
+}
+
+.jk_tool_btn {
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.jk_tool_btn:hover {
+  background: #eaeaff;
+}
+
+.jk_tool_select {
+  border: 1px solid #ddd;
+  padding: 3px 8px;
+  background: #fff;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* TEXTAREA */
+.jk_editor_mock textarea {
+  width: 100%;
+  border: none;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+  resize: vertical;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .jk_account_container {
+    padding: 20px;
+  }
+
+  .jk_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jk_full_width {
+    grid-column: span 1;
+  }
+
+  .jk_update_btn {
+    width: 100%;
+  }
+}

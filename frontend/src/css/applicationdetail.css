@@ -1,0 +1,343 @@
+/* ===================== */
+/* BASE PAGE */
+/* ===================== */
+.application-page {
+  min-height: 100vh;
+  background-color: #f8fafc; /* Modern slate light background */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+  padding-bottom: 60px;
+}
+
+/* ===================== */
+/* HEADER */
+/* ===================== */
+.header {
+  background: linear-gradient(135deg, #0f172a, #1e293b); /* Clean Dark Mode Header */
+  padding: 50px 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.header h1 {
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+/* ===================== */
+/* DETAILS CARD (Main Container) */
+/* ===================== */
+.details-card {
+  width: 85%;
+  max-width: 1100px;
+  margin: 40px auto 24px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0;
+  overflow: hidden; /* Border radius smooth rakhne ke liye */
+}
+
+/* Screenshot jaisa premium green gradient title */
+.details-card h2 {
+  background: linear-gradient(to right, #10b981, #14b8a6); 
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  padding: 14px 20px;
+  letter-spacing: 0.3px;
+}
+
+/* TABLE STRUCTURE */
+.details-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-card td {
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #334155;
+  vertical-align: middle;
+}
+
+/* Har row ka aakhri cell ka right border hatane ke liye */
+.details-card td:last-child {
+  border-right: none;
+}
+
+/* Aakhri row ka bottom border hatane ke liye */
+.details-card tr:last-child td {
+  border-bottom: none;
+}
+
+/* Label Cells (Odd ones: Full Name, Email etc.) */
+.details-card td:nth-child(odd) {
+  background: #f8fafc; /* Subtle grey-blue look */
+  font-weight: 600;
+  color: #475569;
+  width: 180px;
+}
+
+/* Link / Resume button styling inside table */
+.details-card a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.details-card a:hover {
+  text-decoration: underline;
+}
+
+/* Image inside table grid */
+.details-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+/* ===================== */
+/* ACTION CARD */
+/* ===================== */
+.action-card {
+  width: 85%;
+  max-width: 1100px;
+  margin: auto;
+  background: #ffffff;
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.action-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.action-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* ===================== */
+/* MODAL OVERLAY */
+/* ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6); /* Darker elegant overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
+
+/* ===================== */
+/* MODAL BOX */
+/* ===================== */
+.modal-box {
+  width: 650px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* MODAL HEADER */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.close-icon {
+  cursor: pointer;
+  font-size: 22px;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.close-icon:hover {
+  color: #ef4444;
+}
+
+/* MODAL BODY */
+.modal-body {
+  padding: 24px;
+  background: #ffffff;
+}
+
+/* FORM ROW */
+.form-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #ffffff;
+  transition: border-color 0.2s;
+}
+
+.form-row:focus-within {
+  border-color: #2563eb; /* Focus karne par active blue border */
+}
+
+.form-row label {
+  background: #f8fafc;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #475569;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+}
+
+/* INPUTS / TEXTAREA / SELECT */
+.form-row textarea,
+.form-row select {
+  width: 100%;
+  border: none;
+  padding: 14px;
+  font-size: 14px;
+  color: #334155;
+  outline: none;
+  background: #ffffff;
+  font-family: inherit;
+}
+
+.form-row textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* MODAL FOOTER */
+.modal-footer {
+  padding: 16px 24px;
+  text-align: right;
+  border-top: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+
+.close-btn {
+  background: #e2e8f0;
+  color: #475569;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: #cbd5e1;
+}
+
+.update-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.update-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ===================== */
+/* RESPONSIVE DESIGN */
+/* ===================== */
+@media (max-width: 768px) {
+  .details-card,
+  .action-card {
+    width: 92%;
+    margin-top: 20px;
+  }
+
+  .details-card table, 
+  .details-card tr, 
+  .details-card td {
+    display: block; /* Mobile pe stacking grid ban jayega */
+    width: 100% !important;
+    border-right: none;
+  }
+
+  .details-card td:nth-child(odd) {
+    background: #f1f5f9;
+    border-bottom: none;
+    padding-bottom: 6px;
+  }
+
+  .details-card td:nth-child(even) {
+    padding-top: 6px;
+  }
+
+  .modal-box {
+    width: 92%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row label {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px 14px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+}

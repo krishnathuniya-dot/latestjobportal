@@ -1,0 +1,181 @@
+/* Container Layout */
+.edit-profile-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333333;
+}
+
+/* Header Section */
+.edit-profile-header {
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 16px;
+  margin-bottom: 30px;
+}
+
+.edit-profile-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Form Layout Grid */
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Flex Row for Side-by-Side inputs */
+.edit-profile-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Input Groups */
+.edit-profile-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Labels */
+.edit-profile-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555555;
+}
+
+/* Inputs & Textarea Styling */
+.edit-profile-input,
+.edit-profile-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.edit-profile-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Input Focus States */
+.edit-profile-input:focus,
+.edit-profile-textarea:focus {
+  outline: none;
+  border-color: #4f46e5; /* Professional Indigo color */
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+/* File Input Wrapper */
+.edit-profile-file-input {
+  font-size: 14px;
+  color: #666666;
+}
+
+.edit-profile-file-input::-webkit-file-upload-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  color: #333333;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-right: 12px;
+}
+
+.edit-profile-file-input::-webkit-file-upload-button:hover {
+  background-color: #f3f4f6;
+}
+
+/* Resume Link */
+.edit-profile-resume-link {
+  align-self: flex-start;
+  font-size: 14px;
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.edit-profile-resume-link:hover {
+  text-decoration: underline;
+}
+
+/* Profile Image Section */
+.edit-profile-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  border: 1px dashed #e2e8f0;
+}
+
+.edit-profile-image {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-change-pic {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Primary Submit Button */
+.edit-profile-update-btn {
+  align-self: flex-end;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.edit-profile-update-btn:hover {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+}
+
+.edit-profile-update-btn:active {
+  transform: translateY(1px);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .edit-profile-container {
+    margin: 15px;
+    padding: 20px;
+  }
+  
+  .edit-profile-update-btn {
+    width: 100%; /* Mobile par button full width ho jayega */
+  }
+}

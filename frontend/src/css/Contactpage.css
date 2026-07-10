@@ -1,0 +1,57 @@
+/* Page Layout */
+.ouu-contact-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  padding-bottom: 50px;
+}
+
+.ouu-contact-page__banner {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.ouu-contact-page__content {
+  max-width: 600px;
+  margin: -40px auto 0;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.ouu-contact-page__title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1a1a1a;
+}
+
+/* Card Styling */
+.ouu-contact-card__item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ouu-contact-card__item:last-child {
+  border-bottom: none;
+}
+
+.ouu-contact-card__icon {
+  font-size: 24px;
+  background: #f0f7ff;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ouu-contact-card__text {
+  font-size: 1.1rem;
+  color: #4a4a4a;
+  font-weight: 500;
+}

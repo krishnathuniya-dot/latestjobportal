@@ -1,0 +1,17 @@
+/* Container */
+.yy-contact-container { width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: #f8fafc; padding: 20px; }
+.yy-contact-card { width: 100%; max-width: 600px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+/* Header */
+.yy-contact-header { background: #0f172a; color: white; padding: 20px; text-align: center; font-weight: 700; border-top-left-radius: 12px; border-top-right-radius: 12px; }
+
+/* Body */
+.yy-contact-body { padding: 30px; }
+.yy-form-group { margin-bottom: 20px; }
+.yy-form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 14px; }
+.yy-form-control, .yy-form-textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none; }
+.yy-form-textarea { min-height: 140px; resize: none; }
+
+/* Update Button */
+.yy-update-btn { width: 100%; padding: 14px; background: #059669; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.yy-update-btn:hover { background: #047857; }

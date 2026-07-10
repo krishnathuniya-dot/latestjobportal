@@ -1,0 +1,301 @@
+/* ===================== */
+/* MAIN PAGE WRAPPER */
+/* ===================== */
+.jobdetails_main {
+  background: #f8fafc; /* Ultra-clean soft background */
+  padding: 50px 20px;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+}
+
+.jobdetails_wrapper {
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 2.8fr 1.2fr; /* Better balance for sidebar */
+  gap: 32px;
+}
+
+/* ===================== */
+/* LEFT CONTENT CARD */
+/* ===================== */
+.jobdetails_content {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 16px; /* Modern rounded look */
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+}
+
+.jobdetails_header {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 30px;
+}
+
+/* 👑 OPTIMIZED LOGO DESIGN */
+.jobdetails_logo {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;        /* Changed from contain to cover to prevent weird padding/stretching */
+  border-radius: 50%;       /* 12px se badal kar 50% kiya - Perfect Circle Look */
+  border: 1px solid #e2e8f0;
+  padding: 4px;             /* Clean frame effect */
+  background: #ffffff;
+  flex-shrink: 0;           /* Prevents the logo from squeezing on smaller widths */
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05); /* Soft professional shadow */
+}
+
+.jobdetails_info_box {
+  flex: 1;
+}
+
+.jobdetails_info_box h1 {
+  font-size: 30px; 
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.company_name {
+  color: #475569;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.company_name span {
+  margin-left: 12px;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  background: #f1f5f9;
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+.job_meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+/* SALARY BADGE */
+.salary {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* BUTTONS GROUP */
+.job_actions {
+  display: flex;
+  gap: 14px;
+}
+
+/* Full-time Badge Button */
+.fulltime_btn {
+  background: #f0fdf4; 
+  color: #16a34a; 
+  border: 1px solid #bbf7d0;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: default; 
+}
+
+/* Main Apply Button */
+.apply_btn {
+  background: #2563eb; 
+  color: #ffffff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.apply_btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+/* ===================== */
+/* JOB DESCRIPTION SECTIONS */
+/* ===================== */
+.detail_section {
+  margin-top: 36px;
+}
+
+.detail_section h3 {
+  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.detail_section p {
+  color: #334155;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+/* ===================== */
+/* RIGHT SIDEBAR CARD */
+/* ===================== */
+.company_sidebar {
+  align-self: start;
+  position: sticky; 
+  top: 30px;
+}
+
+.sidebar_card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* 🌌 PREMIUM SIDEBAR BANNER */
+.sidebar_banner {
+  width: 100%;
+  height: 140px;             /* Height thodi badhayi taaki graphics clear dikhein */
+  object-fit: cover;
+  background: linear-gradient(135deg, #6366f1, #4338ca); /* Soft Vibrant Indigo Gradient */
+}
+
+.sidebar_body {
+  padding: 28px;
+}
+
+.sidebar_body h2 {
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.sidebar_item {
+  margin-bottom: 20px;
+}
+
+.sidebar_item:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar_item strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sidebar_item p {
+  color: #334155;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ===================== */
+/* RESPONSIVE DESIGN */
+/* ===================== */
+@media(max-width: 992px) {
+  .jobdetails_main {
+    padding: 24px 12px;
+  }
+
+  .jobdetails_wrapper {
+    grid-template-columns: 1fr; 
+    gap: 24px;
+  }
+
+  .jobdetails_content {
+    padding: 24px;
+  }
+
+  .jobdetails_header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  /* 📱 MOBILE RESPONSIVE LOGO FIX */
+  .jobdetails_logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;      /* Mobile view me bhi perfect circle */
+  }
+
+  .company_name {
+    justify-content: center;
+  }
+
+  .job_meta {
+    justify-content: center;
+  }
+
+  .salary {
+    justify-content: center;
+  }
+
+  .job_actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .fulltime_btn, .apply_btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* Add this to your ../css/apply.css file */
+
+.sidebar_card .sidebar_banner {
+  width: 100%;       /* Spans the full width of the sidebar card */
+  height: auto;      /* Adjusts height automatically based on width */
+  max-height: 150px; /* Sets a maximum height so it doesn't get too tall */
+  object-fit: contain; /* Ensures the entire logo is visible within the height constraints */
+  display: block;
+  border-top-left-radius: 8px; /* Matches card radius */
+  border-top-right-radius: 8px;
+}
+/* Add this to your ../css/apply.css file */
+
+.jobdetails_header .company_logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; /* Ensures it is a circle */
+  object-fit: cover;  /* Crucial: Scales image to fill the area without stretching, cropping if necessary */
+  border: 2px solid #e2e8f0; /* Optional: adds a border */
+  padding: 2px; /* Optional: space between image and border */
+  background-color: #ffffff; /* Ensures background is white if image has transparency */
+  display: block; /* Removes any bottom whitespace */
+}

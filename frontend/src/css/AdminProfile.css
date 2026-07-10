@@ -1,0 +1,208 @@
+/* Root Variables for Colors */
+:root {
+    --primary-color: #667eea;
+    --primary-hover: #764ba2;
+    --bg-color: #f0f2f5;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-dark: #333;
+    --text-light: #777;
+    --border-color: #e0e0e0;
+}
+
+.ap__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ap__card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 750px; /* Thoda bada kiya taaki khula-khula lage */
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Header Styling */
+.ap__header {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 20px 30px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ap__header h2 {
+    margin: 0;
+    color: var(--text-dark);
+    font-size: 1.5rem;
+}
+
+.ap__header p {
+    margin: 5px 0 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Main Content Layout */
+.ap__main {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Image aur Form alag alag */
+    gap: 30px;
+    padding: 30px;
+}
+
+@media (max-width: 768px) {
+    .ap__main {
+        grid-template-columns: 1fr; /* Mobile pe ek ke niche ek */
+    }
+}
+
+/* Image Section */
+.ap__image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-right: 30px;
+    border-right: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .ap__image-section {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+}
+
+.ap__avatar-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+}
+
+.ap__avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.ap__overlay-camera {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--primary-color);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.ap__overlay-camera:hover {
+    background: var(--primary-hover);
+    transform: scale(1.1);
+}
+
+.ap__admin-name {
+    margin: 10px 0 5px;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+}
+
+.ap__badge {
+    background: #e8f0fe;
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Form Styling */
+.ap__form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ap__input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ap__icon {
+    position: absolute;
+    left: 15px;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.ap__input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px; /* Icon ke liye jagah chhodi */
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.ap__input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.ap__input-group input:focus + .ap__icon {
+    color: var(--primary-color);
+}
+
+/* Submit Button */
+.ap__submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(to right, var(--primary-color), var(--primary-hover));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.ap__submit-btn:hover {
+    box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+    transform: translateY(-2px);
+}
+
+.ap__submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}

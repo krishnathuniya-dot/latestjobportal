@@ -1,0 +1,91 @@
+.mc__container {
+    padding: 30px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.mc__card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.mc__header {
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.mc__title-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mc__icon { color: #667eea; }
+
+.mc__header h2 { margin: 0; font-size: 1.5rem; color: #1a202c; }
+.mc__header p { margin: 0; color: #718096; font-size: 0.85rem; }
+
+/* Add Button */
+.mc__add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.mc__add-btn:hover { background: #5a67d8; }
+
+/* Table Styling */
+.mc__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mc__table th {
+    text-align: left;
+    padding: 15px 25px;
+    background: #f7fafc;
+    color: #4a5568;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.mc__table td {
+    padding: 15px 25px;
+    border-bottom: 1px solid #edf2f7;
+    color: #2d3748;
+}
+
+.mc__name { font-weight: 600; }
+
+/* Actions */
+.mc__action-btns { display: flex; gap: 10px; }
+
+.mc__btn {
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.mc__btn--edit { background: #ebf8ff; color: #3182ce; }
+.mc__btn--edit:hover { background: #bee3f8; }
+
+.mc__btn--delete { background: #fff5f5; color: #e53e3e; }
+.mc__btn--delete:hover { background: #fed7d7; }
+
+.mc__no-data { text-align: center; padding: 40px !important; color: #a0aec0; }

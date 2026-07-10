@@ -1,0 +1,238 @@
+/* Container Background */
+.candidateReport {
+    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+}
+
+.reportBox {
+    background: white;
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Vibrant Green Header */
+.reportHeader {
+    background: linear-gradient(135deg, #66bb6a, #26a69a);
+    color: white;
+    padding: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+
+.searchForm {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #fafafa;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.dateField {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    margin-top: 8px;
+    width: 100%;
+    transition: border-color 0.3s;
+}
+
+.dateField:focus {
+    border-color: #26a69a;
+    outline: none;
+}
+
+.submitButton {
+    background-color: #dcedc8;
+    border: 2px solid #aed581;
+    padding: 10px 25px;
+    width: fit-content;
+    cursor: pointer;
+    font-weight: bold;
+    color: #33691e;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.submitButton:hover {
+    background-color: #c5e1a5;
+    transform: translateY(-2px);
+}
+
+.submitButton::before {
+    content: "+ ";
+}
+
+/* Modern Table */
+.tableContainer { padding: 25px; }
+
+.tableControls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.dataTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+}
+
+.dataTable th {
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 15px;
+    border-bottom: 2px solid #ddd;
+    text-align: left;
+}
+
+.dataTable td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.dataTable tr:hover {
+    background-color: #f1f8e9;
+    transition: background 0.2s;
+}
+
+/* Pagination Styling */
+.paginationSection {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    align-items: center;
+    color: #666;
+}
+
+.pageBtn {
+    padding: 8px 16px;
+    cursor: pointer;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 4px;
+    transition: all 0.2s;
+}
+
+.pageBtn:hover {
+    background-color: #26a69a;
+    color: white;
+    border-color: #26a69a;
+}   
+/* Table aur Container Styling */
+.tableContainer {
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+/* Header Styling - Vibrant Look */
+.dataTable thead tr {
+    background: linear-gradient(135deg, #2a9d8f, #264653);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dataTable th {
+    padding: 18px 15px;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* Rows Styling */
+.dataTable tbody tr {
+    border-bottom: 1px solid #edf2f7;
+    transition: all 0.3s ease;
+}
+
+.dataTable tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.dataTable tbody tr:hover {
+    background-color: #e6fffa;
+    transform: scale(1.005);
+    cursor: pointer;
+}
+
+.dataTable td {
+    padding: 15px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+/* Action Icon Styling */
+.dataTable td:last-child {
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Controls styling */
+.tableControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.tableControls input {
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    outline: none;
+}
+
+.tableControls input:focus {
+    border-color: #2a9d8f;
+}
+
+/* Pagination Buttons - Modern Style */
+.paginationSection {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pageBtn {
+    background: #ffffff;
+    border: 1px solid #cbd5e0;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #4a5568;
+    transition: 0.3s;
+}
+
+.pageBtn:hover {
+    background: #2a9d8f;
+    color: white;
+    border-color: #2a9d8f;
+}

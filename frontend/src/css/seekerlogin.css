@@ -1,0 +1,195 @@
+
+
+/* Navbar */
+
+.navbar{
+  height:70px;
+  background:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:80px;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.logo{
+  font-size:38px;
+  font-weight:bold;
+  color:#e60000;
+}
+
+.navbar ul{
+  display:flex;
+  list-style:none;
+  gap:40px;
+}
+
+.navbar li{
+  cursor:pointer;
+  color:#444;
+  font-weight:500;
+}
+
+/* Header */
+
+.login-header{
+  background:#1e88e5;
+  color:white;
+  text-align:center;
+  padding:35px;
+}
+
+.login-header h1{
+  font-weight:300;
+  font-size:42px;
+}
+
+/* Container */
+
+.login-container{
+  display:flex;
+  justify-content:center;
+  margin-top:80px;
+}
+
+/* Card */
+
+.login-card{
+  width:400px;
+  background:white;
+  border:1px solid #e5e5e5;
+  padding:70px 30px 30px;
+  position:relative;
+  text-align:center;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+/* Icon */
+
+.profile-icon{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:linear-gradient(
+      135deg,
+      #64b5f6,
+      #1976d2
+  );
+
+  position:absolute;
+  top:-45px;
+  left:50%;
+  transform:translateX(-50%);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-size:42px;
+  color:white;
+  border:5px solid white;
+}
+
+/* Inputs */
+
+.login-card input{
+  width:100%;
+  height:50px;
+  border:1px solid #ddd;
+  margin-bottom:15px;
+  padding:0 15px;
+  font-size:15px;
+}
+
+.login-card input:focus{
+  outline:none;
+  border-color:#1e88e5;
+}
+
+/* Button */
+
+.login-card button{
+  width:100%;
+  height:50px;
+  border:none;
+  background:#1e88e5;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.login-card button:hover{
+  background:#1565c0;
+}
+
+/* Text */
+
+.forgot{
+  margin-top:15px;
+  color:#777;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.or{
+  width:60px;
+  height:60px;
+  background:#1e88e5;
+  color:white;
+  margin:25px auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:5px;
+  font-weight:bold;
+}
+
+.signup{
+  color:#777;
+  font-size:14px;
+}
+
+.signup span{
+  color:#1e88e5;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.home{
+  margin-top:20px;
+  color:#1e88e5;
+  cursor:pointer;
+}
+
+/* Message */
+
+.message{
+  margin-bottom:15px;
+  color:green;
+  font-weight:600;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+  .navbar{
+    flex-direction:column;
+    height:auto;
+    padding:20px;
+    gap:15px;
+  }
+
+  .navbar ul{
+    gap:15px;
+  }
+
+  .login-card{
+    width:90%;
+  }
+
+  .login-header h1{
+    font-size:30px;
+  }
+}

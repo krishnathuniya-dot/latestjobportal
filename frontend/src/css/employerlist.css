@@ -1,0 +1,214 @@
+/* ================================================== */
+/* MAIN LAYOUT & CONTAINER */
+/* ================================================== */
+.uk-employer-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background-color: #f3f4f6;
+    display: flex;
+    justify-content: center;
+}
+
+.uk-table-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* ================================================== */
+/* HEADER & SEARCH BAR */
+/* ================================================== */
+.uk-card-header {
+    background: #1e293b;
+    color: #ffffff;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.uk-search-input {
+    background: #334155;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    color: white;
+    width: 250px;
+}
+
+/* ================================================== */
+/* TABLE DESIGN */
+/* ================================================== */
+.uk-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.uk-table th {
+    background: #f8fafc;
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.uk-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+}
+
+.font-bold { font-weight: 600; }
+.badge-status { background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px; }
+
+/* ================================================== */
+/* ACTION BUTTONS */
+/* ================================================== */
+.btn-action {
+    padding: 6px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.btn-action.view { background: #eff6ff; color: #2563eb; }
+.btn-action.jobs { background: #fef3c7; color: #92400e; }
+.btn-action.delete { background: #fef2f2; color: #b91c1c; }
+.btn-action:hover { filter: brightness(0.9); }
+
+/* ================================================== */
+/* MODAL STYLING (Premium Look) */
+/* ================================================== */
+.employer-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px); /* Blur effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.employer-modal {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 10px;
+}
+
+.close-btn { background: none; border: none; font-size: 28px; cursor: pointer; }
+
+.details-table th { color: #6b7280; width: 30%; }
+
+/* ================================================== */
+/* PAGINATION */
+/* ================================================== */
+.uk-pagination {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.uk-pagination button { padding: 5px 15px; cursor: pointer; border: 1px solid #ddd; background: white; }
+/* ================================================== */
+/* MODAL STYLING - Premium & Large */
+/* ================================================== */
+.employer-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.employer-modal {
+    background: white;
+    width: 95%;          /* Modal ko bada kiya */
+    max-width: 1000px;   /* Max width badha di */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.view-header {
+    background: #4caf50;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* ================================================== */
+/* GRID TABLE STYLING - Screenshot Look */
+/* ================================================== */
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+
+.details-table th, .details-table td {
+    padding: 18px; /* Padding badha di */
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.details-table th {
+    background: #f8fafc;
+    width: 18%; /* Label width */
+    font-weight: 700;
+    color: #475569;
+}
+
+/* Logo ka size badha diya */
+.company-logo {
+    width: 120px;   /* Logo bada kiya */
+    height: 120px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.description-title {
+    background: #e3f2fd;
+    text-align: center;
+    font-weight: 800;
+    color: #1976d2;
+    padding: 15px !important;
+}
+
+.close-btn {
+    background: none; border: none; color: white; 
+    font-size: 32px; cursor: pointer; line-height: 1;
+}
+
+/* Table rows ko thoda highlight dene ke liye */
+.details-table tr:hover {
+    background-color: #fafafa;
+}

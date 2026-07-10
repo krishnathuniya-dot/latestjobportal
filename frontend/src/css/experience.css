@@ -1,0 +1,146 @@
+/* ===================== */
+/* RESET & GLOBAL STYLES */
+/* ===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f8fafc; /* Sleek slate background */
+  color: #1e293b;
+}
+
+/* ===================== */
+/* HEADER */
+/* ===================== */
+.exp-header {
+  width: 100%;
+  background: linear-gradient(135deg, #0f172a, #1e293b); /* Premium Dark Theme match */
+  padding: 45px 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.exp-header h1 {
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ===================== */
+/* FORM CONTAINER */
+/* ===================== */
+.exp-form {
+  width: 80%;
+  max-width: 1000px; /* Desktop par form ko faltu stretch hone se rokega */
+  margin: 45px auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+/* ===================== */
+/* GRID LAYOUT */
+/* ===================== */
+.exp-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px; /* Pehle 40px boht zyada door lag rha tha, 24px is compact & neat */
+  margin-bottom: 24px;
+}
+
+.exp-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.exp-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+/* ===================== */
+/* INPUTS styling */
+/* ===================== */
+.exp-group input {
+  width: 100%;
+  height: 48px; /* Purana 55px thoda bulky tha, 48px standard dashboard style h */
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0 16px;
+  font-size: 14px;
+  color: #334155;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Interactive focus ring shadow */
+.exp-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* ===================== */
+/* HORIZONTAL DIVIDER */
+/* ===================== */
+.exp-form hr {
+  margin: 32px 0 24px;
+  border: none;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* ===================== */
+/* PRIMARY ACTION BUTTON */
+/* ===================== */
+.exp-btn {
+  width: 160px;
+  height: 46px; /* Purana 65px boht bada square lagta, 46px is sleek */
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.exp-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+/* ===================== */
+/* RESPONSIVE (MOBILE) */
+/* ===================== */
+@media(max-width: 768px) {
+  .exp-form {
+    width: 92%;
+    padding: 24px;
+    margin: 24px auto;
+  }
+
+  .exp-row {
+    grid-template-columns: 1fr; /* Mobile par single column list */
+    gap: 16px;
+  }
+
+  .exp-header h1 {
+    font-size: 24px;
+  }
+
+  .exp-btn {
+    width: 100%; /* Easy thumb click for mobile users */
+  }
+}

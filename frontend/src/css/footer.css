@@ -1,0 +1,141 @@
+/* ==========================================
+   🔵 BANNER SECTION (Premium & Modern)
+   ========================================== */
+.jp_banner {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); /* वाइब्रेंट मॉडर्न ब्लू ग्रेडिएंट */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 60px;
+  border-radius: 16px; /* कस्टमाइज़्ड राउंडेड लुक (अगर कंटेनर के अंदर है) */
+  margin: 30px auto;
+  max-width: 1200px;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.jp_banner_left h2 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.jp_banner_left p {
+  max-width: 600px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85); /* आँखों को चुभेगा नहीं */
+}
+
+.jp_banner_btn {
+  background: #ffffff;
+  color: #1e3a8a; /* डार्क ब्लू टेक्स्ट */
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.jp_banner_btn:hover {
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================
+   ⚪ FOOTER SECTION (Clean & Corporate)
+   ========================================== */
+.jp_footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 70px 60px 40px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.jp_footer_col {
+  flex: 1;
+  min-width: 220px;
+  margin-bottom: 20px;
+}
+
+/* 🎯 लाल रंग हटाकर इसे प्रोफेशनल डार्क ग्रे/ब्लू लुक दिया है */
+.jp_footer_col h3 {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  color: #0f172a; 
+}
+
+.jp_footer_col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.jp_footer_col ul li {
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #64748b; /* लाइट मैट ग्रे */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block; /* ताकि सिर्फ टेक्स्ट पर ही होवर इफ़ेक्ट आए */
+  width: 100%;
+}
+
+.jp_footer_col ul li:hover {
+  color: #2563eb; /* होवर करने पर स्मूथ ब्लू कलर */
+  transform: translateX(4px); /* हल्का सा आगे खिसकने का एनिमेशन */
+}
+
+/* ==========================================
+   📱 RESPONSIVE DESIGN (Responsive Fixed)
+   ========================================== */
+@media (max-width: 768px) {
+  .jp_banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 24px;
+    margin: 20px;
+    gap: 20px;
+  }
+
+  .jp_banner_left h2 {
+    font-size: 26px;
+  }
+
+  .jp_banner_left p {
+    font-size: 14px;
+  }
+
+  .jp_banner_btn {
+    width: 100%; /* मोबाइल पर फुल विड्थ बटन */
+    max-width: 280px;
+  }
+
+  .jp_footer {
+    flex-direction: column;
+    text-align: center;
+    padding: 50px 24px 30px;
+    gap: 30px;
+  }
+
+  .jp_footer_col {
+    margin-bottom: 10px;
+  }
+
+  .jp_footer_col ul li:hover {
+    transform: none; /* मोबाइल पर ट्रांसलेट एनिमेशन हटा दिया */
+  }
+}

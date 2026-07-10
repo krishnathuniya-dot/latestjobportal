@@ -1,0 +1,208 @@
+/* recenthotjob.css - Ultramodern 2-Column Job Grid with Circular Logos */
+
+/* Base Resetting */
+.recent_hot_jobs_container * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+/* Main Layout Wrapper - Width badhayi gayi hai */
+.recent_hot_jobs_container {
+  max-width: 1300px; 
+  margin: 50px auto;
+  padding: 0 24px;
+}
+
+/* Page Heading */
+.recent_hot_jobs_heading {
+  font-size: 34px;
+  color: #0f172a;
+  font-weight: 800;
+  letter-spacing: -0.75px;
+  margin-bottom: 28px;
+}
+
+/* --- SEARCH BAR --- */
+.rhj_search_wrapper {
+  margin-bottom: 36px;
+}
+
+.rhj_search_input {
+  width: 100%;
+  padding: 18px 24px;
+  font-size: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background-color: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rhj_search_input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+/* --- PURE 2-COLUMN GRID SYSTEM --- */
+.rhj_jobs_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px; /* Gap set kiya */
+  width: 100%;
+}
+
+/* Desktop: Cards ki width badhane ke liye minmax use kiya */
+@media (min-width: 992px) {
+  .rhj_jobs_grid {
+    grid-template-columns: repeat(2, minmax(500px, 1fr)); 
+  }
+}
+
+/* --- THE PREMIUM CARD LAYOUT --- */
+.recent_hot_job_card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  padding: 32px; /* Padding badhayi taaki card bada dikhe */
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.02);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recent_hot_job_card:hover {
+  transform: translateY(-6px);
+  border-color: #cbd5e1;
+  box-shadow: 0 20px 30px -10px rgba(15, 23, 42, 0.08);
+}
+
+/* Left Wrapper */
+.recent_hot_job_left {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+/* --- ROUNDED IMAGE & LOGO --- */
+.rhj_logo_link {
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.recent_hot_logo_img, .recent_hot_logo {
+  width: 80px; /* Size thoda badhaya */
+  height: 80px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.recent_hot_logo_img:hover { transform: scale(1.08); }
+
+.recent_hot_logo_img {
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+  padding: 2px;
+  background: #ffffff;
+}
+
+.recent_hot_logo {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  color: #4f46e5;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- CARD DATA TYPOGRAPHY --- */
+.recent_hot_content { flex-grow: 1; }
+
+.recent_hot_content h3 {
+  font-size: 20px;
+  color: #0f172a;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.recent_hot_job_card:hover .recent_hot_content h3 { color: #4f46e5; }
+
+.recent_hot_content p {
+  font-size: 14px;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.recent_hot_meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.recent_hot_meta span {
+  background: #f8fafc;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.recent_hot_content h4 {
+  font-size: 18px;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.recent_hot_type_btn {
+  align-self: flex-start;
+  margin-top: 20px;
+  background-color: #eff6ff;
+  color: #1e40af;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* --- PAGINATION --- */
+.rhj_pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 50px auto 0 auto;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 16px;
+  width: max-content;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+.rhj_page_btn {
+  background-color: transparent;
+  color: #475569;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.rhj_page_btn.rhj_active_page {
+  background-color: #4f46e5;
+  color: #ffffff;
+}

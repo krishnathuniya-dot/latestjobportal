@@ -1,0 +1,122 @@
+/* General Reset & Layout */
+* { box-sizing: border-box; }
+
+.ff-container {
+    padding: 30px;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.ff-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    max-width: 1000px;
+    margin: 0 auto; /* Card ko center karne ke liye */
+}
+
+/* Header */
+.ff-header {
+    padding: 30px;
+    background: linear-gradient(to right, #6366f1, #a855f7);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ff-title-group { display: flex; align-items: center; gap: 16px; }
+
+.ff-icon-bg {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+/* Search Box */
+.ff-search-wrapper {
+    background: white;
+    padding: 5px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.ff-search-wrapper input {
+    border: none;
+    outline: none;
+    padding: 8px;
+    width: 200px;
+    color: #333;
+}
+
+/* Table */
+.ff-table-container { padding: 0 20px 20px; }
+
+.ff-table {
+    width: 100%; /* 80% ki jagah 100% zayada behtar dikhega */
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.ff-table th {
+    text-align: left;
+    padding: 16px;
+    color: #4f46e5;
+    background: #f8fafc;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.ff-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.ff-table tr { transition: all 0.3s ease; }
+.ff-table tr:hover {
+    background: #f5f3ff;
+    cursor: pointer;
+}
+
+/* Typography & Buttons */
+.ff-name { font-weight: 800; color: #1e1b4b; }
+.ff-email { color: #7c3aed; font-weight: 600; font-size: 14px; }
+
+.ff-view-btn {
+    background: linear-gradient(45deg, #6366f1, #a855f7);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ff-view-btn:hover { box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4); }
+
+/* Pagination */
+.ff-pagination {
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+}
+
+.ff-pagination-btns button {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.ff-pagination-btns button:disabled { background: #cbd5e1; cursor: not-allowed; }

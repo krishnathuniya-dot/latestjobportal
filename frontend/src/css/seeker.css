@@ -1,0 +1,190 @@
+/* Container styling */
+.sk-container {
+  max-width: 850px;
+  margin: 50px auto;
+  padding: 0 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Central Card UI */
+.sk-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 45px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+}
+
+/* Header Text formatting */
+.sk-header {
+  margin-bottom: 35px;
+  text-align: left;
+}
+
+.sk-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.sk-subtitle {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Forms layout */
+.sk-form {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* Two-column responsive row layout */
+.sk-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.sk-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sk-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Standard fields focus and styling states */
+.sk-input {
+  width: 100%;
+  padding: 13px 18px;
+  font-size: 15px;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.sk-input:focus {
+  border-color: #0284c7; /* Professional Sky Blue focus */
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.12);
+}
+
+.sk-input::placeholder {
+  color: #94a3b8;
+}
+
+/* Premium Hidden File Input Trigger Custom Area Layout */
+.sk-file-wrapper {
+  position: relative;
+  border: 2px dashed #cbd5e1;
+  background-color: #f8fafc;
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sk-file-wrapper:hover {
+  border-color: #0284c7;
+  background-color: #f0f9ff;
+}
+
+.sk-file-wrapper.has-file {
+  border-color: #10b981; /* Green border when file attached */
+  background-color: #f0fdf4;
+}
+
+.sk-file-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.sk-file-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.sk-file-text {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #475569;
+  margin: 0 0 4px 0;
+}
+
+.sk-file-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* Call to Action Button */
+.sk-submit-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
+  margin-top: 10px;
+}
+
+.sk-submit-btn:hover {
+  box-shadow: 0 6px 22px rgba(2, 132, 199, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Success and Error Alert bars layout */
+.sk-alert {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.sk-alert-success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.sk-alert-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Viewport Adjustments */
+@media (max-width: 640px) {
+  .sk-card {
+    padding: 24px;
+  }
+  .sk-title {
+    font-size: 22px;
+  }
+}

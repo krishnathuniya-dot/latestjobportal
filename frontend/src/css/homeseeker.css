@@ -1,0 +1,344 @@
+/* Global Setup & Variables */
+:root {
+  --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  --bg-main: #f8fafc;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+}
+
+.hs-profile-container {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-main);
+}
+
+/* ==========================================================================
+   1. Premium Profile Hero Card
+   ========================================================================== */
+.hs-profile-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ffffff;
+}
+
+/* Background subtle gradient accent */
+.hs-profile-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--primary-gradient);
+}
+
+.hs-top-section {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+/* Profile Image with Ring Effect */
+.hs-profile-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ffffff;
+  box-shadow: 0 0 0 2px #e2e8f0, 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.hs-profile-image:hover {
+  transform: scale(1.03);
+}
+
+/* Info Layout */
+.hs-profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.hs-user-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+/* Contact Details as Minimal Badges */
+.hs-user-email, 
+.hs-user-phone {
+  font-size: 14px;
+  color: #475569;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Button Group Context */
+.hs-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Buttons System */
+.hs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+/* Primary/Gradient Button */
+.hs-edit-btn {
+  background: var(--primary-gradient);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+}
+
+.hs-edit-btn:hover {
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Minimalist Outline Buttons */
+.hs-education-btn,
+.hs-experience-btn {
+  background-color: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.hs-education-btn:hover,
+.hs-experience-btn:hover {
+  background-color: #f8fafc;
+  border-color: #64748b;
+  color: var(--text-dark);
+}
+
+/* Light Accent Resume Button */
+.hs-resume-btn {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.hs-resume-btn:hover {
+  background-color: #dbeafe;
+}
+
+/* ==========================================================================
+   2. Information Blocks (Content Cards)
+   ========================================================================== */
+.hs-box {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01), 0 1px 3px rgba(0, 0, 0, 0.02);
+  border: 1px solid #f1f5f9;
+}
+
+.hs-section-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Custom indicator lines for sections */
+.hs-section-heading::after {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background-color: #f1f5f9;
+}
+
+/* Summary Box */
+.hs-summary-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #334155;
+  margin: 0;
+}
+
+/* ==========================================================================
+   3. Modern Timelines & Items
+   ========================================================================== */
+.hs-education-item,
+.hs-experience-item {
+  position: relative;
+  padding-left: 28px;
+  border-left: 2px solid #e2e8f0;
+  margin-bottom: 30px;
+}
+
+.hs-education-item:last-child,
+.hs-experience-item:last-child {
+  margin-bottom: 0;
+  border-left: 2px solid transparent; /* Timeline ends neatly */
+}
+
+/* Timeline Custom Pulse Dot */
+.hs-education-item::before,
+.hs-experience-item::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 2px #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.hs-education-item:hover::before,
+.hs-experience-item:hover::before {
+  background-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+.hs-edu-title,
+.hs-exp-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 10px 0;
+}
+
+/* Dynamic Inner Metric Grid */
+.hs-edu-content,
+.hs-exp-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  background-color: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+
+.hs-edu-content p,
+.hs-exp-content p {
+  font-size: 14.5px;
+  margin: 0;
+  color: #475569;
+}
+
+.hs-edu-content p strong,
+.hs-exp-content p strong {
+  color: var(--text-dark);
+  font-weight: 600;
+  display: block; /* Label upar text neeche professional layout */
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+/* Blue Year Tag Badge */
+.hs-edu-year {
+  grid-column: 1 / -1;
+  font-weight: 600 !important;
+  color: #4f46e5 !important;
+  background-color: #eedeff;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px !important;
+}
+
+.hs-empty-text {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ==========================================================================
+   4. Responsive Viewports Layout
+   ========================================================================== */
+@media (max-width: 768px) {
+  .hs-top-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hs-btn-group {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hs-btn {
+    width: 100%;
+  }
+
+  .hs-edu-content,
+  .hs-exp-content {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+}
+/* प्रोफाइल कार्ड को रिलेटिव पोजीशन दें ताकि बटन इसके अंदर सेट हो सके */
+.hs-profile-card {
+  position: relative;
+  padding-top: 40px; /* बटन के लिए ऊपर थोड़ी जगह छोड़ी */
+}
+
+/* लॉगआउट बटन की स्टाइलिंग */
+.hs-logout-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.3s ease;
+  font-size: 14px;
+}
+
+.hs-logout-btn:hover {
+  background-color: #cc0000;
+}
+
+@media (max-width: 480px) {
+  .hs-logout-text {
+    display: none; /* मोबाइल स्क्रीन पर सिर्फ आइकॉन दिखेगा, टेक्स्ट छिप जाएगा */
+  }
+}
