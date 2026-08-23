@@ -56,6 +56,7 @@ import Dateseekerlist from './pages/Dateseekerlist'
 import Login from './pages/Login'
 
 
+
 // or the correct path where your ProtectedRoute component exists
 
 
@@ -70,7 +71,7 @@ function App() {
       
          <Route path='/'element={<Homenav></Homenav>}>
            <Route path='/'element={<Category></Category>}></Route>
-             <Route path='/contactt'element={<ContactPage></ContactPage>}></Route>
+             {/* <Route path='/contactt'element={<ContactPage></ContactPage>}></Route> */}
              <Route path='/'element={<RecenthotsJob></RecenthotsJob>}></Route>
              <Route path='/login'element={<Login></Login>}></Route>
              <Route path='/register'element={<Register></Register>}></Route>
@@ -90,7 +91,7 @@ function App() {
           </Route>
            <Route path='/'element={<Homenavvv></Homenavvv>}>
            
-                 <Route path='/seeker'element={<Seeker></Seeker>}></Route>
+                 {/* <Route path='/seeker'element={<Seeker></Seeker>}></Route> */}
                    <Route path='/seekerlogin'element={<Seekerlogin></Seekerlogin>}></Route>
                     <Route path="/forgotpassword" element={<ForgotPassword></ForgotPassword>} />
         <Route path="/verifyotp" element={<VerifyOtp></VerifyOtp>} />
@@ -127,7 +128,7 @@ function App() {
  <Route path='/'element={<Seekernav></Seekernav>}>
   <Route path='/home'element={<Homeseeker></Homeseeker>}></Route>
    <Route path='/editprofile'element={<Editprofile></Editprofile>}></Route>
-    <Route path='/education'element={<Education></Education>}></Route>
+    {/* <Route path='/education'element={<Education></Education>}></Route> */}
      <Route path='/experience'element={<Experience></Experience>}></Route>
      <Route path='/applyjob'element={<Applyjob></Applyjob>}></Route>
       <Route path='/application/:id'element={<Appplication></Appplication>}></Route>
