@@ -6,7 +6,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import "../css/categories.css";
+import "../css/Categories.css";
 import RecenthotsJob from "./Recenthotsjob";
 import Footer from "./Footer";
 

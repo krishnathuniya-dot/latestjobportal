@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../css/homeseeker.css";
+import "../css/Homeseeker.css";
 import { Link, useNavigate } from "react-router-dom"; // useNavigate को इम्पोर्ट किया
 
 function Homeseeker() {
