@@ -54,9 +54,9 @@ import Managecategory from './pages/Managecategory'
 import AdminProfile from './pages/AdminProfile'
 import Dateseekerlist from './pages/Dateseekerlist'
 import Login from './pages/Login'
-import Seeker from './pages/seeker'
-import Education from './pages/education'
-import ContactPage from './pages/contactpage'
+import Seeker from "./pages/Seeker";
+import Education from "./pages/Education";
+import ContactPage from "./pages/Contactpage";;
 
 
 // or the correct path where your ProtectedRoute component exists
