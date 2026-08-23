@@ -56,7 +56,7 @@ async function createAdmin() {
 
 // MongoDB Connection
 mongoose
-  .connect("mongodb://127.0.0.1:27017/jobpotel")
+  .connect("mongodb+srv://krishnathuniya_db_user:krishna@cluster0.6yreqku.mongodb.net/jobportal?retryWrites=true&w=majority&appName=Cluster0")
   .then(async () => {
     console.log("✅ MongoDB Connected");
 
