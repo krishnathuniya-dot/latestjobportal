@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "../css/addCategory.css";
-
+import "../css/addcategory.css";
 export default function AddCategory() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");

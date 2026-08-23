@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "../css/Homeseeker.css";
+import "../css/homeseeker.css";
 
 function View() {
   const { id } = useParams();
