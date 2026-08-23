@@ -5,10 +5,10 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import Home from './component/Home'
 import { Routes, Route } from "react-router-dom";
-import Navbar from './component/Navbar'
-import Login from './pages/login'
+
+
 import Register from './pages/Register'
-import Jobs from './component/Jobs'
+
 import Homenav from './layout/Homenav'
 import Homenavvv from './layout/Homenavvv'
 import Account from './pages/Account'
@@ -17,12 +17,12 @@ import Postjob from './pages/Postjobe'
 import Search from './pages/search'
 import Managejob from './pages/Managejob'
 import Apply from './pages/Apply'
-import Seeker from './pages/seeker'
+
 import Seekerlogin from './pages/Seekerlogin'
 import Seekernav from './layout/Seekernav'
 import Homeseeker from './pages/Homeseeker'
 import Editprofile from './pages/Editprofile'
-import Education from './pages/education'
+
 import Experience from './pages/Experience'
 import Canditatelist from './pages/Canditatelist'
 import Applyjob from './pages/Applyjob'
@@ -30,7 +30,7 @@ import Applicationpage from './pages/Applicationpage'
 import View from './pages/View'
 import Appplication from './pages/Appplication'
 import Category from './pages/Categories'
-import RecenthotJob from './pages/Recenthotsjob'
+
 import RecenthotsJob from './pages/Recenthotsjob'
 import Managejobb from './pages/Managejobb'
 import Adminnav from './layout/Adminnav'
@@ -40,11 +40,11 @@ import Jobseeker from './pages/Jobseekar'
 import Fulldetails from './pages/Fulldetails'
 
 import ContactUs from './pages/ContactUs'
-import Contactpage from './pages/contactpage'
+
 import Categoryjob from './pages/Categoryjob'
 import Searchbar from './pages/Searchbar'
 import Dash from './pages/Dash'
-import Seekerapply from './pages/Seekerapply'
+
 import Admin from './pages/Admin'
 import ProtectedRoute from "./component/ProtectedRoute";
 import ForgotPassword from './pages/ForgotPassword'
@@ -53,6 +53,10 @@ import ResetPassword from './pages/ResetPassword'
 import Managecategory from './pages/Managecategory'
 import AdminProfile from './pages/AdminProfile'
 import Dateseekerlist from './pages/Dateseekerlist'
+import Login from './pages/Login'
+import Seeker from './pages/seeker'
+import Education from './pages/education'
+import ContactPage from './pages/contactpage'
 
 
 // or the correct path where your ProtectedRoute component exists
@@ -69,7 +73,7 @@ function App() {
       
          <Route path='/'element={<Homenav></Homenav>}>
            <Route path='/'element={<Category></Category>}></Route>
-             <Route path='/contactt'element={<Contactpage></Contactpage>}></Route>
+             <Route path='/contactt'element={<ContactPage></ContactPage>}></Route>
              <Route path='/'element={<RecenthotsJob></RecenthotsJob>}></Route>
              <Route path='/login'element={<Login></Login>}></Route>
              <Route path='/register'element={<Register></Register>}></Route>
@@ -144,9 +148,10 @@ function App() {
  
  
  </Route>
-  <Route path='/adminprofile'element={<AdminProfile></AdminProfile>}></Route>
+  
   <Route element={<ProtectedRoute role="admin" />}>
     <Route path='/'element={<Adminnav></Adminnav>}> 
+    <Route path='/adminprofile'element={<AdminProfile></AdminProfile>}></Route>
    <Route path='/addcategory'element={<Addcategory></Addcategory>}></Route>
     <Route path='/employerlist'element={<EmployerList></EmployerList>}></Route>
     <Route path='/jobseekerlist'element={<Jobseeker></Jobseeker>}></Route>
