@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { data, useParams } from 'react-router-dom';
-import '../css/fulldetails.css';
+import '../css/Fulldetails.css';
 
 const Fulldetails = ({ jobseekerId }) => {
   const { id } = useParams();

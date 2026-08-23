@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/Navvvv.css";
+import "../css/navvvv.css";
 
 export default function Navvvv() {
   return (
