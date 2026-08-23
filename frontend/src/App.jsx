@@ -14,7 +14,7 @@ import Homenavvv from './layout/Homenavvv'
 import Account from './pages/Account'
 import Navvacc from './layout/Navvacc'
 import Postjob from './pages/Postjobe'
-import Search from './pages/search'
+import Search from './pages/Search'
 import Managejob from './pages/Managejob'
 import Apply from './pages/Apply'
 
@@ -54,9 +54,6 @@ import Managecategory from './pages/Managecategory'
 import AdminProfile from './pages/AdminProfile'
 import Dateseekerlist from './pages/Dateseekerlist'
 import Login from './pages/Login'
-import Seeker from "./pages/Seeker";
-import Education from "./pages/Education";
-import ContactPage from "./pages/Contactpage";;
 
 
 // or the correct path where your ProtectedRoute component exists
