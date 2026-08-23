@@ -5,10 +5,12 @@ import { FaUserTie, FaRegFileAlt, FaSearch, FaChevronRight } from "react-icons/f
 import { HiOutlineUsers } from "react-icons/hi2";
 import { PiRankingLight } from "react-icons/pi";
 import { FiLogOut } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import "../css/Sidebar.css";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const [isJobCategoryOpen, setIsJobCategoryOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("DASHBOARDS");
   const [admin, setAdmin] = useState({ name: "", image: "" });
@@ -39,14 +41,21 @@ export default function Sidebar() {
       <div className="profile-box">
         <div className="profile-circle">
           {admin.image ? (
-            <img
-              src={`http://localhost:2340/uploads/admin/${admin.image}`}
-              alt="Admin"
-              style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }}
-            />
-          ) : (
-            <HiOutlineUsers size={24} />
-          )}
+             <img
+    src={`http://localhost:2340/uploads/admin/${admin.image}`}
+    alt="Admin"
+    onClick={() => navigate("/adminprofile")}
+    style={{
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      objectFit: "cover",
+      cursor: "pointer",
+    }}
+  />
+) : (
+  <HiOutlineUsers size={24} />
+)}
         </div>
         <div className="profile-info">
           <span>{admin.name || "Loading..."}</span>

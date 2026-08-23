@@ -144,6 +144,7 @@ function App() {
  
  
  </Route>
+  <Route path='/adminprofile'element={<AdminProfile></AdminProfile>}></Route>
   <Route element={<ProtectedRoute role="admin" />}>
     <Route path='/'element={<Adminnav></Adminnav>}> 
    <Route path='/addcategory'element={<Addcategory></Addcategory>}></Route>
@@ -153,7 +154,7 @@ function App() {
     <Route path='/contact'element={<ContactUs></ContactUs>}></Route>
     <Route path='/dash'element={<Dash></Dash>}></Route>
     <Route path='/managecategory'element={<Managecategory></Managecategory>}></Route>
-    <Route path='/adminprofile'element={<AdminProfile></AdminProfile>}></Route>
+   
     <Route path='/date'element={<Dateseekerlist></Dateseekerlist>}></Route>
     </Route> 
     </Route>
