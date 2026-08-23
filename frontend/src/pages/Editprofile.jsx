@@ -22,7 +22,7 @@ const Editprofile = () => {
       if (!storedUser._id) return;
       try {
         const response = await fetch(
-          `http://localhost:2340/api/profile/${storedUser._id}`
+          `https://latestjobportal-11.onrender.com/api/profile/${storedUser._id}`
         );
         const data = await response.json();
 
@@ -73,7 +73,7 @@ const Editprofile = () => {
       }
 
       const response = await fetch(
-        `http://localhost:2340/api/update-profile/${user._id || storedUser._id}`,
+        `https://latestjobportal-11.onrender.com/api/update-profile/${user._id || storedUser._id}`,
         {
           method: "PUT",
           body: formData,
@@ -113,7 +113,7 @@ const Editprofile = () => {
               image
                 ? URL.createObjectURL(image)
                 : user.profilePic
-                ? `http://localhost:2340/uploads/${user.profilePic}`
+                ? `https://latestjobportal-11.onrender.com/uploads/${user.profilePic}`
                 : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             }
             alt="Profile Preview"
@@ -188,7 +188,7 @@ const Editprofile = () => {
           <label className="edit-profile-label">Resume (PDF)</label>
           {user.resume && typeof user.resume === "string" && (
             <a
-              href={`http://localhost:2340/uploads/${user.resume}`}
+              href={`https://latestjobportal-11.onrender.com/uploads/${user.resume}`}
               target="_blank"
               rel="noreferrer"
               className="edit-profile-resume-link"

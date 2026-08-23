@@ -43,7 +43,7 @@ const Seeker = () => {
         data.append("resume", resume);
       }
 
-      const response = await fetch("http://localhost:2340/api/registerr", {
+      const response = await fetch("https://latestjobportal-11.onrender.com/api/registerr", {
         method: "POST",
         body: data,
       });

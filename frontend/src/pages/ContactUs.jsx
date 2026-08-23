@@ -61,7 +61,7 @@ export default function ContactUs() {
 
     try {
       const res = await fetch(
-        "http://localhost:2340/api/contact",
+        "https://latestjobportal-11.onrender.com/api/contact",
         {
           method: "PUT",
           headers: {

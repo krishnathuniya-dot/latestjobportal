@@ -15,7 +15,7 @@ export default function Managejob() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:2340/api/managejob"
+        "https://latestjobportal-11.onrender.com/api/managejob"
       );
 
       if (!response.ok) {
@@ -101,7 +101,7 @@ export default function Managejob() {
               {/* Company Logo */}
               {item?.employerId?.logo ? (
                 <img
-                  src={`http://localhost:2340/uploads/${item.employerId.logo}`}
+                  src={`https://latestjobportal-11.onrender.com/uploads/${item.employerId.logo}`}
                   alt={
                     item?.employerId?.companyName ||
                     "Company Logo"

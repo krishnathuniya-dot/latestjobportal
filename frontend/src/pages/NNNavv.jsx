@@ -71,7 +71,7 @@ const NNNavv = () => {
           {/* 🎯 अब यहाँ इमेज बिना पेज रिफ्रेश किए तुरंत बदल जाएगी! */}
           {user?.profilePic ? (
             <img
-              src={`http://localhost:2340/uploads/${user.profilePic}`}
+              src={`https://latestjobportal-11.onrender.com/uploads/${user.profilePic}`}
               alt="Profile"
               className="nav-profile-img"
             />

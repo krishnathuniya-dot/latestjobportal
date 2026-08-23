@@ -22,7 +22,7 @@ const Education = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     try {
-      const response = await fetch(`http://localhost:2340/api/add-education/${user._id}`, {
+      const response = await fetch(`https://latestjobportal-11.onrender.com/api/add-education/${user._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(education),

@@ -9,7 +9,7 @@ function ForgotPassword() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/forgot-password", {
+      const response = await fetch("https://latestjobportal-11.onrender.com/api/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

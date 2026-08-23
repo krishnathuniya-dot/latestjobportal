@@ -24,7 +24,7 @@ const Seekerlogin = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:2340/api/loginn",
+        "https://latestjobportal-11.onrender.com/api/loginn",
         {
           method: "POST",
           headers: {

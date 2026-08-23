@@ -13,7 +13,7 @@ export default function Apply() {
   const fetchSingleJob = async () => {
     try {
       const response = await fetch(
-        `http://localhost:2340/api/managejob/${id}`
+        `https://latestjobportal-11.onrender.com/api/managejob/${id}`
       );
       const data = await response.json();
       
@@ -43,7 +43,7 @@ export default function Apply() {
       }
 
       const response = await fetch(
-        "http://localhost:2340/api/applyjob",
+        "https://latestjobportal-11.onrender.com/api/applyjob",
         {
           method: "POST",
           headers: {
@@ -85,7 +85,7 @@ export default function Apply() {
             {/* 🎯 फिक्स: लोगो रेंडरिंग (RecenthotsJob के लॉजिक पर आधारित) */}
             {job?.employerId?.logo ? (
               <img
-                src={`http://localhost:2340/uploads/${job.employerId.logo}`}
+                src={`https://latestjobportal-11.onrender.com/uploads/${job.employerId.logo}`}
                 alt={job?.employerId?.companyName}
                 className="company_logo"
                 onError={(e) => {
@@ -182,7 +182,7 @@ export default function Apply() {
             {/* 🎯 फिक्स: साइडबार लोगो */}
             {job?.employerId?.logo ? (
               <img
-                src={`http://localhost:2340/uploads/${job.employerId.logo}`}
+                src={`https://latestjobportal-11.onrender.com/uploads/${job.employerId.logo}`}
                 alt={job?.employerId?.companyName}
                 className="sidebar_banner"
                 onError={(e) => {

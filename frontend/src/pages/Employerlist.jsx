@@ -13,7 +13,7 @@ const EmployerList = () => {
 
   const fetchEmployers = async () => {
     try {
-      const response = await fetch("http://localhost:2340/api/employer");
+      const response = await fetch("https://latestjobportal-11.onrender.com/api/employer");
       const data = await response.json();
       setEmployers(data);
     } catch (error) { console.error(error); }
@@ -94,7 +94,7 @@ const EmployerList = () => {
               <tbody>
                 <tr>
                   <th>Name of Company</th><td>{selectedEmployer.companyName}</td>
-                  <th>Company Logo</th><td><img src={`http://localhost:2340/uploads/${selectedEmployer.logo}`} className="company-logo" alt="logo" /></td>
+                  <th>Company Logo</th><td><img src={`https://latestjobportal-11.onrender.com/uploads/${selectedEmployer.logo}`} className="company-logo" alt="logo" /></td>
                   <th>Tag Line</th><td>{selectedEmployer.tagline || "N/A"}</td>
                 </tr>
                 <tr>

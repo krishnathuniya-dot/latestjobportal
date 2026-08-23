@@ -7,7 +7,7 @@ function View() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:2340/api/profile/${id}`)
+    fetch(`https://latestjobportal-11.onrender.com/api/profile/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -41,7 +41,7 @@ function View() {
           <img
             src={
               user.profilePic
-                ? `http://localhost:2340/uploads/${user.profilePic}`
+                ? `https://latestjobportal-11.onrender.com/uploads/${user.profilePic}`
                 : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             }
             alt="Profile"
@@ -66,7 +66,7 @@ function View() {
 
               {user.resume && (
                 <a
-                  href={`http://localhost:2340/uploads/${user.resume}`}
+                  href={`https://latestjobportal-11.onrender.com/uploads/${user.resume}`}
                   target="_blank"
                   rel="noreferrer"
                   className="hs-btn hs-resume-btn"

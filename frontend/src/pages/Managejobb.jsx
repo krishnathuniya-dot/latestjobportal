@@ -27,7 +27,7 @@ export default function Managejobb() {
       setLoading(true);
       // यहाँ सिर्फ लॉग-इन यूजर की आईडी ही बैकएंड पर जा रही है
       const response = await fetch(
-        `http://localhost:2340/api/alljobs/${userId}`
+        `https://latestjobportal-11.onrender.com/api/alljobs/${userId}`
       );
 
       const data = await response.json();
@@ -108,7 +108,7 @@ export default function Managejobb() {
               {/* Company Logo */}
               {item?.employerId?.logo ? (
                 <img
-                  src={`http://localhost:2340/uploads/${item.employerId.logo}`}
+                  src={`https://latestjobportal-11.onrender.com/uploads/${item.employerId.logo}`}
                   alt={item?.employerId?.companyName || "Company"}
                   className="company-logo"
                 />

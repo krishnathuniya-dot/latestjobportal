@@ -14,7 +14,7 @@ export default function Appplication() {
   const fetchApplication = async () => {
     try {
       const response = await fetch(
-        `http://localhost:2340/api/application-details/${id}`
+        `https://latestjobportal-11.onrender.com/api/application-details/${id}`
       );
 
       const data = await response.json();

@@ -14,7 +14,7 @@ function Homeseeker() {
       return;
     }
 
-    fetch(`http://localhost:2340/api/profile/${storedUser._id}`)
+    fetch(`https://latestjobportal-11.onrender.com/api/profile/${storedUser._id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -52,7 +52,7 @@ function Homeseeker() {
           <img
             src={
               user.profilePic
-                ? `http://localhost:2340/uploads/${user.profilePic}`
+                ? `https://latestjobportal-11.onrender.com/uploads/${user.profilePic}`
                 : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             }
             alt=""

@@ -10,7 +10,7 @@ const Fulldetails = ({ jobseekerId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const BASE_URL = "http://localhost:2340";
+  const BASE_URL = "https://latestjobportal-11.onrender.com";
 
   useEffect(() => {
  const fetchJobseekerData = async () => {

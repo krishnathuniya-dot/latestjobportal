@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Navvvv from '../pages/navvvv'
+
 import Jobs from '../component/Jobs'
 export default function Navvacc() {
   return (

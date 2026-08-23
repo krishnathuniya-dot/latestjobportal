@@ -15,7 +15,7 @@ const Jobseeker = () => {
 
   const fetchJobseekers = async () => {
     try {
-      const response = await fetch("http://localhost:2340/api/jobseekers");
+      const response = await fetch("https://latestjobportal-11.onrender.com/api/jobseekers");
       const data = await response.json();
       setJobseekers(data);
     } catch (error) { console.log(error); } 

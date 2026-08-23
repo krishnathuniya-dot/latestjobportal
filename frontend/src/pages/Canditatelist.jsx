@@ -31,7 +31,7 @@ export default function Canditatelist() {
 
       // 3️⃣ एपीआई कॉल में ?employerId=${employerId} को पास किया
       const response = await fetch(
-        `http://localhost:2340/api/applicants/${jobId}?employerId=${employerId}`
+        `https://latestjobportal-11.onrender.com/api/applicants/${jobId}?employerId=${employerId}`
       );
 
       const data = await response.json();
@@ -68,7 +68,7 @@ export default function Canditatelist() {
             {/* प्रोफाइल इमेज */}
             {item.candidateId?.profilePic ? (
               <img
-                src={`http://localhost:2340/uploads/${item.candidateId.profilePic}`}
+                src={`https://latestjobportal-11.onrender.com/uploads/${item.candidateId.profilePic}`}
                 alt="Profile"
                 className="profile-image"
               />
@@ -109,7 +109,7 @@ export default function Canditatelist() {
                   className="resume-btn"
                   onClick={() =>
                     window.open(
-                      `http://localhost:2340/uploads/${item.candidateId?.resume}`,
+                      `https://latestjobportal-11.onrender.com/uploads/${item.candidateId?.resume}`,
                       "_blank"
                     )
                   }

@@ -105,7 +105,7 @@ export default function Jobs() {
       >
         {user?.logo ? (
           <img
-            src={`http://localhost:2340/uploads/${user.logo}`}
+            src={`https://latestjobportal-11.onrender.com/uploads/${user.logo}`}
             alt="logo"
             className="ff_company_logo"
             onClick={() =>

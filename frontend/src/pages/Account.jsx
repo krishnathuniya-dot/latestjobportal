@@ -28,7 +28,7 @@ export default function Account() {
         const user = JSON.parse(localStorage.getItem("User"));
         if (!user) return;
 
-        const res = await fetch(`http://localhost:2340/api/user/${user._id}`);
+        const res = await fetch(`https://latestjobportal-11.onrender.com/api/user/${user._id}`);
         const data = await res.json();
 
         if (data && data.user) {
@@ -106,7 +106,7 @@ const handleSubmit = async (e) => {
     }
 
     const response = await fetch(
-      `http://localhost:2340/api/update/${user._id}`,
+      `https://latestjobportal-11.onrender.com/api/update/${user._id}`,
       {
         method: "PUT",
         body: dataToSend,
@@ -306,7 +306,7 @@ const handleSubmit = async (e) => {
    
 
 <img
-  src={`http://localhost:2340/uploads/${formData.logo}`}
+  src={`https://latestjobportal-11.onrender.com/uploads/${formData.logo}`}
   alt="logo"
   className="pk_logo_img"
   onError={() => console.log("Image failed to load")}

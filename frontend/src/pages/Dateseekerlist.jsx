@@ -20,7 +20,7 @@ const Dateseekerlist = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:2340/api/candidates-between-dates", {
+      const response = await fetch("https://latestjobportal-11.onrender.com/api/candidates-between-dates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fromDate, toDate }),

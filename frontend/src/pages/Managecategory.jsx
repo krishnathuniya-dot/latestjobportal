@@ -11,7 +11,7 @@ const Managecategory = () => {
 
   const getCategories = async () => {
     try {
-      const response = await fetch("http://localhost:2340/api/categories");
+      const response = await fetch("https://latestjobportal-11.onrender.com/api/categories");
       const result = await response.json();
       if (Array.isArray(result)) setCategories(result);
       else if (Array.isArray(result.data)) setCategories(result.data);

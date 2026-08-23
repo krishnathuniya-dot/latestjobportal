@@ -21,7 +21,7 @@ export default function Sidebar() {
 
   const fetchAdminData = async () => {
     try {
-      const res = await fetch("http://localhost:2340/api/admin");
+      const res = await fetch("https://latestjobportal-11.onrender.com/api/admin");
       const data = await res.json();
       if (data.success) {
         setAdmin(data.admin);
@@ -42,7 +42,7 @@ export default function Sidebar() {
         <div className="profile-circle">
           {admin.image ? (
              <img
-    src={`http://localhost:2340/uploads/admin/${admin.image}`}
+    src={`https://latestjobportal-11.onrender.com/uploads/admin/${admin.image}`}
     alt="Admin"
     onClick={() => navigate("/adminprofile")}
     style={{

@@ -15,7 +15,7 @@ export default function RecenthotsJob() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch("http://localhost:2340/api/managejob");
+      const response = await fetch("https://latestjobportal-11.onrender.com/api/managejob");
       const data = await response.json();
       setJobData(Array.isArray(data.data) ? data.data : []);
     } catch (error) {
@@ -76,14 +76,14 @@ export default function RecenthotsJob() {
                 {/* Logo Section with Click-to-View Feature */}
                 {item?.employerId?.logo ? (
                   <a
-                    href={`http://localhost:2340/uploads/${item.employerId.logo}`}
+                    href={`https://latestjobportal-11.onrender.com/uploads/${item.employerId.logo}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rhj_logo_link"
                     onClick={(e) => e.stopPropagation()} /* Card redirection ko rokne ke liye */
                   >
                     <img
-                      src={`http://localhost:2340/uploads/${item.employerId.logo}`}
+                      src={`https://latestjobportal-11.onrender.com/uploads/${item.employerId.logo}`}
                       alt={item?.employerId?.companyName}
                       className="recent_hot_logo_img"
                       onError={(e) => (e.target.style.display = "none")}

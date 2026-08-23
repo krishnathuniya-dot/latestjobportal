@@ -23,7 +23,7 @@ export default function Postjob() {
   const fetchCategories = async () => {
     try {
       const res = await fetch(
-        "http://localhost:2340/api/categories"
+        "https://latestjobportal-11.onrender.com/api/categories"
       );
 
       const data = await res.json();
@@ -64,7 +64,7 @@ export default function Postjob() {
       console.log("Payload:", payload);
 
       const res = await fetch(
-        "http://localhost:2340/api/postjob",
+        "https://latestjobportal-11.onrender.com/api/postjob",
         {
           method: "POST",
           headers: {

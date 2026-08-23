@@ -21,12 +21,12 @@ function AdminProfile() {
 
     const fetchAdmin = async () => {
         try {
-            const res = await fetch("http://localhost:2340/api/admin");
+            const res = await fetch("https://latestjobportal-11.onrender.com/api/admin");
             const data = await res.json();
             if (data.success) {
                 setAdmin(data.admin);
                 if (data.admin.image) {
-                    setPreview(`http://localhost:2340/uploads/admin/${data.admin.image}`);
+                    setPreview(`https://latestjobportal-11.onrender.com/uploads/admin/${data.admin.image}`);
                 }
             }
         } catch (error) {
@@ -60,7 +60,7 @@ function AdminProfile() {
         if (image) formData.append("image", image);
 
         try {
-            const res = await fetch("http://localhost:2340/api/admin", {
+            const res = await fetch("https://latestjobportal-11.onrender.com/api/admin", {
                 method: "PUT",
                 body: formData
             });

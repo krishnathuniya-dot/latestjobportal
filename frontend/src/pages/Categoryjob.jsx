@@ -54,7 +54,7 @@ export default function Categoryjob() {
   const fetchJobs = async () => {
     try {
       const response = await fetch(
-        `http://localhost:2340/api/category/${category}`
+        `https://latestjobportal-11.onrender.com/api/category/${category}`
       );
 
       const data = await response.json();
@@ -113,7 +113,7 @@ export default function Categoryjob() {
               <div className="recent_hot_job_left">
                 {item?.employerId?.logo ? (
                   <img
-                    src={`http://localhost:2340/uploads/${item.employerId.logo}`}
+                    src={`https://latestjobportal-11.onrender.com/uploads/${item.employerId.logo}`}
                     alt={item?.employerId?.companyName}
                     className="recent_hot_logo_img"
                   />

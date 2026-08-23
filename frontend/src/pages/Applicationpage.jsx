@@ -18,7 +18,7 @@ export default function Applicationpage() {
   const fetchApplication = async () => {
     try {
       const response = await fetch(
-        `http://localhost:2340/api/application-details/${id}`
+        `https://latestjobportal-11.onrender.com/api/application-details/${id}`
       );
 
       const data = await response.json();
@@ -34,7 +34,7 @@ export default function Applicationpage() {
   const handleUpdate = async () => {
     try {
       const response = await fetch(
-        `http://localhost:2340/api/update-application/${id}`,
+        `https://latestjobportal-11.onrender.com/api/update-application/${id}`,
         {
           method: "PUT",
           headers: {
