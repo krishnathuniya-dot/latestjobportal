@@ -7,7 +7,7 @@ import { PiRankingLight } from "react-icons/pi";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-import "../css/Sidebar.css";
+import "../css/sidebar.css";
 
 export default function Sidebar() {
   const navigate = useNavigate();

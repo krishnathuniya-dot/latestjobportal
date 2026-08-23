@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/managejob.css";
+import "../css/Managejob.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Managejob() {
