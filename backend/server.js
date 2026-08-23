@@ -29,6 +29,9 @@ app.use("/api", seekerRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", contactRoutes);
 app.use("/api", AdminRoutes);
+const frontendPath = path.join(__dirname, "frontend", "dist"); 
+app.use(express.static(frontendPath)); 
+  app.get("*", (req, res) => { res.sendFile(path.join(frontendPath, "index.html")); });
 
 // Create Default Admin
 async function createAdmin() {
