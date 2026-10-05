@@ -13,7 +13,7 @@ const EmployerList = () => {
 
   const fetchEmployers = async () => {
     try {
-      const response = await fetch("https://latestjobportal-11.onrender.com/api/employer");
+      const response = await fetch("https://latestjobportal.onrender.com/api/employer");
       const data = await response.json();
       setEmployers(data);
     } catch (error) { console.error(error); }

@@ -19,7 +19,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await fetch("https://latestjobportal-11.onrender.com/api/reset-password", {
+      const response = await fetch("https://latestjobportal.onrender.com/api/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

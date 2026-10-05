@@ -31,7 +31,7 @@ export default function Login() {
     try {
 
       const response = await fetch(
-        "https://latestjobportal-11.onrender.com/api/login",
+        "https://latestjobportal.onrender.com/api/login",
         {
           method: "POST",
 

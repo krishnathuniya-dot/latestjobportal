@@ -16,7 +16,7 @@ export default function Applyjob() {
       }
 
       const response = await fetch(
-        `https://latestjobportal-11.onrender.com/api/my-applications/${candidateId}`
+        `https://latestjobportal.onrender.com/api/my-applications/${candidateId}`
       );
 
       const data = await response.json();
@@ -53,7 +53,7 @@ export default function Applyjob() {
             <div className="company-logo-section">
               {item?.jobId?.employerId?.logo ? (
                 <img
-                  src={`https://latestjobportal-11.onrender.com/uploads/${item.jobId.employerId.logo}`}
+                  src={`https://latestjobportal.onrender.com/uploads/${item.jobId.employerId.logo}`}
                   alt={
                     item?.jobId?.employerId
                       ?.companyName

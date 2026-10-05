@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/contactus.css";
 
-export default function ContactUs() {
+export default function ContactUss() {
   const [formData, setFormData] = useState({
     pageTitle: "",
     email: "",
@@ -61,7 +61,7 @@ export default function ContactUs() {
 
     try {
       const res = await fetch(
-        "https://latestjobportal-11.onrender.com/api/contact",
+        "https://latestjobportal.onrender.com/api/contact",
         {
           method: "PUT",
           headers: {

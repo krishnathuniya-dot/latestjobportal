@@ -7,7 +7,7 @@ function View() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch(`https://latestjobportal-11.onrender.com/api/profile/${id}`)
+    fetch(`https://latestjobportal.onrender.com/api/profile/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

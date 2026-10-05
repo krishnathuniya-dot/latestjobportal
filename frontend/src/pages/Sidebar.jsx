@@ -21,7 +21,7 @@ export default function Sidebar() {
 
   const fetchAdminData = async () => {
     try {
-      const res = await fetch("https://latestjobportal-11.onrender.com/api/admin");
+      const res = await fetch("https://latestjobportal.onrender.com/api/admin");
       const data = await res.json();
       if (data.success) {
         setAdmin(data.admin);

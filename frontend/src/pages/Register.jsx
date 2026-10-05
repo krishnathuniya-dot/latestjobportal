@@ -45,7 +45,7 @@ export default function Register() {
       }
 
       const response = await fetch(
-        "https://latestjobportal-11.onrender.com/api/register",
+        "https://latestjobportal.onrender.com/api/register",
         {
           method: "POST",
           body: data,

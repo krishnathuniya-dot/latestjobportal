@@ -15,7 +15,7 @@ export default function Managejob() {
       setLoading(true);
 
       const response = await fetch(
-        "https://latestjobportal-11.onrender.com/api/managejob"
+        "https://latestjobportal.onrender.com/api/managejob"
       );
 
       if (!response.ok) {

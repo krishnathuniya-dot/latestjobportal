@@ -18,7 +18,7 @@ export default function Applicationpage() {
   const fetchApplication = async () => {
     try {
       const response = await fetch(
-        `https://latestjobportal-11.onrender.com/api/application-details/${id}`
+        `https://latestjobportal.onrender.com/api/application-details/${id}`
       );
 
       const data = await response.json();
@@ -87,7 +87,7 @@ export default function Applicationpage() {
         </tr>
 
         <tr className="table-row">
-          <td className="label-cell"><b>Job Description</b></td>
+          <td className="label-cell"><b>Job Description</b></td>  
           <td className="value-cell">
             {application.jobId?.jobDescription}
           </td>

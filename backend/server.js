@@ -18,20 +18,49 @@ const AdminRoutes = require("./routes/AdminRoutes");
 
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// ===============================
+// CORS
+// ===============================
+app.use(
+  cors({
+    origin: "https://latestjobportal-1.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
+// ===============================
+// Middleware
+// ===============================
+app.use(express.json());
+
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
+
+// ===============================
 // Routes
+// ===============================
 app.use("/api", authRoutes);
 app.use("/api", seekerRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", contactRoutes);
 app.use("/api", AdminRoutes);
 
+// ===============================
+// Test Route
+// ===============================
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Job Portal Backend is running",
+  });
+});
 
+// ===============================
 // Create Default Admin
+// ===============================
 async function createAdmin() {
   try {
     const admin = await Admin.findOne({
@@ -55,9 +84,13 @@ async function createAdmin() {
   }
 }
 
+// ===============================
 // MongoDB Connection
+// ===============================
 mongoose
-  .connect("mongodb+srv://krishnathuniya_db_user:krishna@cluster0.6yreqku.mongodb.net/jobportal?retryWrites=true&w=majority&appName=Cluster0")
+  .connect(
+    "mongodb+srv://krishnathuniya_db_user:krishna@cluster0.6yreqku.mongodb.net/jobportal?retryWrites=true&w=majority&appName=Cluster0"
+  )
   .then(async () => {
     console.log("✅ MongoDB Connected");
 
@@ -66,8 +99,10 @@ mongoose
 
     await createAdmin();
 
-    app.listen(2340, () => {
-      console.log("🚀 Server running on port 2340");
+    app.listen(process.env.PORT || 2340, () => {
+      console.log(
+        `🚀 Server running on port ${process.env.PORT || 2340}`
+      );
     });
   })
   .catch((err) => {

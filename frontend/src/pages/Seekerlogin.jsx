@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/seekerlogin.css";
 
-const Seekerlogin = () => {
+const Seekerrlogin = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ const Seekerlogin = () => {
 
     try {
       const response = await fetch(
-        "https://latestjobportal-11.onrender.com/api/loginn",
+        "https://latestjobportal.onrender.com/api/loginn",
         {
           method: "POST",
           headers: {
@@ -150,4 +150,4 @@ const Seekerlogin = () => {
   );
 };
 
-export default Seekerlogin;
+export default Seekerrlogin;

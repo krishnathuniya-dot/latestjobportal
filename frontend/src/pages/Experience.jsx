@@ -27,7 +27,7 @@ const Experience = () => {
 
     try {
       const response = await fetch(
-        `https://latestjobportal-11.onrender.com/api/add-experience/${user._id}`,
+        `https://latestjobportal.onrender.com/api/add-experience/${user._id}`,
         {
           method: "POST",
           headers: {

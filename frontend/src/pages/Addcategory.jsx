@@ -9,7 +9,7 @@ export default function AddCategory() {
 
     try {
       const response = await fetch(
-        "https://latestjobportal-11.onrender.com/api/add-category",
+        "https://latestjobportal.onrender.com/api/add-category",
         {
           method: "POST",
           headers: {

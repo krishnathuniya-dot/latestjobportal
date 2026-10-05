@@ -24,7 +24,7 @@ export default function Admin() {
 
     try {
       const response = await fetch(
-        "https://latestjobportal-11.onrender.com/api/admin-login",
+        "https://latestjobportal.onrender.com/api/admin-login",
         {
           method: "POST",
           headers: {

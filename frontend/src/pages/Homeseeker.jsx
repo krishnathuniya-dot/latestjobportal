@@ -14,7 +14,7 @@ function Homeseeker() {
       return;
     }
 
-    fetch(`https://latestjobportal-11.onrender.com/api/profile/${storedUser._id}`)
+    fetch(`https://latestjobportal.onrender.com/api/profile/${storedUser._id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
