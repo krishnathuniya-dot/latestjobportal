@@ -59,7 +59,7 @@ import Seekerrlogin from './pages/Seekerlogin'
 import ContactUss from './pages/ContactUs'
 
 import UserEducation from './pages/UserEductaion'
-import Seeker from './pages/seeker'
+
 import SeekerPage from './pages/SeekerPage'
 
 
