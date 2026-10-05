@@ -59,6 +59,8 @@ import Seekerrlogin from './pages/Seekerlogin'
 import ContactUss from './pages/ContactUs'
 
 import UserEducation from './pages/UserEductaion'
+import Seeker from './pages/seeker'
+import SeekerPage from './pages/SeekerPage'
 
 
 
@@ -97,7 +99,7 @@ function App() {
           </Route>
            <Route path='/'element={<Homenavvv></Homenavvv>}>
            
-                 <Route path='/seeker'element={<Seeker></Seeker>}></Route>
+                 <Route path='/seeker'element={<SeekerPage></SeekerPage>}></Route>
                    <Route path='/seekerlogin'element={<Seekerrlogin></Seekerrlogin>}></Route>
                     <Route path="/forgotpassword" element={<ForgotPassword></ForgotPassword>} />
         <Route path="/verifyotp" element={<VerifyOtp></VerifyOtp>} />

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom"; // 🎯 फिक्स 1: useNavigate इम्पोर्ट किया
 import "../css/seeker.css";
 
-const Seeker = () => {
+const SeekerPage = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -192,4 +192,4 @@ const Seeker = () => {
   );
 };
 
-export default Seeker;
+export default SeekerPage;
