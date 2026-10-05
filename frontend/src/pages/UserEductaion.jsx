@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/education.css";
 
-const Education = () => {
+const UserEducation = () => {
   const [loading, setLoading] = useState(false);
   const [education, setEducation] = useState({
     qualification: "",
@@ -130,4 +130,4 @@ const Education = () => {
   );
 };
 
-export default Education;
+export default UserEducation;

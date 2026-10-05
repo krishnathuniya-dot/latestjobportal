@@ -54,9 +54,12 @@ import Managecategory from './pages/Managecategory'
 import AdminProfile from './pages/AdminProfile'
 import Dateseekerlist from './pages/Dateseekerlist'
 import Login from './pages/Login'
-import Education from './pages/education'
+
 import Seekerrlogin from './pages/Seekerlogin'
 import ContactUss from './pages/ContactUs'
+
+import UserEducation from './pages/UserEductaion'
+
 
 
 
@@ -131,7 +134,7 @@ function App() {
  <Route path='/'element={<Seekernav></Seekernav>}>
   <Route path='/home'element={<Homeseeker></Homeseeker>}></Route>
    <Route path='/editprofile'element={<Editprofile></Editprofile>}></Route>
-    <Route path='/education'element={<Education></Education>}></Route>
+    <Route path='/education'element={<UserEducation></UserEducation>}></Route>
      <Route path='/experience'element={<Experience></Experience>}></Route>
      <Route path='/applyjob'element={<Applyjob></Applyjob>}></Route>
       <Route path='/application/:id'element={<Appplication></Appplication>}></Route>
