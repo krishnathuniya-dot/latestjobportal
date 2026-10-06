@@ -10,7 +10,7 @@ import "../css/ContactPage.css";
 
 const API_URL = "https://latestjobportal.onrender.com";
 
-export default function ContactPage() {
+export default function ContactuserPage() {
   const [contact, setContact] = useState({
     pageTitle: "",
     email: "",
