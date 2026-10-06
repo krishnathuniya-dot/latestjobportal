@@ -64,7 +64,7 @@ export default function Postjob() {
       console.log("Payload:", payload);
 
       const res = await fetch(
-        "https://latestjobportal.onrender.com/api/  ",
+        "https://latestjobportal.onrender.com/api/postjob  ",
         {
           method: "POST",
           headers: {
