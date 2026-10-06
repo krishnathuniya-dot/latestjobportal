@@ -6,11 +6,11 @@ import {
   FiDollarSign,
   FiCalendar,
   FiClock,
-  FiCode,
-  FiFileText,
   FiSend,
   FiCheckCircle,
   FiAlertCircle,
+  FiStar,
+  FiUser,
 } from "react-icons/fi";
 import "../css/apply.css";
 
@@ -23,6 +23,7 @@ export default function Apply() {
   const [job, setJob] = useState({});
   const [loading, setLoading] = useState(true);
   const [applyLoading, setApplyLoading] = useState(false);
+
   const [message, setMessage] = useState({
     type: "",
     text: "",
@@ -34,8 +35,15 @@ export default function Apply() {
   const fetchSingleJob = async () => {
     setLoading(true);
 
+    setMessage({
+      type: "",
+      text: "",
+    });
+
     try {
-      const response = await fetch(`${BASE_URL}/api/managejob/${id}`);
+      const response = await fetch(
+        `${BASE_URL}/api/managejob/${id}`
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch job details");
@@ -43,7 +51,10 @@ export default function Apply() {
 
       const data = await response.json();
 
-      const jobData = data?.job || data?.data || data;
+      const jobData =
+        data?.job ||
+        data?.data ||
+        data;
 
       setJob(jobData || {});
     } catch (error) {
@@ -59,7 +70,9 @@ export default function Apply() {
   };
 
   useEffect(() => {
-    fetchSingleJob();
+    if (id) {
+      fetchSingleJob();
+    }
   }, [id]);
 
   // =========================
@@ -85,7 +98,9 @@ export default function Apply() {
 
     const candidateId = homeseekerData?._id;
 
-    // Login check
+    // =========================
+    // Login Check
+    // =========================
     if (!candidateId) {
       setMessage({
         type: "error",
@@ -99,6 +114,9 @@ export default function Apply() {
       return;
     }
 
+    // =========================
+    // Job Check
+    // =========================
     if (!job?._id) {
       setMessage({
         type: "error",
@@ -111,28 +129,35 @@ export default function Apply() {
     setApplyLoading(true);
 
     try {
-      const response = await fetch(`${BASE_URL}/api/applyjob`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          candidateId,
-          jobId: job._id,
-        }),
-      });
+      const response = await fetch(
+        `${BASE_URL}/api/applyjob`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            candidateId,
+            jobId: job._id,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         setMessage({
           type: "success",
-          text: data?.message || "Job applied successfully!",
+          text:
+            data?.message ||
+            "Job applied successfully!",
         });
       } else {
         setMessage({
           type: "error",
-          text: data?.message || "Application failed. Please try again.",
+          text:
+            data?.message ||
+            "Application failed. Please try again.",
         });
       }
     } catch (error) {
@@ -148,17 +173,52 @@ export default function Apply() {
   };
 
   // =========================
-  // Logo Helpers
+  // Company Details
   // =========================
   const companyName =
-    job?.employerId?.companyName || "Company";
+    job?.employerId?.companyName ||
+    "Company";
 
   const companyInitial =
     companyName.charAt(0).toUpperCase();
 
-  const companyLogo = job?.employerId?.logo
-    ? `${BASE_URL}/uploads/${job.employerId.logo}`
-    : null;
+  const companyLogo =
+    job?.employerId?.logo
+      ? `${BASE_URL}/uploads/${job.employerId.logo}`
+      : null;
+
+  // =========================
+  // Format Date
+  // =========================
+  const formatDate = (date) => {
+    if (!date) {
+      return "N/A";
+    }
+
+    try {
+      return new Date(date).toLocaleDateString(
+        "en-IN",
+        {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }
+      );
+    } catch {
+      return "N/A";
+    }
+  };
+
+  // =========================
+  // Skills
+  // =========================
+  const skills =
+    typeof job?.skillRequired === "string"
+      ? job.skillRequired
+          .split(",")
+          .map((skill) => skill.trim())
+          .filter(Boolean)
+      : [];
 
   // =========================
   // Loading
@@ -167,8 +227,15 @@ export default function Apply() {
     return (
       <div className="apply_loading_page">
         <div className="apply_loader"></div>
-        <h3>Loading Job Details...</h3>
-        <p>Please wait while we fetch the job information.</p>
+
+        <h3>
+          Loading Job Details...
+        </h3>
+
+        <p>
+          Please wait while we fetch the job
+          information.
+        </p>
       </div>
     );
   }
@@ -180,12 +247,14 @@ export default function Apply() {
     <div className="jobdetails_main">
       <div className="jobdetails_wrapper">
 
-        {/* =========================
+        {/* =================================
             LEFT CONTENT
-        ========================== */}
+        ================================== */}
         <main className="jobdetails_content">
 
-          {/* Message */}
+          {/* =========================
+              Message
+          ========================== */}
           {message.text && (
             <div
               className={`apply_message ${
@@ -200,21 +269,28 @@ export default function Apply() {
                 <FiAlertCircle />
               )}
 
-              <span>{message.text}</span>
+              <span>
+                {message.text}
+              </span>
             </div>
           )}
 
-          {/* Job Header */}
+          {/* =========================
+              Job Header
+          ========================== */}
           <section className="jobdetails_header">
 
+            {/* Company Logo */}
             <div className="company_logo_wrapper">
+
               {companyLogo ? (
                 <img
                   src={companyLogo}
                   alt={companyName}
                   className="company_logo"
                   onError={(e) => {
-                    e.currentTarget.style.display = "none";
+                    e.currentTarget.style.display =
+                      "none";
 
                     const fallback =
                       e.currentTarget.parentElement.querySelector(
@@ -222,7 +298,8 @@ export default function Apply() {
                       );
 
                     if (fallback) {
-                      fallback.style.display = "flex";
+                      fallback.style.display =
+                        "flex";
                     }
                   }}
                 />
@@ -231,59 +308,81 @@ export default function Apply() {
               <div
                 className="fallback_logo"
                 style={{
-                  display: companyLogo ? "none" : "flex",
+                  display: companyLogo
+                    ? "none"
+                    : "flex",
                 }}
               >
                 {companyInitial}
               </div>
+
             </div>
 
+            {/* Job Information */}
             <div className="jobdetails_info_box">
 
               <span className="jobdetails_badge">
                 <FiBriefcase />
+
                 {job?.jobType || "Job"}
               </span>
 
               <h1>
-                {job?.jobTitle || "Job Title"}
+                {job?.jobTitle ||
+                  "Job Title"}
               </h1>
 
               <p className="company_name">
                 {companyName}
               </p>
 
+              {/* Meta */}
               <div className="job_meta">
 
                 <span>
                   <FiMapPin />
-                  {job?.jobLocation || "Location not specified"}
+
+                  {job?.jobLocation ||
+                    "Location not specified"}
                 </span>
 
                 <span>
                   <FiCalendar />
-                  {job?.createdAt
-                    ? job.createdAt.slice(0, 10)
-                    : "N/A"}
+
+                  {formatDate(
+                    job?.createdAt
+                  )}
                 </span>
 
               </div>
 
+              {/* Salary */}
               <div className="salary_box">
+
                 <FiDollarSign />
+
                 <div>
-                  <small>Salary Package</small>
+                  <small>
+                    Salary Package
+                  </small>
+
                   <strong>
-                    ₹{job?.salaryPackage || "Not disclosed"}
+                    ₹
+                    {job?.salaryPackage ||
+                      "Not disclosed"}
                   </strong>
                 </div>
+
               </div>
 
+              {/* Actions */}
               <div className="job_actions">
 
                 <span className="fulltime_btn">
                   <FiClock />
-                  {job?.jobType || "Full Time"}
+
+                  {job?.jobType ||
+                    "Full Time"}
                 </span>
 
                 <button
@@ -305,164 +404,246 @@ export default function Apply() {
                 </button>
 
               </div>
+
             </div>
           </section>
 
-          {/* Job Overview */}
+          {/* =========================
+              Job Overview
+          ========================== */}
           <section className="detail_section">
+
             <div className="section_title">
+
               <span className="section_icon">
                 <FiBriefcase />
               </span>
 
               <div>
-                <h3>Job Overview</h3>
-                <p>About this opportunity</p>
+                <h3>
+                  Job Overview
+                </h3>
+
+                <p>
+                  About this opportunity
+                </p>
               </div>
+
             </div>
 
             <p className="detail_text">
               {job?.jobDescription ||
                 "No job description available."}
             </p>
+
           </section>
 
-          {/* Experience */}
+          {/* =========================
+              Experience
+          ========================== */}
           <section className="detail_section">
+
             <div className="section_title">
+
               <span className="section_icon">
-                <FiAward />
+                <FiStar />
               </span>
 
               <div>
-                <h3>Required Experience</h3>
-                <p>Experience expected for this position</p>
+                <h3>
+                  Required Experience
+                </h3>
+
+                <p>
+                  Experience expected for
+                  this position
+                </p>
               </div>
+
             </div>
 
             <div className="info_highlight">
-              {job?.experience || "Not specified"}
+              {job?.experience ||
+                "Not specified"}
             </div>
+
           </section>
 
-          {/* Skills */}
+          {/* =========================
+              Skills
+          ========================== */}
           <section className="detail_section">
+
             <div className="section_title">
+
               <span className="section_icon">
                 <FiCheckCircle />
               </span>
 
               <div>
-                <h3>Skills Required</h3>
-                <p>Skills and expertise required</p>
+                <h3>
+                  Skills Required
+                </h3>
+
+                <p>
+                  Skills and expertise
+                  required
+                </p>
               </div>
+
             </div>
 
             <div className="skills_box">
-              {job?.skillRequired ? (
-                job.skillRequired
-                  .split(",")
-                  .map((skill, index) => (
+
+              {skills.length > 0 ? (
+                skills.map(
+                  (skill, index) => (
                     <span
                       className="skill_tag"
                       key={index}
                     >
-                      {skill.trim()}
+                      {skill}
                     </span>
-                  ))
+                  )
+                )
               ) : (
                 <span className="no_data">
                   Skills not specified
                 </span>
               )}
+
             </div>
+
           </section>
 
-          {/* Job Information */}
+          {/* =========================
+              Job Information
+          ========================== */}
           <section className="detail_section">
 
             <div className="section_title">
+
               <span className="section_icon">
-                <FiBuilding />
+                <FiBriefcase />
               </span>
 
               <div>
-                <h3>Job Information</h3>
-                <p>Important details about this job</p>
+                <h3>
+                  Job Information
+                </h3>
+
+                <p>
+                  Important details about
+                  this job
+                </p>
               </div>
+
             </div>
 
             <div className="job_information_grid">
 
+              {/* Location */}
               <div className="information_item">
+
                 <span>
                   <FiMapPin />
                 </span>
 
                 <div>
-                  <small>Location</small>
+                  <small>
+                    Location
+                  </small>
+
                   <strong>
-                    {job?.jobLocation || "Not specified"}
+                    {job?.jobLocation ||
+                      "Not specified"}
                   </strong>
                 </div>
+
               </div>
 
+              {/* Salary */}
               <div className="information_item">
+
                 <span>
                   <FiDollarSign />
                 </span>
 
                 <div>
-                  <small>Salary</small>
+                  <small>
+                    Salary
+                  </small>
+
                   <strong>
-                    ₹{job?.salaryPackage || "Not disclosed"}
+                    ₹
+                    {job?.salaryPackage ||
+                      "Not disclosed"}
                   </strong>
                 </div>
+
               </div>
 
+              {/* Job Type */}
               <div className="information_item">
+
                 <span>
                   <FiBriefcase />
                 </span>
 
                 <div>
-                  <small>Job Type</small>
+                  <small>
+                    Job Type
+                  </small>
+
                   <strong>
-                    {job?.jobType || "Not specified"}
+                    {job?.jobType ||
+                      "Not specified"}
                   </strong>
                 </div>
+
               </div>
 
+              {/* Posted On */}
               <div className="information_item">
+
                 <span>
                   <FiCalendar />
                 </span>
 
                 <div>
-                  <small>Posted On</small>
+                  <small>
+                    Posted On
+                  </small>
+
                   <strong>
-                    {job?.createdAt
-                      ? job.createdAt.slice(0, 10)
-                      : "N/A"}
+                    {formatDate(
+                      job?.createdAt
+                    )}
                   </strong>
                 </div>
+
               </div>
 
             </div>
+
           </section>
 
-          {/* Bottom Apply */}
+          {/* =========================
+              Bottom Apply
+          ========================== */}
           <div className="bottom_apply_box">
 
             <div>
+
               <h3>
                 Interested in this job?
               </h3>
 
               <p>
-                Apply now and take the next step
-                in your career.
+                Apply now and take the
+                next step in your career.
               </p>
+
             </div>
 
             <button
@@ -487,9 +668,9 @@ export default function Apply() {
 
         </main>
 
-        {/* =========================
+        {/* =================================
             RIGHT SIDEBAR
-        ========================== */}
+        ================================== */}
         <aside className="company_sidebar">
 
           <div className="sidebar_card">
@@ -503,7 +684,8 @@ export default function Apply() {
                   alt={companyName}
                   className="sidebar_banner"
                   onError={(e) => {
-                    e.currentTarget.style.display = "none";
+                    e.currentTarget.style.display =
+                      "none";
 
                     const fallback =
                       e.currentTarget.parentElement.querySelector(
@@ -511,7 +693,8 @@ export default function Apply() {
                       );
 
                     if (fallback) {
-                      fallback.style.display = "flex";
+                      fallback.style.display =
+                        "flex";
                     }
                   }}
                 />
@@ -520,7 +703,9 @@ export default function Apply() {
               <div
                 className="sidebar_fallback_logo"
                 style={{
-                  display: companyLogo ? "none" : "flex",
+                  display: companyLogo
+                    ? "none"
+                    : "flex",
                 }}
               >
                 {companyInitial}
@@ -528,32 +713,42 @@ export default function Apply() {
 
             </div>
 
+            {/* Sidebar Body */}
             <div className="sidebar_body">
 
               <span className="sidebar_company_label">
                 COMPANY
               </span>
 
-              <h2>{companyName}</h2>
+              <h2>
+                {companyName}
+              </h2>
 
               {/* Industry */}
               <div className="sidebar_item">
+
                 <div className="sidebar_item_icon">
                   <FiBriefcase />
                 </div>
 
                 <div>
-                  <strong>Industry</strong>
+                  <strong>
+                    Industry
+                  </strong>
+
                   <p>
-                    {job?.category || "Not specified"}
+                    {job?.category ||
+                      "Not specified"}
                   </p>
                 </div>
+
               </div>
 
               {/* Business Entity */}
               <div className="sidebar_item">
+
                 <div className="sidebar_item_icon">
-                  <FiBuilding />
+                  <FiBriefcase />
                 </div>
 
                 <div>
@@ -561,64 +756,90 @@ export default function Apply() {
                     Type of Business Entity
                   </strong>
 
-                  <p>Pvt Ltd</p>
+                  <p>
+                    Pvt Ltd
+                  </p>
                 </div>
+
               </div>
 
               {/* Established */}
               <div className="sidebar_item">
+
                 <div className="sidebar_item_icon">
                   <FiCalendar />
                 </div>
 
                 <div>
-                  <strong>Established In</strong>
-                  <p>2000</p>
+                  <strong>
+                    Established In
+                  </strong>
+
+                  <p>
+                    2000
+                  </p>
                 </div>
+
               </div>
 
               {/* Employees */}
               <div className="sidebar_item">
+
                 <div className="sidebar_item_icon">
-                  <FiUsers />
+                  <FiUser />
                 </div>
 
                 <div>
-                  <strong>No. of Employees</strong>
-                  <p>10000+</p>
+                  <strong>
+                    No. of Employees
+                  </strong>
+
+                  <p>
+                    10000+
+                  </p>
                 </div>
+
               </div>
 
               {/* Location */}
               <div className="sidebar_item">
+
                 <div className="sidebar_item_icon">
                   <FiMapPin />
                 </div>
 
                 <div>
-                  <strong>Location</strong>
+                  <strong>
+                    Location
+                  </strong>
+
                   <p>
                     {job?.jobLocation ||
                       "Not specified"}
                   </p>
                 </div>
+
               </div>
 
+              {/* Sidebar Apply Button */}
               <button
                 className="sidebar_apply_btn"
                 onClick={handleApply}
                 disabled={applyLoading}
               >
                 <FiSend />
+
                 {applyLoading
                   ? "Applying..."
                   : "Apply for this Job"}
               </button>
 
             </div>
+
           </div>
 
         </aside>
+
       </div>
     </div>
   );
