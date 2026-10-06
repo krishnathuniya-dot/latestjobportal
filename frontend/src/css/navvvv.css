@@ -1,100 +1,374 @@
-/* ================= NAVBAR ================= */
+/* ================================
+   JOB PORTAL NAVBAR
+================================ */
 
 .kl_navbar {
   width: 100%;
-  height: 78px;
+  min-height: 72px;
+  padding: 0 6%;
   background: #ffffff;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 60px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+
+  border-bottom: 1px solid #e7edf5;
+  box-shadow: 0 4px 20px rgba(0, 45, 100, 0.06);
+
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 1000;
 }
 
-/* ================= LOGO ================= */
+/* ================================
+   LOGO
+================================ */
 
 .kl_logo {
-  font-size: 30px;
-  font-weight: 700;
-  color: #0d6efd;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #0756b8;
+  text-decoration: none;
+
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+
+  white-space: nowrap;
 }
 
-.kl_logo:hover {
-  transform: scale(1.04);
+.kl_logo span:last-child span {
+  color: #00a896;
 }
 
-/* ================= MENU ================= */
+.kl_logo_icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  color: white;
+  border-radius: 11px;
+
+  font-size: 21px;
+
+  box-shadow: 0 6px 16px rgba(7, 86, 184, 0.22);
+}
+
+/* ================================
+   MENU
+================================ */
 
 .kl_menu {
   display: flex;
   align-items: center;
-  gap: 35px;
-  list-style: none;
-}
+  gap: 8px;
 
-/* ================= LINKS ================= */
+  margin-left: auto;
+  margin-right: 28px;
+}
 
 .kl_link {
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  font-weight: 600;
   position: relative;
-  transition: 0.3s;
-  padding: 5px 0;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 10px 15px;
+
+  color: #536274;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border-radius: 9px;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
-/* Hover Underline */
-
-.kl_link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 0%;
-  height: 3px;
-  background: #0d6efd;
-  border-radius: 20px;
-  transition: 0.4s;
-}
-
-.kl_link:hover::after {
-  width: 100%;
+.kl_link svg {
+  font-size: 17px;
 }
 
 .kl_link:hover {
-  color: #0d6efd;
+  color: #0756b8;
+  background: #f0f6ff;
 }
 
-/* ================= RESPONSIVE ================= */
+.kl_link.kl_active {
+  color: #0756b8;
+  background: #eef5ff;
+}
 
-@media (max-width: 768px) {
+.kl_link.kl_active::after {
+  content: "";
+
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: 2px;
+
+  height: 2px;
+
+  background: #0756b8;
+  border-radius: 10px;
+}
+
+/* ================================
+   AUTH BUTTONS
+================================ */
+
+.kl_auth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kl_login_btn,
+.kl_register_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 40px;
+  padding: 0 17px;
+
+  border-radius: 9px;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  transition: all 0.25s ease;
+}
+
+.kl_login_btn {
+  color: #0756b8;
+  background: #eef5ff;
+  border: 1px solid #d9e8fb;
+}
+
+.kl_login_btn:hover {
+  background: #dcecff;
+  transform: translateY(-1px);
+}
+
+.kl_register_btn {
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  border: 1px solid #0756b8;
+
+  box-shadow: 0 5px 14px rgba(7, 86, 184, 0.18);
+}
+
+.kl_register_btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(7, 86, 184, 0.25);
+}
+
+/* ================================
+   MOBILE MENU BUTTON
+================================ */
+
+.kl_menu_btn {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #eef5ff;
+  color: #0756b8;
+
+  font-size: 23px;
+
+  cursor: pointer;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile auth hidden by default */
+
+.kl_mobile_auth {
+  display: none;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 1000px) {
 
   .kl_navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 20px;
-  }
-
-  .kl_logo {
-    margin-bottom: 15px;
-    font-size: 24px;
+    padding: 0 4%;
   }
 
   .kl_menu {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    margin-right: 12px;
   }
 
   .kl_link {
-    font-size: 15px;
+    padding: 9px 10px;
   }
 
+  .kl_auth .kl_login_btn,
+  .kl_auth .kl_register_btn {
+    padding: 0 12px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 760px) {
+
+  .kl_navbar {
+    min-height: 66px;
+    padding: 0 20px;
+  }
+
+  .kl_logo {
+    font-size: 19px;
+  }
+
+  .kl_logo_icon {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  /* Hide desktop auth */
+
+  .kl_auth {
+    display: none;
+  }
+
+  /* Menu button */
+
+  .kl_menu_btn {
+    display: flex;
+  }
+
+  /* Mobile navigation */
+
+  .kl_menu {
+    position: absolute;
+
+    top: 66px;
+    left: 0;
+    right: 0;
+
+    margin: 0;
+
+    padding: 15px 20px 20px;
+
+    background: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 5px;
+
+    border-bottom: 1px solid #e4ebf3;
+
+    box-shadow: 0 12px 25px rgba(0, 45, 100, 0.09);
+
+    transform: translateY(-130%);
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .kl_menu.kl_menu_open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .kl_link {
+    width: 100%;
+    padding: 13px 14px;
+
+    justify-content: flex-start;
+
+    border-radius: 9px;
+  }
+
+  .kl_link.kl_active::after {
+    display: none;
+  }
+
+  .kl_mobile_auth {
+    display: flex;
+
+    margin-top: 8px;
+    padding-top: 14px;
+
+    border-top: 1px solid #e7edf5;
+
+    gap: 10px;
+  }
+
+  .kl_mobile_auth .kl_login_btn,
+  .kl_mobile_auth .kl_register_btn {
+    flex: 1;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 430px) {
+
+  .kl_navbar {
+    padding: 0 14px;
+  }
+
+  .kl_logo {
+    font-size: 18px;
+  }
+
+  .kl_logo_icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .kl_menu_btn {
+    width: 39px;
+    height: 39px;
+  }
 }

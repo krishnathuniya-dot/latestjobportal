@@ -1,17 +1,335 @@
-/* Container */
-.yy-contact-container { width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: #f8fafc; padding: 20px; }
-.yy-contact-card { width: 100%; max-width: 600px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+/* ================================
+   CONTACT ADMIN PAGE
+================================ */
 
-/* Header */
-.yy-contact-header { background: #0f172a; color: white; padding: 20px; text-align: center; font-weight: 700; border-top-left-radius: 12px; border-top-right-radius: 12px; }
+.yy-contact-container {
+  min-height: calc(100vh - 80px);
+  padding: 40px 25px;
+  background: #f5f8fc;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
 
-/* Body */
-.yy-contact-body { padding: 30px; }
-.yy-form-group { margin-bottom: 20px; }
-.yy-form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 14px; }
-.yy-form-control, .yy-form-textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none; }
-.yy-form-textarea { min-height: 140px; resize: none; }
+.yy-contact-card {
+  width: 100%;
+  max-width: 850px;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #e5ebf3;
+  box-shadow: 0 12px 35px rgba(16, 55, 95, 0.08);
+}
 
-/* Update Button */
-.yy-update-btn { width: 100%; padding: 14px; background: #059669; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-.yy-update-btn:hover { background: #047857; }
+/* ================================
+   HEADER
+================================ */
+
+.yy-contact-header {
+  padding: 24px 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: linear-gradient(135deg, #0756b8, #003b82);
+  color: #ffffff;
+}
+
+.yy-contact-header-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 25px;
+}
+
+.yy-contact-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.yy-contact-header p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* ================================
+   BODY
+================================ */
+
+.yy-contact-body {
+  padding: 32px;
+}
+
+/* ================================
+   MESSAGES
+================================ */
+
+.yy-message {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  margin-bottom: 22px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.yy-message svg {
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.yy-error {
+  color: #b42318;
+  background: #fff1f0;
+  border: 1px solid #ffd4d0;
+}
+
+.yy-success {
+  color: #087443;
+  background: #ecfdf3;
+  border: 1px solid #b7ebc9;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.yy-form-group {
+  margin-bottom: 23px;
+}
+
+.yy-form-group label {
+  margin-bottom: 9px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #26384d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.yy-form-group label svg {
+  color: #0756b8;
+}
+
+/* ================================
+   INPUT
+================================ */
+
+.yy-input-wrapper,
+.yy-textarea-wrapper {
+  position: relative;
+}
+
+.yy-input-wrapper > svg,
+.yy-textarea-wrapper > svg {
+  position: absolute;
+  left: 15px;
+  top: 17px;
+  color: #8292a6;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.yy-form-control,
+.yy-form-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d9e2ec;
+  outline: none;
+  background: #ffffff;
+  color: #24364b;
+  font-family: inherit;
+  font-size: 14px;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+}
+
+.yy-form-control {
+  height: 52px;
+  padding: 0 15px 0 45px;
+}
+
+.yy-form-textarea {
+  min-height: 145px;
+  resize: vertical;
+  padding: 15px 15px 15px 45px;
+  line-height: 1.6;
+}
+
+.yy-form-control::placeholder,
+.yy-form-textarea::placeholder {
+  color: #a3afbd;
+}
+
+.yy-form-control:focus,
+.yy-form-textarea:focus {
+  border-color: #0756b8;
+  box-shadow: 0 0 0 3px rgba(7, 86, 184, 0.1);
+}
+
+.yy-input-wrapper:focus-within > svg,
+.yy-textarea-wrapper:focus-within > svg {
+  color: #0756b8;
+}
+
+/* ================================
+   BUTTON
+================================ */
+
+.yy-update-btn {
+  width: 100%;
+  min-height: 52px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0756b8, #003b82);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 7px 18px rgba(7, 86, 184, 0.18);
+}
+
+.yy-update-btn svg {
+  font-size: 18px;
+}
+
+.yy-update-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(7, 86, 184, 0.25);
+}
+
+.yy-update-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ================================
+   LOADING
+================================ */
+
+.yy-loading {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #607286;
+}
+
+.yy-loading p {
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+.yy-spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid #dce9f8;
+  border-top-color: #0756b8;
+  border-radius: 50%;
+  animation: yySpin 0.8s linear infinite;
+}
+
+.yy-btn-spinner {
+  width: 17px;
+  height: 17px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: yySpin 0.7s linear infinite;
+}
+
+@keyframes yySpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 700px) {
+  .yy-contact-container {
+    padding: 25px 15px;
+  }
+
+  .yy-contact-body {
+    padding: 25px 20px;
+  }
+
+  .yy-contact-header {
+    padding: 20px;
+  }
+
+  .yy-contact-header h2 {
+    font-size: 19px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+  .yy-contact-container {
+    padding: 15px 10px;
+  }
+
+  .yy-contact-card {
+    border-radius: 14px;
+  }
+
+  .yy-contact-header {
+    padding: 18px 16px;
+    gap: 11px;
+  }
+
+  .yy-contact-header-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 21px;
+    border-radius: 11px;
+  }
+
+  .yy-contact-header h2 {
+    font-size: 17px;
+  }
+
+  .yy-contact-header p {
+    font-size: 11px;
+  }
+
+  .yy-contact-body {
+    padding: 20px 15px;
+  }
+
+  .yy-form-control {
+    height: 49px;
+  }
+
+  .yy-form-textarea {
+    min-height: 130px;
+  }
+
+  .yy-update-btn {
+    min-height: 49px;
+  }
+}

@@ -1,8 +1,23 @@
+
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 🎯 फिक्स: useNavigate इम्पोर्ट किया
+import { useNavigate, Link } from "react-router-dom";
+import {
+  FiUser,
+  FiMail,
+  FiLock,
+  FiBriefcase,
+  FiTag,
+  FiGlobe,
+  FiFileText,
+  FiUpload,
+  FiArrowRight,
+  FiHome,
+} from "react-icons/fi";
 import "../css/register.css";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     personName: "",
     email: "",
@@ -14,7 +29,8 @@ export default function Register() {
     logo: null,
   });
 
-  const navigate = useNavigate(); // 🎯 फिक्स: नेविगेट फंक्शन इनिशियलाइज किया
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -23,13 +39,17 @@ export default function Register() {
       ...formData,
       [name]: files ? files[0] : value,
     });
+
+    setMessage("");
   };
 
-  // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
+      setMessage("");
+
       const data = new FormData();
 
       data.append("personName", formData.personName);
@@ -57,7 +77,7 @@ export default function Register() {
       console.log("Register Response:", result);
 
       if (response.ok) {
-        // Full user save in localStorage
+        // Save complete user
         localStorage.setItem(
           "User",
           JSON.stringify(result.user)
@@ -68,10 +88,11 @@ export default function Register() {
           JSON.parse(localStorage.getItem("User"))
         );
 
-        alert(
-          result.message || "Register Successfully"
+        setMessage(
+          result.message || "Registration successful!"
         );
 
+        // Reset form
         setFormData({
           personName: "",
           email: "",
@@ -83,137 +104,384 @@ export default function Register() {
           logo: null,
         });
 
+        // Reset file input
         const fileInput = document.querySelector(
-          'input[type="file"]'
+          'input[name="logo"]'
         );
 
         if (fileInput) {
           fileInput.value = "";
         }
 
-        // 🎯 फिक्स: अलर्ट बंद होने के बाद यूजर /login पेज पर चला जाएगा
-        navigate("/login"); 
-
+        // Login page
+        setTimeout(() => {
+          navigate("/login");
+        }, 1200);
       } else {
-        alert(
-          result.message ||
-            "Registration Failed"
+        setMessage(
+          result.message || "Registration failed."
         );
       }
     } catch (error) {
-      console.error(error);
-      alert("Cannot connect to server");
+      console.error("Registration Error:", error);
+
+      setMessage(
+        "Unable to connect to server. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="signup-container">
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <div className="form-grid">
+    <div className="signup-page">
 
-          {/* Concern Person */}
-          <div className="form-group">
-            <label>Concern Person Name *</label>
-            <input
-              type="text"
-              name="personName"
-              placeholder="name"
-              value={formData.personName}
-              onChange={handleChange}
-              required // बेसिक वैलिडेशन के लिए आप required भी रख सकते हैं
-            />
+      {/* ================= HEADER ================= */}
+
+      <div className="signup-header">
+
+        <div className="signup-header-inner">
+
+          <div className="signup-logo">
+            <span>JOB</span> PORTAL
           </div>
 
-          {/* Email */}
-          <div className="form-group">
-            <label>Your Email *</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <h1>Create Your Employer Account</h1>
 
-          {/* Password */}
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </div>
+          <p>
+            Build your company profile and start hiring
+            talented candidates
+          </p>
 
-          {/* Company */}
-          <div className="form-group">
-            <label>Company Name</label>
-            <input
-              type="text"
-              name="companyName"
-              placeholder="compony name"
-              value={formData.companyName}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Tagline */}
-          <div className="form-group">
-            <label>Tagline</label>
-            <input
-              type="text"
-              name="tagline"
-              placeholder=""
-              value={formData.tagline}
-              onChange={handleChange}
-            />
-          </div>
         </div>
 
-        {/* Description */}
-        <div className="form-group">
-          <label>Description</label>
-          <textarea
-            name="description"
-            rows="5"
-            placeholder="description"
-            value={formData.description}
-            onChange={handleChange}
-          ></textarea>
-        </div>
+      </div>
 
-        <div className="form-grid">
-          {/* Website */}
-          <div className="form-group">
-            <label>Website</label>
-            <input
-              type="text"
-              name="website"
-              placeholder="http://www."
-              value={formData.website}
-              onChange={handleChange}
-            />
+      {/* ================= MAIN ================= */}
+
+      <div className="signup-main">
+
+        <div className="signup-card">
+
+          {/* Back Home */}
+
+          <Link
+            to="/"
+            className="signup-back-home"
+          >
+            <FiHome />
+            Back To Home
+          </Link>
+
+          {/* Icon */}
+
+          <div className="signup-profile-icon">
+            <FiBriefcase />
           </div>
 
-          {/* Logo */}
-          <div className="form-group">
-            <label>Logo</label>
-            <input
-              type="file"
-              name="logo"
-              onChange={handleChange}
-            />
+          {/* Title */}
+
+          <div className="signup-title">
+
+            <h2>Register Your Company</h2>
+
+            <p>
+              Enter your company details to get started
+            </p>
+
           </div>
+
+          {/* Message */}
+
+          {message && (
+            <div
+              className={`signup-message ${
+                message.toLowerCase().includes("success")
+                  ? "signup-success"
+                  : "signup-error"
+              }`}
+            >
+              {message}
+            </div>
+          )}
+
+          {/* ================= FORM ================= */}
+
+          <form
+            className="signup-form"
+            onSubmit={handleSubmit}
+          >
+
+            <div className="form-grid">
+
+              {/* Person Name */}
+
+              <div className="form-group">
+
+                <label>
+                  Concern Person Name *
+                </label>
+
+                <div className="signup-input-wrapper">
+
+                  <FiUser />
+
+                  <input
+                    type="text"
+                    name="personName"
+                    placeholder="Enter your name"
+                    value={formData.personName}
+                    onChange={handleChange}
+                    required
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Email */}
+
+              <div className="form-group">
+
+                <label>
+                  Your Email *
+                </label>
+
+                <div className="signup-input-wrapper">
+
+                  <FiMail />
+
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    autoComplete="email"
+                    required
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Password */}
+
+              <div className="form-group">
+
+                <label>
+                  Password *
+                </label>
+
+                <div className="signup-input-wrapper">
+
+                  <FiLock />
+
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    required
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Company */}
+
+              <div className="form-group">
+
+                <label>
+                  Company Name
+                </label>
+
+                <div className="signup-input-wrapper">
+
+                  <FiBriefcase />
+
+                  <input
+                    type="text"
+                    name="companyName"
+                    placeholder="Enter company name"
+                    value={formData.companyName}
+                    onChange={handleChange}
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Tagline */}
+
+              <div className="form-group">
+
+                <label>
+                  Tagline
+                </label>
+
+                <div className="signup-input-wrapper">
+
+                  <FiTag />
+
+                  <input
+                    type="text"
+                    name="tagline"
+                    placeholder="Your company tagline"
+                    value={formData.tagline}
+                    onChange={handleChange}
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Website */}
+
+              <div className="form-group">
+
+                <label>
+                  Website
+                </label>
+
+                <div className="signup-input-wrapper">
+
+                  <FiGlobe />
+
+                  <input
+                    type="text"
+                    name="website"
+                    placeholder="https://example.com"
+                    value={formData.website}
+                    onChange={handleChange}
+                  />
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Description */}
+
+            <div className="form-group description-group">
+
+              <label>
+                Company Description
+              </label>
+
+              <div className="textarea-wrapper">
+
+                <FiFileText />
+
+                <textarea
+                  name="description"
+                  rows="5"
+                  placeholder="Tell candidates about your company..."
+                  value={formData.description}
+                  onChange={handleChange}
+                ></textarea>
+
+              </div>
+
+            </div>
+
+            {/* Logo */}
+
+            <div className="form-group logo-group">
+
+              <label>
+                Company Logo
+              </label>
+
+              <div className="file-upload-box">
+
+                <FiUpload />
+
+                <div className="file-upload-content">
+
+                  <span>
+                    Upload Company Logo
+                  </span>
+
+                  <small>
+                    PNG, JPG or JPEG
+                  </small>
+
+                </div>
+
+                <input
+                  type="file"
+                  name="logo"
+                  accept="image/png,image/jpeg,image/jpg"
+                  onChange={handleChange}
+                />
+
+              </div>
+
+              {formData.logo && (
+                <div className="selected-file">
+                  Selected: {formData.logo.name}
+                </div>
+              )}
+
+            </div>
+
+            {/* Submit */}
+
+            <button
+              type="submit"
+              className="signup-btn"
+              disabled={loading}
+            >
+
+              {loading ? (
+                <>
+                  <span className="signup-loader"></span>
+                  CREATING ACCOUNT...
+                </>
+              ) : (
+                <>
+                  CREATE ACCOUNT
+                  <FiArrowRight />
+                </>
+              )}
+
+            </button>
+
+          </form>
+
+          {/* Login */}
+
+          <div className="already-account">
+
+            <p>
+              Already have an account?
+            </p>
+
+            <Link
+              to="/login"
+              className="login-link"
+            >
+              LOGIN NOW
+            </Link>
+
+          </div>
+
         </div>
 
-        <button type="submit" className="signup-btn">
-          SIGN UP
-        </button>
-      </form>
+      </div>
+
+      {/* Footer */}
+
+      <div className="signup-footer">
+        © {new Date().getFullYear()} Job Portal. All Rights Reserved.
+      </div>
+
     </div>
   );
 }
+

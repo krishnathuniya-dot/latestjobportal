@@ -1,11 +1,16 @@
-// 📂 Login.jsx
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  FiMail,
+  FiLock,
+  FiUser,
+  FiHome,
+  FiArrowRight,
+} from "react-icons/fi";
 import "../css/login.css";
 
 export default function Login() {
-
   const navigate = useNavigate();
 
   const [formDataRrr, setFormDataRrr] = useState({
@@ -13,111 +18,133 @@ export default function Login() {
     password: "",
   });
 
-  
-  const handleChangeRrr = (e) => {
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleChangeRrr = (e) => {
     setFormDataRrr({
       ...formDataRrr,
       [e.target.name]: e.target.value,
     });
 
+    setMessage("");
   };
 
- 
   const handleSubmitRrr = async (e) => {
-
     e.preventDefault();
 
+    if (!formDataRrr.email || !formDataRrr.password) {
+      setMessage("Please enter email and password.");
+      return;
+    }
+
     try {
+      setLoading(true);
+      setMessage("");
 
       const response = await fetch(
         "https://latestjobportal.onrender.com/api/login",
         {
           method: "POST",
-
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify(formDataRrr),
         }
       );
 
       const data = await response.json();
 
-      
-      if (data.success) {
+      console.log("Login Response:", data);
 
-        
+      if (response.ok && data.success) {
         localStorage.setItem(
           "user",
           JSON.stringify(data.user)
         );
 
-      
         console.log(
-          "Current User => ",
+          "Current User =>",
           JSON.parse(localStorage.getItem("user"))
         );
-        console.log(data)
 
-        alert(data.message);
+        setMessage(data.message || "Login successful!");
 
-        // Redirect
-        navigate("/search");
-
+        setTimeout(() => {
+          navigate("/search");
+        }, 800);
       } else {
-
-        alert(data.message);
-
+        setMessage(
+          data.message || "Invalid email or password."
+        );
       }
-
     } catch (error) {
+      console.error("Login Error:", error);
 
-      console.log(error);
-
-      alert("Login Failed");
-
+      setMessage(
+        "Unable to connect to server. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-
     <div className="login-body-rrr">
 
-      {/* Banner */}
+      {/* ================= HEADER ================= */}
       <div className="login-top-banner-rrr">
+        <div className="login-header-content-rrr">
 
-        <h1>
-          Login To Your Account
-        </h1>
+          <div className="login-logo-rrr">
+            <span>JOB</span> PORTAL
+          </div>
 
+          <h1>Login To Your Account</h1>
+
+          <p>
+            Access your account and continue your job journey
+          </p>
+
+        </div>
       </div>
 
-      {/* Login Box */}
+      {/* ================= LOGIN CONTAINER ================= */}
       <div className="login-container-rrr">
 
-        {/* Back Button */}
-        <div className="login-back-btn-rrr">
+        {/* Back Home */}
+        <Link
+          to="/"
+          className="login-back-link-rrr"
+        >
+          <FiHome />
+          Back To Home
+        </Link>
 
-          <Link
-            to="/"
-            className="login-back-link-rrr"
-          >
-            ← Back To Home
-          </Link>
-
-        </div>
-
-        {/* Profile Image */}
+        {/* Profile Icon */}
         <div className="login-profile-icon-rrr">
-
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-            alt="profile"
-          />
-
+          <FiUser />
         </div>
+
+        {/* Title */}
+        <div className="login-welcome-rrr">
+          <h2>Welcome Back!</h2>
+          <p>Sign in to access your account</p>
+        </div>
+
+        {/* Message */}
+        {message && (
+          <div
+            className={`login-message-rrr ${
+              message.toLowerCase().includes("success")
+                ? "login-success-rrr"
+                : "login-error-rrr"
+            }`}
+          >
+            {message}
+          </div>
+        )}
 
         {/* Form */}
         <form
@@ -126,56 +153,99 @@ export default function Login() {
         >
 
           {/* Email */}
-          <input
-            className="login-input-rrr"
-            type="email"
-            name="email"
-            placeholder="Enter Email"
-            value={formDataRrr.email}
-            onChange={handleChangeRrr}
-            required
-          />
+          <div className="login-input-group-rrr">
+
+            <FiMail className="login-input-icon-rrr" />
+
+            <input
+              className="login-input-rrr"
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formDataRrr.email}
+              onChange={handleChangeRrr}
+              autoComplete="email"
+              required
+            />
+
+          </div>
 
           {/* Password */}
-          <input
-            className="login-input-rrr"
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-            value={formDataRrr.password}
-            onChange={handleChangeRrr}
-            required
-          />
+          <div className="login-input-group-rrr">
 
-          {/* Button */}
+            <FiLock className="login-input-icon-rrr" />
+
+            <input
+              className="login-input-rrr login-password-input-rrr"
+              type={
+                showPassword
+                  ? "text"
+                  : "password"
+              }
+              name="password"
+              placeholder="Enter your password"
+              value={formDataRrr.password}
+              onChange={handleChangeRrr}
+              autoComplete="current-password"
+              required
+            />
+
+            <button
+              type="button"
+              className="login-show-password-rrr"
+              onClick={() =>
+                setShowPassword(!showPassword)
+              }
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+
+          </div>
+
+          {/* Forgot */}
+          <div className="login-forgot-row-rrr">
+
+            <Link
+              to="/forgotpassword"
+              className="login-forgot-link-rrr"
+            >
+              Forgot your Password?
+            </Link>
+
+          </div>
+
+          {/* Login Button */}
           <button
             className="login-button-rrr"
             type="submit"
+            disabled={loading}
           >
-            SIGN IN
+            {loading ? (
+              <>
+                <span className="login-loader-rrr"></span>
+                SIGNING IN...
+              </>
+            ) : (
+              <>
+                SIGN IN
+                <FiArrowRight />
+              </>
+            )}
           </button>
 
         </form>
 
-        {/* Forgot */}
-        <p className="login-forgot-rrr">
-          <Link
-    to="/forgotpassword"
-    className="login-forgot-link-rrr"
-  >
-    Forgot your Password?
-  </Link>
-        </p>
-
-        {/* OR */}
+        {/* Divider */}
         <div className="login-or-box-rrr">
-          OR
+          <span>OR</span>
         </div>
 
         {/* Signup */}
-        <p className="login-signup-rrr">
+        <div className="login-signup-rrr">
 
-          You Don't have an Account ?
+          <p>
+            You Don't have an Account?
+          </p>
 
           <Link
             to="/register"
@@ -184,11 +254,16 @@ export default function Login() {
             SIGN UP NOW
           </Link>
 
-        </p>
+        </div>
 
       </div>
 
-    </div>
+      {/* Footer */}
+      <div className="login-footer-rrr">
+        © {new Date().getFullYear()} Job Portal. All Rights Reserved.
+      </div>
 
+    </div>
   );
 }
+

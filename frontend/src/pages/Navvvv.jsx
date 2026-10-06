@@ -1,52 +1,137 @@
 // 📂 Navvvv.jsx
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import {
+  FiBriefcase,
+  FiHome,
+  FiUsers,
+  FiBarChart2,
+  FiMenu,
+  FiX,
+  FiLogIn,
+  FiUserPlus,
+} from "react-icons/fi";
+
 import "../css/navvvv.css";
 
 export default function Navvvv() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   return (
-    <div>
+    <header className="kl_navbar">
 
-      {/* Navbar */}
-      <div className="kl_navbar">
+      {/* Logo */}
+      <NavLink to="/" className="kl_logo" onClick={closeMenu}>
+        <span className="kl_logo_icon">
+          <FiBriefcase />
+        </span>
 
-        {/* Logo */}
-        <div className="kl_logo">
-          Job Portal
+        <span>
+          Job<span>Portal</span>
+        </span>
+      </NavLink>
+
+      {/* Desktop / Mobile Menu */}
+      <nav className={`kl_menu ${menuOpen ? "kl_menu_open" : ""}`}>
+
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `kl_link ${isActive ? "kl_active" : ""}`
+          }
+          onClick={closeMenu}
+        >
+          <FiHome />
+          <span>Home</span>
+        </NavLink>
+
+        <NavLink
+          to="/jobs"
+          className={({ isActive }) =>
+            `kl_link ${isActive ? "kl_active" : ""}`
+          }
+          onClick={closeMenu}
+        >
+          <FiBriefcase />
+          <span>Jobs</span>
+        </NavLink>
+
+        <NavLink
+          to="/candidates"
+          className={({ isActive }) =>
+            `kl_link ${isActive ? "kl_active" : ""}`
+          }
+          onClick={closeMenu}
+        >
+          <FiUsers />
+          <span>Candidates</span>
+        </NavLink>
+
+        <NavLink
+          to="/reports"
+          className={({ isActive }) =>
+            `kl_link ${isActive ? "kl_active" : ""}`
+          }
+          onClick={closeMenu}
+        >
+          <FiBarChart2 />
+          <span>Reports</span>
+        </NavLink>
+
+        {/* Mobile Auth Buttons */}
+        <div className="kl_mobile_auth">
+
+          <NavLink
+            to="/login"
+            className="kl_login_btn"
+            onClick={closeMenu}
+          >
+            <FiLogIn />
+            Login
+          </NavLink>
+
+          <NavLink
+            to="/register"
+            className="kl_register_btn"
+            onClick={closeMenu}
+          >
+            <FiUserPlus />
+            Register
+          </NavLink>
+
         </div>
+      </nav>
 
-        {/* Menu */}
-        <ul className="kl_menu">
+      {/* Desktop Auth Buttons */}
+      <div className="kl_auth">
 
-          <li>
-            <Link to="/" className="kl_link">
-              Home
-            </Link>
-          </li>
+        <NavLink to="/login" className="kl_login_btn">
+          <FiLogIn />
+          Login
+        </NavLink>
 
-          <li>
-            <Link to="/jobs" className="kl_link">
-              Jobs
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/candidates" className="kl_link">
-              Candidates
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/reports" className="kl_link">
-              Reports
-            </Link>
-          </li>
-
-        </ul>
+        <NavLink to="/register" className="kl_register_btn">
+          <FiUserPlus />
+          Register
+        </NavLink>
 
       </div>
 
-    </div>
+      {/* Mobile Menu Button */}
+      <button
+        type="button"
+        className="kl_menu_btn"
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle navigation menu"
+      >
+        {menuOpen ? <FiX /> : <FiMenu />}
+      </button>
+
+    </header>
   );
 }

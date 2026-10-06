@@ -1,132 +1,521 @@
-/* मुख्य कंटेनर */
-.jobseeker-container {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 0 16px;
-  font-family: Arial, sans-serif;
+* {
+  box-sizing: border-box;
 }
 
-.main-title {
-  font-size: 20px;
+.fd-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 35px;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.fd-page-header {
+  max-width: 1200px;
+  margin: 0 auto 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.fd-breadcrumb {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 13px;
   font-weight: 600;
-  color: #4a5568;
-  margin-bottom: 16px;
+  color: #6b7280;
 }
 
-/* मुख्य कार्ड टेबल */
-.details-card {
-  background-color: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+.fd-page-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  color: #14213d;
 }
 
-/* स्क्रीनशॉट जैसा ग्रीन-ब्लू हेडर */
-.card-header {
-  background: linear-gradient(to right, #48bb78, #319795);
-  color: #ffffff;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* ग्रिड लेआउट (4 कॉलम्स) */
-.grid-4-col {
-  display: grid;
-  grid-template-columns: 150px 1fr 150px 1fr;
+.fd-page-header p {
+  margin: 7px 0 0;
+  color: #718096;
   font-size: 14px;
 }
 
-/* लेबल कॉलम (ग्रे बैकग्राउंड) */
-.label-cell {
-  background-color: #f7fafc;
-  padding: 12px;
-  font-weight: bold;
-  color: #4a5568;
-  border-right: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-}
-
-/* डेटा कॉलम */
-.data-cell {
-  padding: 12px;
-  color: #4a5568;
-  border-right: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-}
-
-/* आखरी कॉलम का बॉर्डर फिक्स */
-.grid-4-col .data-cell:last-child {
-  border-right: none;
-}
-
-/* मिडिल सब-हेडर */
-.section-sub-header {
-  text-align: center;
-  padding: 10px;
-  background-color: #ffffff;
-  color: #1a365d;
-  font-weight: bold;
-  font-size: 14px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-/* समरी / बायो एरिया */
-.summary-area {
-  padding: 16px;
-  font-size: 14px;
-  color: #4a5568;
-  border-bottom: 1px solid #e2e8f0;
-  min-height: 50px;
-  background-color: #ffffff;
-}
-
-/* रेज़्युमे लिंक स्टाइल */
-.resume-link {
-  color: #3182ce;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.resume-link:hover {
-  text-decoration: underline;
-}
-
-/* प्रोफाइल पिक्चर स्टाइल */
-.profile-img {
-  width: 96px;
-  height: 96px;
-  object-fit: cover;
-  border: 1px solid #cbd5e0;
-  border-radius: 4px;
-}
-
-.no-img-placeholder {
-  width: 96px;
-  height: 96px;
-  background-color: #edf2f7;
-  border: 1px solid #cbd5e0;
-  border-radius: 4px;
+.fd-header-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0756b8, #003b82);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 10px 25px rgba(7, 86, 184, 0.2);
+}
+
+/* =========================
+   PROFILE CARD
+========================= */
+
+.fd-profile-card {
+  max-width: 1200px;
+  margin: auto;
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(18, 38, 63, 0.07);
+}
+
+/* =========================
+   PROFILE TOP
+========================= */
+
+.fd-profile-top {
+  padding: 28px 30px;
+  background: linear-gradient(
+    135deg,
+    #0756b8 0%,
+    #00458f 55%,
+    #003b82 100%
+  );
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.fd-profile-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.fd-profile-image {
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  background: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.fd-profile-name h2 {
+  margin: 0 0 8px;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.fd-profile-name p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #dcecff;
+  font-size: 14px;
+}
+
+.fd-resume-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 17px;
+  background: #ffffff;
+  color: #0756b8;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: 0.25s ease;
+  white-space: nowrap;
+}
+
+.fd-resume-btn:hover {
+  transform: translateY(-2px);
+  background: #f3f8ff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.fd-section {
+  padding: 30px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.fd-last-section {
+  border-bottom: none;
+}
+
+.fd-section-title {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 22px;
+}
+
+.fd-title-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #eaf3ff;
+  color: #0756b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.fd-section-title h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #172033;
+  font-weight: 800;
+}
+
+.fd-section-title p {
+  margin: 4px 0 0;
+  color: #8490a3;
+  font-size: 13px;
+}
+
+/* =========================
+   INFO GRID
+========================= */
+
+.fd-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.fd-info-box {
+  min-height: 78px;
+  padding: 16px;
+  border: 1px solid #e8edf3;
+  border-radius: 12px;
+  background: #fafbfd;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  transition: 0.25s ease;
+}
+
+.fd-info-box:hover {
+  border-color: #cbdcf2;
+  background: #f8fbff;
+  transform: translateY(-1px);
+}
+
+.fd-info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #eaf3ff;
+  color: #0756b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fd-info-box span {
+  display: block;
+  margin-bottom: 5px;
+  color: #8791a2;
   font-size: 12px;
-  color: #a0aec0;
+  font-weight: 600;
 }
 
-/* लोडिंग और एरर स्टेट्स */
-.text-center {
-  text-align: center;
+.fd-info-box strong {
+  display: block;
+  color: #263247;
+  font-size: 14px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.fd-small-resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #0756b8;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.fd-small-resume:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.fd-summary {
   padding: 20px;
-  font-family: Arial, sans-serif;
+  border-radius: 12px;
+  border: 1px solid #e8edf3;
+  background: #fafbfd;
 }
 
-.error-text {
-  color: #e53e3e;
-  font-weight: bold;
+.fd-summary p {
+  margin: 0;
+  line-height: 1.75;
+  color: #536174;
+  font-size: 14px;
+}
+
+/* =========================
+   SKILLS
+========================= */
+
+.fd-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.fd-skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 13px;
+  background: #eef6ff;
+  color: #0756b8;
+  border: 1px solid #d7e9ff;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.fd-skill svg {
+  font-size: 14px;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.fd-empty-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8993a3;
+  font-size: 14px;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.fd-status-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 30px;
+  background: #f5f7fb;
+}
+
+.fd-status-page h3 {
+  margin: 15px 0 5px;
+  color: #172033;
+  font-size: 21px;
+}
+
+.fd-status-page p {
+  margin: 0;
+  max-width: 450px;
+  color: #7b8494;
+  font-size: 14px;
+}
+
+.fd-status-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #eaf3ff;
+  color: #0756b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.fd-status-icon.error {
+  background: #fff0f0;
+  color: #dc3545;
+}
+
+/* =========================
+   LOADER
+========================= */
+
+.fd-loader {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #dbe8f8;
+  border-top-color: #0756b8;
+  border-radius: 50%;
+  animation: fdSpin 0.8s linear infinite;
+}
+
+@keyframes fdSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   BOTTOM NOTE
+========================= */
+
+.fd-bottom-note {
+  max-width: 1200px;
+  margin: 15px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: #7d899b;
+  font-size: 12px;
+}
+
+.fd-bottom-note svg {
+  color: #16a34a;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 800px) {
+  .fd-page {
+    padding: 25px 18px;
+  }
+
+  .fd-page-header h1 {
+    font-size: 26px;
+  }
+
+  .fd-profile-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fd-resume-btn {
+    width: 100%;
+  }
+
+  .fd-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 560px) {
+  .fd-page {
+    padding: 18px 12px;
+  }
+
+  .fd-page-header {
+    margin-bottom: 18px;
+  }
+
+  .fd-page-header h1 {
+    font-size: 23px;
+  }
+
+  .fd-page-header p {
+    font-size: 13px;
+  }
+
+  .fd-header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+    font-size: 21px;
+  }
+
+  .fd-profile-top {
+    padding: 22px 18px;
+  }
+
+  .fd-profile-left {
+    width: 100%;
+    gap: 13px;
+  }
+
+  .fd-profile-image {
+    width: 72px;
+    height: 72px;
+  }
+
+  .fd-profile-name h2 {
+    font-size: 20px;
+  }
+
+  .fd-profile-name p {
+    font-size: 12px;
+  }
+
+  .fd-section {
+    padding: 22px 18px;
+  }
+
+  .fd-section-title {
+    margin-bottom: 17px;
+  }
+
+  .fd-title-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .fd-section-title h3 {
+    font-size: 16px;
+  }
+
+  .fd-section-title p {
+    font-size: 12px;
+  }
+
+  .fd-info-box {
+    padding: 13px;
+  }
+
+  .fd-info-box strong {
+    font-size: 13px;
+  }
+
+  .fd-summary {
+    padding: 15px;
+  }
+
+  .fd-summary p {
+    font-size: 13px;
+  }
+
+  .fd-bottom-note {
+    justify-content: center;
+    text-align: center;
+  }
 }

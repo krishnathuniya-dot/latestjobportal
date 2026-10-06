@@ -61,6 +61,7 @@ import ContactUss from './pages/ContactUs'
 import UserEducation from './pages/UserEductaion'
 
 import SeekerPage from './pages/SeekerPage'
+import ContactPage from './pages/contactpage'
 
 
 
@@ -79,7 +80,7 @@ function App() {
       
          <Route path='/'element={<Homenav></Homenav>}>
            <Route path='/'element={<Category></Category>}></Route>
-             <Route path='/contactt'element={<ContactUss></ContactUss>}></Route>
+             <Route path='/contactpage'element={<ContactPage></ContactPage>}></Route>
              <Route path='/'element={<RecenthotsJob></RecenthotsJob>}></Route>
              <Route path='/login'element={<Login></Login>}></Route>
              <Route path='/register'element={<Register></Register>}></Route>

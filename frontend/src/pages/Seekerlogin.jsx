@@ -1,5 +1,7 @@
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FiUser, FiMail, FiLock, FiArrowRight, FiHome } from "react-icons/fi";
 import "../css/seekerlogin.css";
 
 const Seekerrlogin = () => {
@@ -11,18 +13,30 @@ const Seekerrlogin = () => {
   });
 
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    setMessage("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.email || !formData.password) {
+      setMessage("Please enter email and password.");
+      return;
+    }
+
     try {
+      setLoading(true);
+      setMessage("");
+
       const response = await fetch(
         "https://latestjobportal.onrender.com/api/loginn",
         {
@@ -39,115 +53,214 @@ const Seekerrlogin = () => {
       console.log("Login Response:", result);
 
       if (response.ok) {
-        setMessage(result.message);
+        setMessage(result.message || "Login successful!");
 
-        // Full user object save
-        localStorage.setItem(
-          "user",
-          JSON.stringify(result.user)
-        );
+        // Save complete user
+        if (result.user) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify(result.user)
+          );
 
-        // Candidate ID save
-        localStorage.setItem(
-          "candidateId",
-          result.user._id
-        );
+          // Candidate ID
+          if (result.user._id) {
+            localStorage.setItem(
+              "candidateId",
+              result.user._id
+            );
+          }
 
-        // Candidate Name save
-        localStorage.setItem(
-          "candidateName",
-          result.user.fullName
-        );
+          // Candidate Name
+          if (result.user.fullName) {
+            localStorage.setItem(
+              "candidateName",
+              result.user.fullName
+            );
+          }
 
-        console.log(
-          "Candidate ID Saved:",
-          result.user._id
-        );
+          console.log(
+            "Candidate ID Saved:",
+            result.user._id
+          );
 
-        console.log(
-          "Candidate Name Saved:",
-          result.user.fullName
-        );
+          console.log(
+            "Candidate Name Saved:",
+            result.user.fullName
+          );
+        }
 
         setTimeout(() => {
           navigate("/home");
-        }, 1000);
+        }, 800);
       } else {
-        setMessage(result.message);
+        setMessage(
+          result.message || "Invalid email or password."
+        );
       }
     } catch (error) {
-      console.log(error);
-      setMessage("Server Error");
+      console.error("Login Error:", error);
+      setMessage(
+        "Unable to connect to server. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <>
+    <div className="seeker-login-page">
 
+      {/* Header */}
       <div className="login-header">
-        <h1>Login To Your Account</h1>
+        <div className="login-header-content">
+          <div className="login-logo">
+            <span>JOB</span> PORTAL
+          </div>
+
+          <p>Find your dream job and build your career</p>
+        </div>
       </div>
 
+      {/* Main */}
       <div className="login-container">
-        <div className="login-card">
-          <div className="profile-icon">👤</div>
 
+        <div className="login-card">
+
+          {/* Icon */}
+          <div className="profile-icon">
+            <FiUser />
+          </div>
+
+          <div className="login-title">
+            <h2>Welcome Back!</h2>
+            <p>Login to continue to your account</p>
+          </div>
+
+          {/* Message */}
           {message && (
-            <div className="message">
+            <div
+              className={`message ${
+                message.toLowerCase().includes("success")
+                  ? "success-message"
+                  : "error-message"
+              }`}
+            >
               {message}
             </div>
           )}
 
+          {/* Form */}
           <form onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            {/* Email */}
+            <div className="input-group">
+              <FiMail className="input-icon" />
 
-            <button type="submit">
-              SIGN IN
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                autoComplete="email"
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div className="input-group">
+              <FiLock className="input-icon" />
+
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+                required
+              />
+
+              <button
+                type="button"
+                className="show-password"
+                onClick={() =>
+                  setShowPassword(!showPassword)
+                }
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {/* Forgot */}
+            <div className="forgot-row">
+              <Link
+                to="/forgot-password"
+                className="forgot-link"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              className="login-btn"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="loader"></span>
+                  SIGNING IN...
+                </>
+              ) : (
+                <>
+                  SIGN IN
+                  <FiArrowRight />
+                </>
+              )}
             </button>
           </form>
 
-          <p className="forgot">
-            <Link to="/forgot-password" className="forgot-link">
-    Forgot your Password?
-  </Link>
-          </p>
-
-          <div className="or">
-            OR
+          {/* Divider */}
+          <div className="login-divider">
+            <span>OR</span>
           </div>
 
-          <p className="signup">
-            You Don't have an Account?
-            <span> <Link to={"/seeker"}>SIGN UP NOW</Link></span>
-          </p>
+          {/* Signup */}
+          <div className="signup-section">
+            <p>
+              Don't have an account?
+            </p>
 
-          <p
-            className="home"
+            <Link
+              to="/seeker"
+              className="signup-btn"
+            >
+              CREATE NEW ACCOUNT
+            </Link>
+          </div>
+
+          {/* Home */}
+          <button
+            className="back-home"
             onClick={() => navigate("/")}
-            style={{ cursor: "pointer" }}
           >
-            🏠 Back Home!!!
-          </p>
+            <FiHome />
+            Back to Home
+          </button>
+
         </div>
       </div>
-    </>
+
+      {/* Footer */}
+      <div className="login-footer">
+        © {new Date().getFullYear()} Job Portal. All Rights Reserved.
+      </div>
+
+    </div>
   );
 };
 
 export default Seekerrlogin;
+

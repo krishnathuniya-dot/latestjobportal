@@ -1,237 +1,1483 @@
-/* ================= GLOBAL BASE ================= */
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #f8fafc; /* Sleek workspace background */
-  color: #1e293b;
+* {
+  box-sizing: border-box;
 }
 
-/* ================= MAIN CONTAINER ================= */
-.agagi_jobs_main_container {
-  width: 90%;
+.manage-jobs-page {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.manage-jobs-header {
   max-width: 1200px;
-  margin: auto;
-  padding: 50px 16px;
-}
+  margin: 0 auto 25px;
 
-/* ================= SEARCH SECTION ================= */
-.agagi_jobs_search_section {
-  width: 100%;
-  background: linear-gradient(135deg, #0f172a, #1e293b); /* Sleek modern dark container */
-  padding: 24px;
-  border-radius: 16px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
-}
-
-.agagi_jobs_search_input {
-  flex: 1;
-  height: 52px;
-  border: 1px solid #334155;
-  border-radius: 10px;
-  padding: 0 18px;
-  font-size: 15px;
-  background: #1e293b;
-  color: #ffffff;
-  outline: none;
-  transition: all 0.2s ease-in-out;
-}
-
-.agagi_jobs_search_input::placeholder {
-  color: #94a3b8;
-}
-
-.agagi_jobs_search_input:focus {
-  border-color: #2563eb;
-  background: #0f172a;
-}
-
-.agagi_jobs_search_btn {
-  width: 70px;
-  height: 52px;
-  border: none;
-  border-radius: 10px;
-  background: #2563eb; /* Royal blue search trigger */
-  color: #ffffff;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.agagi_jobs_search_btn:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-}
-
-/* ================= MAIN HEADING ================= */
-.agagi_jobs_heading {
-  margin-top: 45px;
-  margin-bottom: 24px;
-  font-size: 28px;
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.5px;
-}
-
-/* ================= JOB CARD ================= */
-.agagi_jobs_card {
-  width: 100%;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 28px;
-  margin-bottom: 20px;
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.agagi_jobs_card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.08);
-  border-color: #cbd5e1;
-}
-
-/* ================= LEFT SECTION ================= */
-.agagi_jobs_left {
-  display: flex;
-  align-items: flex-start;
   gap: 20px;
 }
 
-.agagi_jobs_logo {
-  width: 70px;
-  height: 70px;
-  border-radius: 12px;
-  background: #f8fafc;
-  padding: 8px;
-  border: 1px solid #e2e8f0;
-  object-fit: contain;
+.manage-jobs-breadcrumb {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #7a8495;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.agagi_jobs_title_row {
+.manage-jobs-header h1 {
+  margin: 0;
+
+  color: #14213d;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.manage-jobs-header p {
+  margin: 7px 0 0;
+
+  color: #718096;
+  font-size: 14px;
+}
+
+.manage-jobs-header-icon {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 26px;
+
+  box-shadow: 0 10px 25px rgba(7, 86, 184, 0.2);
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.manage-jobs-summary {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+
+  padding: 18px 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  box-shadow: 0 7px 22px rgba(18, 38, 63, 0.05);
+}
+
+.manage-summary-icon {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 12px;
+
+  background: #eaf3ff;
+  color: #0756b8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+}
+
+.manage-jobs-summary span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #7b8798;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.manage-jobs-summary strong {
+  color: #172033;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.manage-jobs-search-section {
+  max-width: 1200px;
+  margin: 0 auto 22px;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.manage-search-box {
+  flex: 1;
+
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 0 15px;
+
+  background: #ffffff;
+
+  border: 1px solid #dfe5ec;
+  border-radius: 11px;
+
+  transition: 0.25s ease;
+}
+
+.manage-search-box > svg {
+  color: #0756b8;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.manage-search-box:focus-within {
+  border-color: #0756b8;
+
+  box-shadow: 0 0 0 3px rgba(7, 86, 184, 0.08);
+}
+
+.manage-search-box input {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #263247;
+  font-size: 14px;
+}
+
+.manage-search-box input::placeholder {
+  color: #9aa4b2;
+}
+
+.manage-clear-search {
+  width: 27px;
+  height: 27px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #edf1f5;
+
+  color: #667085;
+
+  cursor: pointer;
+
+  font-size: 18px;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manage-result-count {
+  white-space: nowrap;
+
+  color: #667085;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.manage-jobs-error {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+
+  padding: 15px 17px;
+
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+
+  background: #fff1f2;
+
+  color: #dc2626;
+
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.agagi_jobs_title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1.3;
+.manage-jobs-error > svg {
+  font-size: 22px;
+  flex-shrink: 0;
 }
 
-.agagi_jobs_edit_btn {
-  border: none;
-  background: #f1f5f9;
-  color: #475569;
+.manage-jobs-error div {
+  flex: 1;
+}
+
+.manage-jobs-error strong {
+  display: block;
+  font-size: 14px;
+}
+
+.manage-jobs-error p {
+  margin: 3px 0 0;
+  font-size: 12px;
+}
+
+.manage-jobs-error button {
+  padding: 9px 13px;
+
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #dc2626;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-weight: 700;
   cursor: pointer;
+}
+
+/* =========================
+   JOB LIST
+========================= */
+
+.manage-jobs-list {
+  max-width: 1200px;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* =========================
+   JOB CARD
+========================= */
+
+.manage-job-card {
+  min-height: 145px;
+
+  padding: 20px 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 15px;
+
+  display: grid;
+  grid-template-columns: 70px 1fr 35px;
+  align-items: center;
+  gap: 18px;
+
+  cursor: pointer;
+
+  box-shadow: 0 7px 20px rgba(18, 38, 63, 0.045);
+
+  transition: 0.25s ease;
+}
+
+.manage-job-card:hover {
+  transform: translateY(-3px);
+
+  border-color: #cbdcf2;
+
+  box-shadow: 0 12px 28px rgba(18, 38, 63, 0.09);
+}
+
+/* =========================
+   COMPANY LOGO
+========================= */
+
+.manage-job-company {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manage-company-logo,
+.manage-default-logo {
+  width: 62px;
+  height: 62px;
+
+  border-radius: 13px;
+}
+
+.manage-company-logo {
+  object-fit: contain;
+
+  padding: 5px;
+
+  background: #f7f9fc;
+
+  border: 1px solid #e5eaf0;
+}
+
+.manage-default-logo {
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+  font-weight: 800;
+}
+
+/* =========================
+   JOB DETAILS
+========================= */
+
+.manage-job-details {
+  min-width: 0;
+}
+
+.manage-job-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.manage-job-title-row h2 {
+  margin: 0;
+
+  color: #172033;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  line-height: 1.35;
+}
+
+.manage-company-name {
+  margin: 5px 0 0;
+
+  color: #687588;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.manage-job-type {
+  flex-shrink: 0;
+
+  padding: 6px 11px;
+
+  border-radius: 30px;
+
+  background: #eef6ff;
+  border: 1px solid #d7e9ff;
+
+  color: #0756b8;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  text-transform: capitalize;
+}
+
+.manage-job-meta {
+  margin-top: 17px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.manage-job-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #707c8e;
+
   font-size: 12px;
   font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 6px;
-  transition: all 0.2s;
 }
 
-.agagi_jobs_edit_btn:hover {
-  background: #e2e8f0;
-  color: #2563eb;
-}
-
-.agagi_jobs_company {
-  color: #475569;
-  font-weight: 500;
-  margin-top: 4px;
+.manage-job-meta svg {
+  color: #0756b8;
   font-size: 15px;
 }
 
-/* ================= META INFO ================= */
-.agagi_jobs_info {
+/* =========================
+   ARROW
+========================= */
+
+.manage-job-arrow {
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+
+  background: #f1f5f9;
+
+  color: #667085;
+
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 12px;
-  color: #64748b;
-  font-size: 14px;
-  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 19px;
+
+  transition: 0.25s ease;
 }
 
-.agagi_jobs_salary {
-  margin-top: 12px;
-  font-size: 18px;
+.manage-job-card:hover .manage-job-arrow {
+  background: #0756b8;
+  color: #ffffff;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.manage-jobs-empty {
+  max-width: 1200px;
+  margin: 35px auto;
+
+  padding: 55px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow: 0 7px 20px rgba(18, 38, 63, 0.045);
+}
+
+.manage-empty-icon {
+  width: 65px;
+  height: 65px;
+
+  margin: 0 auto 15px;
+
+  border-radius: 50%;
+
+  background: #eaf3ff;
+  color: #0756b8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 27px;
+}
+
+.manage-jobs-empty h2 {
+  margin: 0 0 7px;
+
+  color: #172033;
+
+  font-size: 20px;
+}
+
+.manage-jobs-empty p {
+  margin: 0 auto;
+
+  max-width: 450px;
+
+  color: #7b8798;
+
+  font-size: 13px;
+}
+
+.manage-reset-btn {
+  margin-top: 18px;
+
+  padding: 10px 17px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #0756b8;
+  color: #ffffff;
+
+  font-size: 13px;
   font-weight: 700;
-  color: #0f172a;
+
+  cursor: pointer;
 }
 
-/* ================= BADGE / TYPE BUTTON ================= */
-.agagi_jobs_type_btn {
-  background: #eff6ff; /* Soft tech-badge blue */
-  color: #2563eb;
-  border: 1px solid #bfdbfe;
-  padding: 10px 20px;
-  border-radius: 8px;
+/* =========================
+   LOADING
+========================= */
+
+.manage-jobs-status-page {
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 30px;
+
+  background: #f5f7fb;
+}
+
+.manage-jobs-loader {
+  width: 42px;
+  height: 42px;
+
+  border: 4px solid #dbe8f8;
+  border-top-color: #0756b8;
+
+  border-radius: 50%;
+
+  animation: manageJobsSpin 0.8s linear infinite;
+}
+
+@keyframes manageJobsSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.manage-jobs-status-page h3 {
+  margin: 15px 0 5px;
+
+  color: #172033;
+
+  font-size: 20px;
+}
+
+.manage-jobs-status-page p {
+  margin: 0;
+
+  color: #7b8798;
+
+  font-size: 13px;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 800px) {
+  .manage-jobs-page {
+    padding: 25px 18px;
+  }
+
+  .manage-jobs-header h1 {
+    font-size: 26px;
+  }
+
+  .manage-jobs-search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .manage-result-count {
+    text-align: right;
+  }
+
+  .manage-job-card {
+    grid-template-columns: 62px 1fr 30px;
+    padding: 18px;
+  }
+
+  .manage-company-logo,
+  .manage-default-logo {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 560px) {
+  .manage-jobs-page {
+    padding: 18px 12px;
+  }
+
+  .manage-jobs-header {
+    margin-bottom: 18px;
+  }
+
+  .manage-jobs-header h1 {
+    font-size: 23px;
+  }
+
+  .manage-jobs-header p {
+    font-size: 12px;
+  }
+
+  .manage-jobs-header-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 13px;
+
+    font-size: 21px;
+  }
+
+  .manage-jobs-summary {
+    padding: 15px;
+  }
+
+  .manage-summary-icon {
+    width: 43px;
+    height: 43px;
+  }
+
+  .manage-search-box {
+    height: 49px;
+  }
+
+  .manage-job-card {
+    grid-template-columns: 1fr 28px;
+    gap: 13px;
+    padding: 17px;
+  }
+
+  .manage-job-company {
+    display: none;
+  }
+
+  .manage-job-title-row {
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .manage-job-title-row h2 {
+    font-size: 16px;
+  }
+
+  .manage-job-type {
+    align-self: flex-start;
+  }
+
+  .manage-job-meta {
+    gap: 9px 14px;
+    margin-top: 13px;
+  }
+
+  .manage-job-meta span {
+    font-size: 11px;
+  }
+
+  .manage-job-arrow {
+    width: 30px;
+    height: 30px;
+  }
+
+  .manage-jobs-error {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .manage-jobs-error button {
+    margin-left: 30px;
+  }
+
+  .manage-jobs-empty {
+    padding: 45px 18px;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+
+.agagi_jobs_main_container {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.agagi_jobs_page_header {
+  max-width: 1200px;
+  margin: 0 auto 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.agagi_jobs_breadcrumb {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #7a8495;
   font-size: 13px;
   font-weight: 600;
+}
+
+.agagi_jobs_heading {
+  margin: 0;
+
+  color: #14213d;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.agagi_jobs_subtitle {
+  margin: 7px 0 0;
+
+  color: #718096;
+  font-size: 14px;
+}
+
+.agagi_jobs_header_icon {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 26px;
+
+  box-shadow:
+    0 10px 25px rgba(7, 86, 184, 0.2);
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.agagi_jobs_search_section {
+  max-width: 1200px;
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.agagi_jobs_search_box {
+  flex: 1;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 0 15px;
+
+  background: #fff;
+
+  border: 1px solid #dfe5ec;
+  border-radius: 11px;
+
+  transition: 0.25s ease;
+}
+
+.agagi_jobs_search_box > svg {
+  flex-shrink: 0;
+
+  color: #0756b8;
+  font-size: 19px;
+}
+
+.agagi_jobs_search_box:focus-within {
+  border-color: #0756b8;
+
+  box-shadow:
+    0 0 0 3px rgba(7, 86, 184, 0.08);
+}
+
+.agagi_jobs_search_input {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #263247;
+  font-size: 14px;
+}
+
+.agagi_jobs_search_input::placeholder {
+  color: #9aa4b2;
+}
+
+.agagi_jobs_clear_btn {
+  width: 27px;
+  height: 27px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #edf1f5;
+  color: #667085;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   cursor: pointer;
-  transition: all 0.2s ease;
+
+  font-size: 18px;
+  line-height: 1;
 }
 
-.agagi_jobs_type_btn:hover {
-  background: #2563eb;
-  color: #ffffff;
-  border-color: #2563eb;
+.agagi_jobs_result_count {
+  white-space: nowrap;
+
+  color: #667085;
+  font-size: 13px;
+  font-weight: 700;
 }
 
-/* ================= RESPONSIVE DESIGN ================= */
-@media(max-width: 768px) {
+/* =========================
+   SUMMARY
+========================= */
+
+.agagi_jobs_summary {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+
+  padding: 16px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  background: #fff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 13px;
+
+  box-shadow:
+    0 7px 20px rgba(18, 38, 63, 0.04);
+}
+
+.agagi_jobs_summary_icon {
+  width: 45px;
+  height: 45px;
+
+  border-radius: 11px;
+
+  background: #eaf3ff;
+  color: #0756b8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+}
+
+.agagi_jobs_summary span {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #7b8798;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.agagi_jobs_summary strong {
+  color: #172033;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.agagi_jobs_error {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+
+  padding: 15px 17px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+
+  background: #fff1f2;
+  color: #dc2626;
+}
+
+.agagi_jobs_error > svg {
+  flex-shrink: 0;
+  font-size: 22px;
+}
+
+.agagi_jobs_error div {
+  flex: 1;
+}
+
+.agagi_jobs_error strong {
+  display: block;
+  font-size: 14px;
+}
+
+.agagi_jobs_error p {
+  margin: 3px 0 0;
+  font-size: 12px;
+}
+
+.agagi_jobs_error button {
+  padding: 9px 13px;
+
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+
+  background: #fff;
+  color: #dc2626;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* =========================
+   JOB LIST
+========================= */
+
+.agagi_jobs_list {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* =========================
+   JOB CARD
+========================= */
+
+.agagi_jobs_card {
+  min-height: 145px;
+
+  padding: 20px 22px;
+
+  display: grid;
+  grid-template-columns: 70px 1fr 35px;
+  align-items: center;
+  gap: 18px;
+
+  background: #fff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 20px rgba(18, 38, 63, 0.045);
+
+  transition: 0.25s ease;
+}
+
+.agagi_jobs_card:hover {
+  transform: translateY(-3px);
+
+  border-color: #cbdcf2;
+
+  box-shadow:
+    0 12px 28px rgba(18, 38, 63, 0.09);
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.agagi_jobs_logo_wrapper {
+  width: 62px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-logo,
+.default-logo {
+  width: 62px;
+  height: 62px;
+
+  border-radius: 13px;
+}
+
+.company-logo {
+  object-fit: contain;
+
+  padding: 5px;
+
+  background: #f7f9fc;
+
+  border: 1px solid #e5eaf0;
+}
+
+.default-logo {
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+  font-weight: 800;
+}
+
+/* =========================
+   DETAILS
+========================= */
+
+.agagi_jobs_details {
+  min-width: 0;
+}
+
+.agagi_jobs_title_row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.agagi_jobs_title {
+  margin: 0;
+
+  color: #172033;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  line-height: 1.35;
+}
+
+.agagi_jobs_company {
+  margin: 5px 0 0;
+
+  color: #687588;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.agagi_jobs_type_btn {
+  flex-shrink: 0;
+
+  padding: 6px 11px;
+
+  border: 1px solid #d7e9ff;
+  border-radius: 30px;
+
+  background: #eef6ff;
+  color: #0756b8;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  text-transform: capitalize;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.agagi_jobs_info {
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 15px;
+}
+
+.agagi_jobs_info span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #707c8e;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.agagi_jobs_info span svg {
+  color: #0756b8;
+  font-size: 15px;
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+.agagi_jobs_category {
+  width: fit-content;
+
+  margin-top: 12px;
+
+  padding: 5px 10px;
+
+  border-radius: 6px;
+
+  background: #f1f5f9;
+  color: #64748b;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =========================
+   ARROW
+========================= */
+
+.agagi_jobs_arrow {
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+
+  background: #f1f5f9;
+  color: #667085;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 19px;
+
+  transition: 0.25s ease;
+}
+
+.agagi_jobs_card:hover .agagi_jobs_arrow {
+  background: #0756b8;
+  color: #fff;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.agagi_jobs_status {
+  max-width: 1200px;
+  min-height: 300px;
+
+  margin: 20px auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: #fff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 15px;
+}
+
+.agagi_jobs_loader {
+  width: 42px;
+  height: 42px;
+
+  border: 4px solid #dbe8f8;
+  border-top-color: #0756b8;
+
+  border-radius: 50%;
+
+  animation: agagiJobsSpin 0.8s linear infinite;
+}
+
+@keyframes agagiJobsSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.agagi_jobs_status h3 {
+  margin: 15px 0 5px;
+
+  color: #172033;
+  font-size: 20px;
+}
+
+.agagi_jobs_status p {
+  margin: 0;
+
+  color: #7b8798;
+  font-size: 13px;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.agagi_jobs_empty {
+  max-width: 1200px;
+
+  margin: 35px auto;
+
+  padding: 55px 20px;
+
+  background: #fff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow:
+    0 7px 20px rgba(18, 38, 63, 0.045);
+}
+
+.agagi_jobs_empty_icon {
+  width: 65px;
+  height: 65px;
+
+  margin: 0 auto 15px;
+
+  border-radius: 50%;
+
+  background: #eaf3ff;
+  color: #0756b8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 27px;
+}
+
+.agagi_jobs_empty h2 {
+  margin: 0 0 7px;
+
+  color: #172033;
+  font-size: 20px;
+}
+
+.agagi_jobs_empty p {
+  max-width: 480px;
+
+  margin: 0 auto;
+
+  color: #7b8798;
+  font-size: 13px;
+}
+
+.agagi_jobs_empty button {
+  margin-top: 18px;
+
+  padding: 10px 18px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #0756b8;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 800px) {
   .agagi_jobs_main_container {
-    padding: 24px 12px;
+    padding: 25px 18px;
+  }
+
+  .agagi_jobs_heading {
+    font-size: 26px;
   }
 
   .agagi_jobs_search_section {
     flex-direction: column;
-    padding: 16px;
-    gap: 12px;
+    align-items: stretch;
   }
 
-  .agagi_jobs_search_input,
-  .agagi_jobs_search_btn {
-    width: 100%;
+  .agagi_jobs_result_count {
+    text-align: right;
   }
 
   .agagi_jobs_card {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: 62px 1fr 30px;
+    padding: 18px;
   }
 
-  .agagi_jobs_left {
-    flex-direction: column;
-    gap: 14px;
+  .company-logo,
+  .default-logo {
+    width: 55px;
+    height: 55px;
   }
 
-  .agagi_jobs_logo {
-    width: 60px;
-    height: 60px;
+  .agagi_jobs_logo_wrapper {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 560px) {
+  .agagi_jobs_main_container {
+    padding: 18px 12px;
+  }
+
+  .agagi_jobs_page_header {
+    margin-bottom: 18px;
+  }
+
+  .agagi_jobs_heading {
+    font-size: 23px;
+  }
+
+  .agagi_jobs_subtitle {
+    font-size: 12px;
+  }
+
+  .agagi_jobs_header_icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 13px;
+
+    font-size: 21px;
+  }
+
+  .agagi_jobs_summary {
+    padding: 14px;
+  }
+
+  .agagi_jobs_search_box {
+    height: 49px;
+  }
+
+  .agagi_jobs_card {
+    grid-template-columns: 1fr 28px;
+    gap: 12px;
+
+    padding: 17px;
+  }
+
+  .agagi_jobs_logo_wrapper {
+    display: none;
   }
 
   .agagi_jobs_title_row {
-    width: 100%;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .agagi_jobs_info {
-    flex-direction: column;
-    gap: 6px;
+  .agagi_jobs_title {
+    font-size: 16px;
   }
 
   .agagi_jobs_type_btn {
-    width: 100%;
-    text-align: center;
+    align-self: flex-start;
+  }
+
+  .agagi_jobs_info {
+    gap: 9px 14px;
+    margin-top: 13px;
+  }
+
+  .agagi_jobs_info span {
+    font-size: 11px;
+  }
+
+  .agagi_jobs_arrow {
+    width: 30px;
+    height: 30px;
+  }
+
+  .agagi_jobs_error {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .agagi_jobs_error button {
+    margin-left: 30px;
+  }
+
+  .agagi_jobs_empty {
+    padding: 45px 18px;
   }
 }

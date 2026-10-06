@@ -1,219 +1,759 @@
-/* ======================================= */
-/* GLOBAL NAVIGATION CONTAINER             */
-/* ======================================= */
+/* =========================================
+   JOB PORTAL SEEKER NAVBAR
+========================================= */
+
 .hd-navbar {
   width: 100%;
-  height: 70px; /* Standard premium bar height */
-  background: #ffffff; /* Pure white backdrop */
+  height: 74px;
+
+  padding: 0 5%;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e5ebf3;
+
+  box-shadow: 0 4px 20px rgba(0, 45, 90, 0.07);
+
   position: sticky;
   top: 0;
-  z-index: 100;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  z-index: 9999;
 }
 
-/* ======================================= */
-/* BRAND LOGO ZONE                         */
-/* ======================================= */
-.hd-logo h1 {
-  color: #e11d48; /* Sophisticated Crimson Rose Red */
-  font-size: 26px; /* 48px se scale down kiya to maintain hierarchy */
-  font-weight: 800;
-  margin: 0;
-  letter-spacing: -0.5px;
-}
 
-/* ======================================= */
-/* NAVIGATION UTILITY LINKS                */
-/* ======================================= */
-.hd-nav-links {
+/* =========================================
+   LOGO
+========================================= */
+
+.hd-logo {
   display: flex;
   align-items: center;
-  gap: 32px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
 
-.hd-nav-links a {
+  gap: 10px;
+
   text-decoration: none;
-  color: #475569; /* Slate grey text for premium readability */
-  font-size: 14px; /* Crisp and clean text standard */
-  font-weight: 600;
-  padding: 8px 0;
-  position: relative;
-  transition: color 0.2s ease;
+
+  flex-shrink: 0;
 }
 
-/* Micro interaction border line under links */
-.hd-nav-links a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: #e11d48;
-  transition: width 0.2s ease;
-}
+.hd-logo-icon {
+  width: 42px;
+  height: 42px;
 
-.hd-nav-links a:hover {
-  color: #e11d48;
-}
-
-.hd-nav-links a:hover::after {
-  width: 100%;
-}
-
-/* ======================================= */
-/* AVATAR & COMPONENT PROFILE PIC          */
-/* ======================================= */
-.hd-profile {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  color: #ffffff;
+
+  border-radius: 11px;
+
+  font-size: 21px;
+
+  box-shadow:
+    0 6px 16px rgba(7, 86, 184, 0.22);
 }
 
-/* Common and global profile classes streamlined */
-.hd-profile img,
-.profile-image,
-.nav-profile-img {
-  width: 60px; /* Unified compact avatar size */
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #e2e8f0; /* Soft border link layer */
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+.hd-logo-text {
+  color: #0756b8;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  letter-spacing: -0.6px;
 }
 
-.hd-profile img:hover,
-.profile-image:hover,
-.nav-profile-img:hover {
-  transform: scale(1.05);
-  border-color: #e11d48; /* Changes to match brand active color */
-  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.15);
+.hd-logo-text span {
+  color: #00a896;
 }
 
-/* ======================================= */
-/* RESPONSIVE DESIGN ADJUSTMENTS           */
-/* ======================================= */
-@media (max-width: 1024px) {
-  .hd-navbar {
-    padding: 0 24px;
-    height: 65px;
-  }
 
-  .hd-nav-links {
-    gap: 20px;
-  }
+/* =========================================
+   NAV LINKS
+========================================= */
 
-  .hd-logo h1 {
-    font-size: 22px;
-  }
+.hd-nav-links {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin: 0 auto;
+
+  padding: 0;
+
+  list-style: none;
 }
 
-@media (max-width: 768px) {
-  /* Mobile drawer conversion safety template */
-  .hd-nav-links {
-    display: none; /* Mobile navigation layout safety - handles clutter override */
-  }
+.hd-nav-link {
+  position: relative;
 
-  .hd-navbar {
-    padding: 0 16px;
-  }
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 11px 14px;
+
+  color: #536274;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border-radius: 9px;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
 }
-/* प्रोफाइल कंटेनर को रिलेटिव रखना ज़रूरी है */
+
+.hd-nav-link svg {
+  font-size: 17px;
+}
+
+.hd-nav-link:hover {
+  color: #0756b8;
+
+  background: #eef5ff;
+}
+
+.hd-nav-link.hd-active {
+  color: #0756b8;
+
+  background: #eef5ff;
+}
+
+.hd-nav-link.hd-active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 14px;
+  right: 14px;
+  bottom: 3px;
+
+  height: 2px;
+
+  background: #0756b8;
+
+  border-radius: 10px;
+}
+
+
+/* =========================================
+   PROFILE CONTAINER
+========================================= */
+
 .hd-profile-container {
   position: relative;
-  display: inline-block;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   PROFILE BUTTON
+========================================= */
+
+.hd-profile {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 5px 9px 5px 5px;
+
+  border: 1px solid #e0e8f1;
+
+  border-radius: 30px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.hd-profile:hover {
+  background: #f7faff;
+
+  border-color: #bdd2e9;
+
+  box-shadow:
+    0 5px 16px rgba(0, 50, 100, 0.09);
 }
 
 .nav-profile-img {
-  width: 82px;
-  height: 82px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
   object-fit: cover;
-  border: 2px solid #3b82f6;
-  transition: transform 0.2s ease;
+
+  border-radius: 50%;
+
+  border: 2px solid #ffffff;
+
+  box-shadow:
+    0 0 0 2px #dce8f5;
 }
 
-.nav-profile-img:hover {
-  transform: scale(1.05);
+.hd-profile-name {
+  max-width: 100px;
+
+  color: #293b52;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
 
-/* ड्रापडाउन मेन्यू स्टाइल */
+.hd-profile-arrow {
+  color: #718096;
+
+  font-size: 15px;
+
+  transition: transform 0.25s ease;
+}
+
+.hd-arrow-open {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================
+   DROPDOWN
+========================================= */
+
 .nav-dropdown-menu {
   position: absolute;
-  top: 55px;
+
+  top: calc(100% + 12px);
   right: 0;
+
+  width: 285px;
+
+  padding: 8px;
+
+  box-sizing: border-box;
+
   background: #ffffff;
-  min-width: 220px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border: 1px solid #e2e8f0;
-  z-index: 1000;
-  padding: 8px 0;
-  animation: fadeIn 0.2s ease;
+
+  border: 1px solid #e3eaf2;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 15px 45px rgba(0, 43, 90, 0.15);
+
+  animation: hdDropdown 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes hdDropdown {
+  from {
+    opacity: 0;
+
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
 }
 
-/* यूजर की बेसिक जानकारी */
+
+/* =========================================
+   DROPDOWN USER
+========================================= */
+
 .dropdown-user-info {
-  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px;
 }
+
+.dropdown-profile-img {
+  width: 50px;
+  height: 50px;
+
+  flex-shrink: 0;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 2px solid #dce8f5;
+}
+
 .dropdown-user-info h4 {
-  margin: 0;
-  font-size: 15px;
-  color: #0f172a;
+  margin: 0 0 4px;
+
+  color: #172b45;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
+
 .dropdown-user-info p {
-  margin: 2px 0 0;
+  margin: 0;
+
+  max-width: 180px;
+
+  color: #718096;
+
   font-size: 12px;
-  color: #64748b;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
+
+
+/* =========================================
+   DIVIDER
+========================================= */
 
 .nav-dropdown-menu hr {
-  border: 0;
-  border-top: 1px solid #f1f5f9;
-  margin: 6px 0;
+  height: 1px;
+
+  margin: 5px 4px;
+
+  border: none;
+
+  background: #edf1f6;
 }
 
-/* ड्रापडाउन आइटम्स */
+
+/* =========================================
+   DROPDOWN ITEM
+========================================= */
+
 .dropdown-item {
-  display: block;
   width: 100%;
-  padding: 10px 16px;
-  text-align: left;
-  color: #334155;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  background: none;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+
   border: none;
+
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #46566b;
+
+  text-decoration: none;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-align: left;
+
   cursor: pointer;
-  transition: all 0.2s ease;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
 .dropdown-item:hover {
-  background: #f8fafc;
-  color: #2563eb;
+  color: #0756b8;
+
+  background: #f1f6fd;
 }
 
-/* लॉगआउट बटन अलग से हाइलाइट करने के लिए */
-.logout-btn {
-  color: #ef4444;
+.dropdown-icon {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: #0756b8;
+
+  background: #edf5ff;
+
+  border-radius: 8px;
+
+  font-size: 16px;
 }
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.logout-btn {
+  color: #d64545;
+}
+
+.logout-icon {
+  color: #d64545;
+
+  background: #fff0f0;
+}
+
 .logout-btn:hover {
-  background: #fef2f2;
-  color: #dc2626;
+  color: #c62828;
+
+  background: #fff4f4;
+}
+
+
+/* =========================================
+   MOBILE BUTTON
+========================================= */
+
+.hd-menu-button {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-left: auto;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #eef5ff;
+
+  color: #0756b8;
+
+  font-size: 23px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   MOBILE PROFILE
+========================================= */
+
+.hd-mobile-profile {
+  display: none;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1050px) {
+
+  .hd-navbar {
+    padding: 0 3%;
+  }
+
+  .hd-nav-links {
+    gap: 2px;
+  }
+
+  .hd-nav-link {
+    padding: 10px 9px;
+
+    font-size: 13px;
+  }
+
+  .hd-profile-name {
+    display: none;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 850px) {
+
+  .hd-navbar {
+    height: 68px;
+
+    padding: 0 18px;
+  }
+
+  .hd-logo-icon {
+    width: 38px;
+    height: 38px;
+
+    font-size: 18px;
+  }
+
+  .hd-logo-text {
+    font-size: 19px;
+  }
+
+
+  /* Hide desktop profile */
+
+  .hd-profile-container {
+    display: none;
+  }
+
+
+  /* Show menu button */
+
+  .hd-menu-button {
+    display: flex;
+  }
+
+
+  /* Mobile navigation */
+
+  .hd-nav-links {
+    position: absolute;
+
+    top: 68px;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+
+    margin: 0;
+
+    padding: 14px 18px 20px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 4px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e4ebf3;
+
+    box-shadow:
+      0 15px 30px rgba(0, 45, 90, 0.10);
+
+    transform: translateY(-120%);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .hd-nav-links.hd-mobile-open {
+    transform: translateY(0);
+
+    opacity: 1;
+
+    visibility: visible;
+  }
+
+  .hd-nav-links li {
+    width: 100%;
+  }
+
+  .hd-nav-link {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    justify-content: flex-start;
+
+    font-size: 14px;
+  }
+
+  .hd-nav-link.hd-active::after {
+    display: none;
+  }
+
+
+  /* Mobile profile section */
+
+  .hd-mobile-profile {
+    display: block;
+
+    margin-top: 8px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid #e8edf3;
+  }
+
+  .hd-mobile-user {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 8px 5px 14px;
+  }
+
+  .hd-mobile-profile-img {
+    width: 43px;
+    height: 43px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 2px solid #dce8f5;
+  }
+
+  .hd-mobile-user div {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hd-mobile-user strong {
+    color: #20324a;
+
+    font-size: 14px;
+  }
+
+  .hd-mobile-user small {
+    margin-top: 3px;
+
+    color: #718096;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+  .hd-mobile-profile > a,
+  .hd-mobile-logout {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 13px;
+
+    margin-top: 3px;
+
+    box-sizing: border-box;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #4a5b70;
+
+    text-decoration: none;
+
+    font-family: inherit;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+  }
+
+  .hd-mobile-profile > a:hover {
+    background: #f1f6fd;
+
+    color: #0756b8;
+  }
+
+  .hd-mobile-profile > a svg {
+    color: #0756b8;
+
+    font-size: 17px;
+  }
+
+  .hd-mobile-logout {
+    color: #d64545;
+  }
+
+  .hd-mobile-logout svg {
+    color: #d64545;
+
+    font-size: 17px;
+  }
+
+  .hd-mobile-logout:hover {
+    background: #fff3f3;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 430px) {
+
+  .hd-navbar {
+    padding: 0 13px;
+  }
+
+  .hd-logo-text {
+    font-size: 18px;
+  }
+
+  .hd-logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hd-menu-button {
+    width: 39px;
+    height: 39px;
+  }
 }

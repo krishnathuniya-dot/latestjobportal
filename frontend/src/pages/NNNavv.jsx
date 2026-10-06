@@ -1,104 +1,434 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import {
+  FiHome,
+  FiClock,
+  FiInfo,
+  FiPhone,
+  FiUser,
+  FiEdit3,
+  FiLock,
+  FiLogOut,
+  FiChevronDown,
+  FiMenu,
+  FiX,
+  FiBriefcase,
+} from "react-icons/fi";
+
 import "../css/NNNavv.css";
+
+const DEFAULT_PROFILE =
+  "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
 const NNNavv = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  // 🎯 फिक्स 1: यूजर डेटा को स्टेट (State) में रखा ताकि बदलाव होने पर नवबार री-रेंडर हो सके
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  /* =========================================
+     USER DATA
+  ========================================= */
 
-  // 🎯 फिक्स 2: लोकल स्टोरेज में बदलाव को लाइव ट्रैक करने के लिए useEffect
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("user");
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (error) {
+      return null;
+    }
+  });
+
+  /* =========================================
+     LIVE USER UPDATE
+  ========================================= */
+
   useEffect(() => {
     const handleStorageChange = () => {
-      // जैसे ही 'userUpdated' इवेंट मिलेगा, स्टेट अपडेट हो जाएगी और फोटो बदल जाएगी
-      setUser(JSON.parse(localStorage.getItem("user")));
+      try {
+        const savedUser = localStorage.getItem("user");
+        setUser(savedUser ? JSON.parse(savedUser) : null);
+      } catch (error) {
+        setUser(null);
+      }
     };
 
-    // इवेंट लिसनर्स को ऑन किया
     window.addEventListener("userUpdated", handleStorageChange);
-    window.addEventListener("storage", handleStorageChange); // दूसरे टैब्स के लिए
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
-      // कंपोनेंट अनमाउंट होने पर लिसनर्स को हटा दिया (मेमोरी लीक से बचने के लिए)
       window.removeEventListener("userUpdated", handleStorageChange);
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
+  /* =========================================
+     OUTSIDE CLICK
+  ========================================= */
 
-  const handleLogout = () => {
-    localStorage.clear(); 
-    setDropdownOpen(false);
-    alert("Logged out successfully");
-    navigate("/seekerlogin");
-  };
-
-  // बाहर कहीं भी क्लिक करने पर ड्रॉपडाउन बंद करने का लॉजिक
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setDropdownOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+  /* =========================================
+     PROFILE IMAGE
+  ========================================= */
+
+  const profileImage = user?.profilePic
+    ? `https://latestjobportal.onrender.com/uploads/${user.profilePic}`
+    : DEFAULT_PROFILE;
+
+  /* =========================================
+     LOGOUT
+  ========================================= */
+
+  const handleLogout = () => {
+    localStorage.clear();
+
+    setUser(null);
+    setDropdownOpen(false);
+    setMobileMenuOpen(false);
+
+    alert("Logged out successfully");
+
+    navigate("/seekerlogin");
+  };
+
+  /* =========================================
+     CLOSE MENU
+  ========================================= */
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setDropdownOpen(false);
+  };
+
+  /* =========================================
+     PROFILE IMAGE ERROR
+  ========================================= */
+
+  const handleImageError = (e) => {
+    e.currentTarget.src = DEFAULT_PROFILE;
+  };
+
   return (
     <nav className="hd-navbar">
-      <div className="hd-logo">
-        <h1>Job Portal</h1>
-      </div>
 
-      <ul className="hd-nav-links">
-        <li><Link to="/hhome">Home</Link></li>
-        <li><Link to="/applyjob">History of Applied Jobs</Link></li>
-        <li><Link to="/about">About Us</Link></li>
-        <li><Link to="/contact">Contact Us</Link></li>
+      {/* =====================================
+          LOGO
+      ===================================== */}
+
+      <Link
+        to="/hhome"
+        className="hd-logo"
+        onClick={closeMobileMenu}
+      >
+        <span className="hd-logo-icon">
+          <FiBriefcase />
+        </span>
+
+        <span className="hd-logo-text">
+          Job<span>Portal</span>
+        </span>
+      </Link>
+
+
+      {/* =====================================
+          NAVIGATION
+      ===================================== */}
+
+      <ul
+        className={`hd-nav-links ${
+          mobileMenuOpen ? "hd-mobile-open" : ""
+        }`}
+      >
+
+        <li>
+          <NavLink
+            to="/hhome"
+            className={({ isActive }) =>
+              `hd-nav-link ${isActive ? "hd-active" : ""}`
+            }
+            onClick={closeMobileMenu}
+          >
+            <FiHome />
+            <span>Home</span>
+          </NavLink>
+        </li>
+
+
+        <li>
+          <NavLink
+            to="/applyjob"
+            className={({ isActive }) =>
+              `hd-nav-link ${isActive ? "hd-active" : ""}`
+            }
+            onClick={closeMobileMenu}
+          >
+            <FiClock />
+            <span>Applied Jobs</span>
+          </NavLink>
+        </li>
+
+
+        <li>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `hd-nav-link ${isActive ? "hd-active" : ""}`
+            }
+            onClick={closeMobileMenu}
+          >
+            <FiInfo />
+            <span>About Us</span>
+          </NavLink>
+        </li>
+
+
+        <li>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `hd-nav-link ${isActive ? "hd-active" : ""}`
+            }
+            onClick={closeMobileMenu}
+          >
+            <FiPhone />
+            <span>Contact Us</span>
+          </NavLink>
+        </li>
+
+
+        {/* =================================
+            MOBILE PROFILE MENU
+        ================================= */}
+
+        <li className="hd-mobile-profile">
+
+          <div className="hd-mobile-user">
+
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="hd-mobile-profile-img"
+              onError={handleImageError}
+            />
+
+            <div>
+              <strong>
+                {user?.fullName || "User Name"}
+              </strong>
+
+              <small>
+                {user?.email || "user@email.com"}
+              </small>
+            </div>
+
+          </div>
+
+
+          <Link
+            to="/home"
+            onClick={closeMobileMenu}
+          >
+            <FiUser />
+            Profile
+          </Link>
+
+
+          <Link
+            to="/editprofile"
+            onClick={closeMobileMenu}
+          >
+            <FiEdit3 />
+            Edit Profile
+          </Link>
+
+
+          <Link
+            to="/change-password"
+            onClick={closeMobileMenu}
+          >
+            <FiLock />
+            Change Password
+          </Link>
+
+
+          <button
+            type="button"
+            className="hd-mobile-logout"
+            onClick={handleLogout}
+          >
+            <FiLogOut />
+            Log Out
+          </button>
+
+        </li>
+
       </ul>
 
-      {/* प्रोफाइल और ड्रॉपडाउन कंटेनर */}
-      <div className="hd-profile-container" ref={dropdownRef}>
-        <div className="hd-profile" onClick={toggleDropdown} style={{ cursor: "pointer" }}>
-          {/* 🎯 अब यहाँ इमेज बिना पेज रिफ्रेश किए तुरंत बदल जाएगी! */}
-          {user?.profilePic ? (
-            <img
-              src={`https://latestjobportal.onrender.com/uploads/${user.profilePic}`}
-              alt="Profile"
-              className="nav-profile-img"
-            />
-          ) : (
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-              alt="Profile"
-              className="nav-profile-img"
-            />
-          )}
-        </div>
+
+      {/* =====================================
+          DESKTOP PROFILE
+      ===================================== */}
+
+      <div
+        className="hd-profile-container"
+        ref={dropdownRef}
+      >
+
+        <button
+          type="button"
+          className="hd-profile"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+        >
+
+          <img
+            src={profileImage}
+            alt="Profile"
+            className="nav-profile-img"
+            onError={handleImageError}
+          />
+
+          <span className="hd-profile-name">
+            {user?.fullName
+              ? user.fullName.split(" ")[0]
+              : "Profile"}
+          </span>
+
+          <FiChevronDown
+            className={`hd-profile-arrow ${
+              dropdownOpen ? "hd-arrow-open" : ""
+            }`}
+          />
+
+        </button>
+
+
+        {/* =================================
+            DROPDOWN
+        ================================= */}
 
         {dropdownOpen && (
+
           <div className="nav-dropdown-menu">
+
             <div className="dropdown-user-info">
-              <h4>{user?.fullName || "User Name"}</h4>
-              <p>{user?.email || "user@email.com"}</p>
+
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="dropdown-profile-img"
+                onError={handleImageError}
+              />
+
+              <div>
+                <h4>
+                  {user?.fullName || "User Name"}
+                </h4>
+
+                <p>
+                  {user?.email || "user@email.com"}
+                </p>
+              </div>
+
             </div>
+
+
             <hr />
-            <Link to="/home" className="dropdown-item" onClick={() => setDropdownOpen(false)}>👤 Profile</Link>
-            <Link to="/editprofile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>✏️ Edit Profile</Link>
-            <Link to="/change-password" className="dropdown-item" onClick={() => setDropdownOpen(false)}>🔑 Change Password</Link>
+
+
+            <Link
+              to="/home"
+              className="dropdown-item"
+              onClick={() => setDropdownOpen(false)}
+            >
+              <span className="dropdown-icon">
+                <FiUser />
+              </span>
+
+              Profile
+            </Link>
+
+
+            <Link
+              to="/editprofile"
+              className="dropdown-item"
+              onClick={() => setDropdownOpen(false)}
+            >
+              <span className="dropdown-icon">
+                <FiEdit3 />
+              </span>
+
+              Edit Profile
+            </Link>
+
+
+            <Link
+              to="/change-password"
+              className="dropdown-item"
+              onClick={() => setDropdownOpen(false)}
+            >
+              <span className="dropdown-icon">
+                <FiLock />
+              </span>
+
+              Change Password
+            </Link>
+
+
             <hr />
-            <button className="dropdown-item logout-btn" onClick={handleLogout}>🚪 Log Out</button>
+
+
+            <button
+              type="button"
+              className="dropdown-item logout-btn"
+              onClick={handleLogout}
+            >
+              <span className="dropdown-icon logout-icon">
+                <FiLogOut />
+              </span>
+
+              Log Out
+            </button>
+
           </div>
+
         )}
+
       </div>
+
+
+      {/* =====================================
+          MOBILE BUTTON
+      ===================================== */}
+
+      <button
+        type="button"
+        className="hd-menu-button"
+        onClick={() => {
+          setMobileMenuOpen(!mobileMenuOpen);
+          setDropdownOpen(false);
+        }}
+        aria-label="Toggle navigation"
+      >
+        {mobileMenuOpen ? <FiX /> : <FiMenu />}
+      </button>
+
     </nav>
   );
 };

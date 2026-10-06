@@ -1,141 +1,674 @@
-/* ==========================================
-   🔵 BANNER SECTION (Premium & Modern)
-   ========================================== */
+/* =====================================================
+   JOB PORTAL FOOTER
+===================================================== */
+
+.jp_footer_wrapper {
+  width: 100%;
+  margin-top: 60px;
+}
+
+/* =====================================================
+   TOP CTA BANNER
+===================================================== */
+
 .jp_banner {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); /* वाइब्रेंट मॉडर्न ब्लू ग्रेडिएंट */
-  color: white;
+  position: relative;
+  overflow: hidden;
+
+  width: min(1180px, 92%);
+  margin: 0 auto -45px;
+
+  border-radius: 24px;
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(0, 168, 255, 0.35),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #073b7a 0%,
+      #0759b8 55%,
+      #0088d4 100%
+    );
+
+  color: #ffffff;
+
+  box-shadow: 0 20px 55px rgba(7, 89, 184, 0.25);
+
+  z-index: 5;
+}
+
+.jp_banner::before {
+  content: "";
+
+  position: absolute;
+  width: 220px;
+  height: 220px;
+
+  right: -80px;
+  bottom: -100px;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
+
+.jp_banner::after {
+  content: "";
+
+  position: absolute;
+  width: 130px;
+  height: 130px;
+
+  right: 100px;
+  top: -75px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+}
+
+.jp_banner_content {
+  position: relative;
+  z-index: 2;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 50px 60px;
-  border-radius: 16px; /* कस्टमाइज़्ड राउंडेड लुक (अगर कंटेनर के अंदर है) */
-  margin: 30px auto;
-  max-width: 1200px;
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
-  flex-wrap: wrap;
-  gap: 24px;
+  justify-content: space-between;
+
+  gap: 35px;
+
+  padding: 42px 48px;
+}
+
+.jp_banner_left {
+  max-width: 720px;
+}
+
+.jp_banner_tag {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 7px 13px;
+  margin-bottom: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.10);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .jp_banner_left h2 {
-  font-size: 32px;
+  margin: 0;
+
+  font-size: clamp(25px, 3vw, 36px);
+  line-height: 1.25;
+
   font-weight: 800;
-  letter-spacing: -0.5px;
-  margin-bottom: 12px;
-  line-height: 1.2;
+  letter-spacing: -0.7px;
+}
+
+.jp_banner_left h2 span {
+  color: #7ed6ff;
 }
 
 .jp_banner_left p {
-  max-width: 600px;
-  font-size: 16px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.85); /* आँखों को चुभेगा नहीं */
+  max-width: 650px;
+
+  margin: 11px 0 0;
+
+  color: rgba(255, 255, 255, 0.82);
+
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 .jp_banner_btn {
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-width: 190px;
+
+  padding: 14px 20px;
+
+  border: 0;
+  border-radius: 11px;
+
   background: #ffffff;
-  color: #1e3a8a; /* डार्क ब्लू टेक्स्ट */
-  border: none;
-  padding: 14px 28px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #0759b8;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .jp_banner_btn:hover {
-  background: #f8fafc;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  color: #064a99;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
 }
 
-/* ==========================================
-   ⚪ FOOTER SECTION (Clean & Corporate)
-   ========================================== */
+.jp_banner_btn span {
+  font-size: 18px;
+
+  transition: transform 0.2s ease;
+}
+
+.jp_banner_btn:hover span {
+  transform: translateX(4px);
+}
+
+/* =====================================================
+   MAIN FOOTER
+===================================================== */
+
 .jp_footer {
+  position: relative;
+
+  overflow: hidden;
+
+  padding-top: 110px;
+
+  background: #07182d;
+
+  color: #ffffff;
+}
+
+.jp_footer::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+}
+
+.jp_footer_container {
+  width: min(1180px, 92%);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    1.5fr
+    1fr
+    1.15fr
+    1.2fr;
+
+  gap: 50px;
+
+  padding-bottom: 55px;
+}
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.jp_footer_brand {
+  max-width: 330px;
+}
+
+.jp_footer_logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 18px;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.jp_logo_icon {
+  width: 42px;
+  height: 42px;
+
   display: flex;
-  justify-content: space-between;
-  padding: 70px 60px 40px;
-  background: #ffffff;
-  border-top: 1px solid #e2e8f0;
-  flex-wrap: wrap;
-  gap: 40px;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: linear-gradient(
+    135deg,
+    #0b83f6,
+    #00a8e8
+  );
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 900;
+
+  box-shadow: 0 8px 22px rgba(0, 137, 255, 0.25);
 }
 
-.jp_footer_col {
-  flex: 1;
-  min-width: 220px;
-  margin-bottom: 20px;
+.jp_footer_description {
+  margin: 0 0 23px;
+
+  color: #98a9bd;
+
+  font-size: 13px;
+  line-height: 1.8;
 }
 
-/* 🎯 लाल रंग हटाकर इसे प्रोफेशनल डार्क ग्रे/ब्लू लुक दिया है */
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.jp_contact_list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.jp_contact_list a,
+.jp_contact_list div {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  color: #aebccc;
+
+  font-size: 12px;
+  line-height: 1.6;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.jp_contact_list a:hover {
+  color: #ffffff;
+}
+
+.jp_contact_icon {
+  flex-shrink: 0;
+
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  font-size: 12px;
+}
+
+/* =====================================================
+   FOOTER COLUMNS
+===================================================== */
+
 .jp_footer_col h3 {
-  font-size: 16px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-  color: #0f172a; 
+  position: relative;
+
+  margin: 4px 0 22px;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.jp_footer_col h3::after {
+  content: "";
+
+  display: block;
+
+  width: 30px;
+  height: 2px;
+
+  margin-top: 9px;
+
+  border-radius: 5px;
+
+  background: #1598ee;
 }
 
 .jp_footer_col ul {
-  list-style: none;
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
   padding: 0;
+  margin: 0;
+
+  list-style: none;
 }
 
-.jp_footer_col ul li {
-  margin-bottom: 12px;
-  font-size: 15px;
-  color: #64748b; /* लाइट मैट ग्रे */
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-block; /* ताकि सिर्फ टेक्स्ट पर ही होवर इफ़ेक्ट आए */
-  width: 100%;
+.jp_footer_col li {
+  margin: 0;
 }
 
-.jp_footer_col ul li:hover {
-  color: #2563eb; /* होवर करने पर स्मूथ ब्लू कलर */
-  transform: translateX(4px); /* हल्का सा आगे खिसकने का एनिमेशन */
+.jp_footer_col li a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #91a3b7;
+
+  text-decoration: none;
+
+  font-size: 12px;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-/* ==========================================
-   📱 RESPONSIVE DESIGN (Responsive Fixed)
-   ========================================== */
-@media (max-width: 768px) {
+.jp_footer_col li a span {
+  color: #168fe0;
+
+  opacity: 0;
+
+  transform: translateX(-5px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.jp_footer_col li a:hover {
+  color: #ffffff;
+
+  transform: translateX(3px);
+}
+
+.jp_footer_col li a:hover span {
+  opacity: 1;
+
+  transform: translateX(0);
+}
+
+/* =====================================================
+   NEWSLETTER / SOCIAL
+===================================================== */
+
+.jp_footer_newsletter p {
+  margin: 0 0 20px;
+
+  color: #91a3b7;
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.jp_social_links {
+  display: flex;
+  gap: 9px;
+
+  margin-bottom: 20px;
+}
+
+.jp_social_links a {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  color: #c6d1dd;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.jp_social_links a:hover {
+  background: #0759b8;
+  color: #ffffff;
+
+  transform: translateY(-3px);
+}
+
+.jp_footer_jobs_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+.jp_footer_jobs_btn:hover {
+  background: #0759b8;
+
+  border-color: #0759b8;
+}
+
+.jp_footer_jobs_btn span {
+  font-size: 16px;
+}
+
+/* =====================================================
+   BOTTOM FOOTER
+===================================================== */
+
+.jp_footer_bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.jp_footer_bottom_inner {
+  width: min(1180px, 92%);
+
+  min-height: 70px;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.jp_footer_bottom p {
+  margin: 0;
+
+  color: #718399;
+
+  font-size: 11px;
+}
+
+.jp_footer_bottom_links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.jp_footer_bottom_links a {
+  color: #718399;
+
+  text-decoration: none;
+
+  font-size: 11px;
+
+  transition: color 0.2s ease;
+}
+
+.jp_footer_bottom_links a:hover {
+  color: #ffffff;
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .jp_footer_container {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  .jp_footer_newsletter {
+    grid-column: span 3;
+    max-width: 450px;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .jp_footer_wrapper {
+    margin-top: 40px;
+  }
+
   .jp_banner {
+    width: 92%;
+    border-radius: 18px;
+  }
+
+  .jp_banner_content {
     flex-direction: column;
-    text-align: center;
-    padding: 40px 24px;
-    margin: 20px;
-    gap: 20px;
+    align-items: flex-start;
+
+    padding: 30px 25px;
   }
 
   .jp_banner_left h2 {
-    font-size: 26px;
+    font-size: 25px;
   }
 
   .jp_banner_left p {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .jp_banner_btn {
-    width: 100%; /* मोबाइल पर फुल विड्थ बटन */
-    max-width: 280px;
+    width: 100%;
   }
 
   .jp_footer {
+    padding-top: 90px;
+  }
+
+  .jp_footer_container {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 38px 25px;
+
+    padding-bottom: 40px;
+  }
+
+  .jp_footer_brand {
+    grid-column: span 2;
+
+    max-width: 100%;
+  }
+
+  .jp_footer_newsletter {
+    grid-column: span 2;
+
+    max-width: 100%;
+  }
+
+  .jp_footer_bottom_inner {
+    min-height: auto;
+
     flex-direction: column;
-    text-align: center;
-    padding: 50px 24px 30px;
-    gap: 30px;
+    align-items: flex-start;
+
+    padding: 20px 0;
+
+    gap: 12px;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 450px) {
+
+  .jp_banner_content {
+    padding: 27px 20px;
   }
 
-  .jp_footer_col {
-    margin-bottom: 10px;
+  .jp_banner_left h2 {
+    font-size: 22px;
   }
 
-  .jp_footer_col ul li:hover {
-    transform: none; /* मोबाइल पर ट्रांसलेट एनिमेशन हटा दिया */
+  .jp_footer_container {
+    grid-template-columns: 1fr;
+
+    gap: 32px;
+  }
+
+  .jp_footer_brand,
+  .jp_footer_newsletter {
+    grid-column: auto;
+  }
+
+  .jp_footer_bottom_links {
+    flex-wrap: wrap;
+    gap: 10px 18px;
   }
 }

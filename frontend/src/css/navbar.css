@@ -1,103 +1,320 @@
-/* ======================================= */
-/* MAIN NAVIGATION BAR LAYER              */
-/* ======================================= */
+/* ================================
+   NAVBAR
+================================ */
+
 .pk_navbar {
   width: 100%;
-  height: 65px;
-  background: #ffffff;
+  min-height: 76px;
+  padding: 0 6%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+  border-bottom: 1px solid #e8eef5;
+  box-shadow: 0 4px 18px rgba(0, 61, 130, 0.06);
   position: sticky;
   top: 0;
-  z-index: 100;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  z-index: 9999;
 }
 
-/* ======================================= */
-/* BRANDING LOGO ZONE                      */
-/* ======================================= */
-.pk_logo h2 {
-  color: #dc2626;
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
+/* ================================
+   LOGO
+================================ */
 
-/* ======================================= */
-/* NAVIGATION UTILITY LINKS                */
-/* ======================================= */
-.pk_nav-links {
+.pk_logo {
   display: flex;
   align-items: center;
-  gap: 28px;
-  list-style: none;
+  gap: 11px;
+  flex-shrink: 0;
 }
 
-.pk_nav-links li a {
+.pk_logo_icon {
+  width: 43px;
+  height: 43px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0756b8, #003b82);
+  color: #ffffff;
+  font-size: 21px;
+  box-shadow: 0 6px 15px rgba(7, 86, 184, 0.22);
+}
+
+.pk_logo_text h2 {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.1;
+  font-weight: 800;
+  color: #12304f;
+  letter-spacing: -0.4px;
+}
+
+.pk_logo_text span {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #718096;
+  letter-spacing: 0.5px;
+}
+
+/* ================================
+   NAV LINKS
+================================ */
+
+.pk_nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+}
+
+.pk_nav-links li {
+  margin: 0;
+  padding: 0;
+}
+
+.pk_nav-links a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 13px;
+  color: #52657a;
   text-decoration: none;
-  color: #475569;
   font-size: 14px;
   font-weight: 600;
-  padding: 6px 4px;
-  position: relative;
-  transition: color 0.2s ease-in-out;
+  border-radius: 9px;
+  transition: all 0.25s ease;
 }
 
-.pk_nav-links li a::after {
+.pk_nav-links a svg {
+  font-size: 16px;
+  stroke-width: 2;
+}
+
+.pk_nav-links a:hover {
+  color: #0756b8;
+  background: #f0f6ff;
+}
+
+.pk_nav-links a.pk_active {
+  color: #0756b8;
+  background: #edf5ff;
+}
+
+.pk_nav-links a.pk_active::after {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
+  left: 13px;
+  right: 13px;
+  bottom: 2px;
   height: 2px;
-  background-color: #dc2626;
-  transition: width 0.2s ease-in-out;
+  border-radius: 10px;
+  background: #0756b8;
 }
 
-.pk_nav-links li a:hover {
-  color: #dc2626;
-}
+/* ================================
+   PROFILE
+================================ */
 
-.pk_nav-links li a:hover::after {
-  width: 100%;
-}
-
-/* ======================================= */
-/* PROFILE AVATAR WRAPPER                  */
-/* ======================================= */
 .pk_profile {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.pk_profile img {
-  width: 38px;
-  height: 38px;
+.pk_profile_circle {
+  width: 43px;
+  height: 43px;
   border-radius: 50%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #edf5ff;
+  border: 2px solid #d7e8fc;
+  color: #0756b8;
+  font-size: 21px;
+  transition: all 0.25s ease;
+}
+
+.pk_profile_circle:hover {
+  background: #0756b8;
+  color: #ffffff;
+  border-color: #0756b8;
+  transform: translateY(-1px);
+}
+
+/* ================================
+   MOBILE BUTTON
+================================ */
+
+.pk_menu-btn {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  background: #edf5ff;
+  color: #0756b8;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
 }
 
-.pk_profile img:hover {
-  border-color: #dc2626;
-  transform: scale(1.05);
+.pk_menu-btn:hover {
+  background: #0756b8;
+  color: #ffffff;
 }
 
-/* ======================================= */
-/* RESPONSIVE DESIGN                       */
-/* ======================================= */
-@media (max-width: 768px) {
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 1050px) {
   .pk_navbar {
-    padding: 0 20px;
+    padding: 0 3%;
   }
 
   .pk_nav-links {
+    gap: 0;
+  }
+
+  .pk_nav-links a {
+    padding: 9px 9px;
+    font-size: 13px;
+  }
+
+  .pk_nav-links a svg {
+    font-size: 14px;
+  }
+
+  .pk_logo_text h2 {
+    font-size: 19px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 800px) {
+  .pk_navbar {
+    min-height: 70px;
+    padding: 0 20px;
+  }
+
+  .pk_logo_icon {
+    width: 40px;
+    height: 40px;
+    font-size: 19px;
+  }
+
+  .pk_logo_text h2 {
+    font-size: 18px;
+  }
+
+  .pk_logo_text span {
+    font-size: 9px;
+  }
+
+  .pk_profile {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  .pk_profile_circle {
+    width: 39px;
+    height: 39px;
+    font-size: 19px;
+  }
+
+  .pk_menu-btn {
+    display: flex;
+  }
+
+  .pk_nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    padding: 12px 20px 18px;
     display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    background: #ffffff;
+    border-top: 1px solid #edf1f5;
+    border-bottom: 1px solid #e3eaf2;
+    box-shadow: 0 12px 25px rgba(0, 43, 90, 0.1);
+  }
+
+  .pk_nav-links.pk_menu-open {
+    display: flex;
+  }
+
+  .pk_nav-links li {
+    width: 100%;
+  }
+
+  .pk_nav-links a {
+    width: 100%;
+    padding: 13px 14px;
+    font-size: 14px;
+    border-radius: 9px;
+  }
+
+  .pk_nav-links a.pk_active::after {
+    display: none;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 480px) {
+  .pk_navbar {
+    padding: 0 14px;
+  }
+
+  .pk_logo {
+    gap: 8px;
+  }
+
+  .pk_logo_icon {
+    width: 37px;
+    height: 37px;
+    border-radius: 10px;
+  }
+
+  .pk_logo_text h2 {
+    font-size: 17px;
+  }
+
+  .pk_logo_text span {
+    display: none;
+  }
+
+  .pk_profile {
+    margin-right: 7px;
+  }
+
+  .pk_profile_circle {
+    width: 37px;
+    height: 37px;
+  }
+
+  .pk_menu-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 21px;
   }
 }

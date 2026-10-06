@@ -1,84 +1,465 @@
-/* Container ko Dashboard cards ki tarah styling dena */
+/* =========================================
+   EDUCATION PAGE
+========================================= */
+
 .education-detail-container {
-  max-width: 1000px; /* Width ko badhaya */
-  width: 90%;
+  width: 100%;
+  max-width: 1050px;
+
   margin: 40px auto;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  border: 1px solid #e0e0e0;
+  padding: 0 22px;
+
+  box-sizing: border-box;
 }
 
-/* Header ko waisa hi look dena jaisa Dashboard ka title area hai */
+
+/* =========================================
+   HEADER
+========================================= */
+
 .education-detail-header {
-  background: linear-gradient(to right, #4facfe, #00f2fe); /* Professional gradient */
-  padding: 20px;
-  color: white;
-  text-align: left;
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 24px;
+}
+
+.education-header-icon {
+  width: 55px;
+  height: 55px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  border-radius: 14px;
+
+  font-size: 25px;
+
+  box-shadow:
+    0 8px 20px rgba(7, 86, 184, 0.20);
 }
 
 .education-detail-header h1 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 500;
+  margin: 0 0 5px;
+
+  color: #172b45;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
 }
 
-/* Form ko padding dena taaki content andar set rahe */
-.education-detail-form {
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.education-detail-header p {
+  margin: 0;
+
+  color: #718096;
+
+  font-size: 14px;
 }
+
+
+/* =========================================
+   MAIN CARD
+========================================= */
+
+.education-detail-card {
+  width: 100%;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e4ebf3;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 12px 35px rgba(0, 45, 90, 0.08);
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.education-message {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 24px;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.education-message svg {
+  flex-shrink: 0;
+
+  font-size: 18px;
+}
+
+.education-success {
+  color: #087f5b;
+
+  background: #e9fbf4;
+
+  border: 1px solid #bcebd9;
+}
+
+.education-error {
+  color: #c62828;
+
+  background: #fff1f1;
+
+  border: 1px solid #f3c6c6;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.education-detail-form {
+  width: 100%;
+}
+
+
+/* =========================================
+   ROW
+========================================= */
 
 .education-detail-row {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 Column layout */
-  gap: 25px;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 22px;
+
+  margin-bottom: 22px;
 }
 
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
 .education-detail-group {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 
 .education-detail-group label {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
   margin-bottom: 8px;
-  font-weight: 600;
-  color: #333;
+
+  color: #334155;
+
+  font-size: 13px;
+  font-weight: 700;
 }
 
-.education-detail-group input, 
-.education-detail-group select {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.education-detail-group label svg {
+  color: #0756b8;
+
   font-size: 15px;
+}
+
+.education-detail-group label span {
+  color: #e53935;
+}
+
+
+/* =========================================
+   INPUT WRAPPER
+========================================= */
+
+.education-input-wrapper {
+  position: relative;
+
   width: 100%;
-  box-sizing: border-box; /* Important: taaki input container se bahar na nikle */
 }
 
-/* Button ko Dashboard ke style mein set karna */
-.education-detail-btn {
-  background: #007bff;
-  color: white;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 4px;
+.education-input-wrapper > svg {
+  position: absolute;
+
+  left: 14px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #7890aa;
+
+  font-size: 17px;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+
+/* =========================================
+   INPUT / SELECT
+========================================= */
+
+.education-input-wrapper input,
+.education-input-wrapper select {
+  width: 100%;
+  height: 48px;
+
+  box-sizing: border-box;
+
+  padding: 0 14px 0 43px;
+
+  border: 1px solid #d8e1eb;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #fbfdff;
+
+  color: #24364d;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.education-input-wrapper input::placeholder {
+  color: #9aa8b8;
+}
+
+.education-input-wrapper input:hover,
+.education-input-wrapper select:hover {
+  border-color: #b9cde3;
+}
+
+.education-input-wrapper input:focus,
+.education-input-wrapper select:focus {
+  background: #ffffff;
+
+  border-color: #0756b8;
+
+  box-shadow:
+    0 0 0 3px rgba(7, 86, 184, 0.10);
+}
+
+.education-input-wrapper select {
   cursor: pointer;
-  align-self: flex-start; /* Button ko left mein rakhne ke liye */
-  font-size: 16px;
-  transition: background 0.3s;
+
+  appearance: auto;
 }
 
-.education-detail-btn:hover {
-  background: #0056b3;
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.education-detail-btn {
+  width: 100%;
+
+  min-height: 50px;
+
+  margin-top: 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 18px rgba(7, 86, 184, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
+.education-detail-btn svg {
+  font-size: 18px;
+}
+
+.education-detail-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(7, 86, 184, 0.28);
+}
+
+.education-detail-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.education-detail-btn:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.75;
+}
+
+
+/* =========================================
+   LOADING SPINNER
+========================================= */
+
+.education-spinner {
+  width: 17px;
+  height: 17px;
+
+  border: 2px solid rgba(255, 255, 255, 0.35);
+
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation: educationSpin 0.7s linear infinite;
+}
+
+@keyframes educationSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 700px) {
+
+  .education-detail-container {
+    margin: 30px auto;
+
+    padding: 0 16px;
+  }
+
+  .education-detail-card {
+    padding: 22px;
+  }
+
   .education-detail-row {
     grid-template-columns: 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 18px;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .education-detail-container {
+    margin: 20px auto;
+
+    padding: 0 12px;
+  }
+
+  .education-detail-header {
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+  }
+
+  .education-header-icon {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 11px;
+
+    font-size: 20px;
+  }
+
+  .education-detail-header h1 {
+    font-size: 21px;
+  }
+
+  .education-detail-header p {
+    font-size: 12px;
+
+    line-height: 1.5;
+  }
+
+  .education-detail-card {
+    padding: 18px;
+
+    border-radius: 14px;
+  }
+
+  .education-detail-group label {
+    font-size: 12px;
+  }
+
+  .education-input-wrapper input,
+  .education-input-wrapper select {
+    height: 46px;
+
+    font-size: 12px;
+  }
+
+  .education-detail-btn {
+    min-height: 47px;
+
+    font-size: 13px;
   }
 }

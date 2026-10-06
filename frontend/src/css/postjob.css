@@ -1,130 +1,504 @@
-
-.ddd_container {
-  width: 100%;
+* {
+  box-sizing: border-box;
 }
 
-/* Top Banner Bar Styling */
-.ddd_header_bar {
-  background-color: #2196f3;
-  color: #ffffff;
-  text-align: center;
-  padding: 25px 10px;
+.postjob-page {
+  min-height: 100vh;
+  background: #f4f7fb;
+  padding-bottom: 50px;
 }
 
-.ddd_header_bar h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 400;
+/* =========================
+   HEADER
+========================= */
+
+.postjob-header {
+  background: linear-gradient(
+    135deg,
+    #0756b8 0%,
+    #003b82 100%
+  );
+  color: #fff;
+  padding: 38px 20px;
 }
 
-/* Form Container Layer */
-.ddd_form_wrapper {
-  max-width: 1100px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  padding: 35px;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.ddd_job_form {
+.postjob-header-content {
+  max-width: 1180px;
+  margin: auto;
   display: flex;
-  flex-direction: column;
-  gap: 25px;
+  align-items: center;
+  gap: 18px;
 }
 
-/* 2-Column Responsive Layout */
-.ddd_grid {
+.postjob-header-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.postjob-header-small {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  opacity: 0.75;
+  margin-bottom: 5px;
+}
+
+.postjob-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 750;
+}
+
+.postjob-header p {
+  margin: 7px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* =========================
+   WRAPPER
+========================= */
+
+.postjob-wrapper {
+  width: calc(100% - 40px);
+  max-width: 1180px;
+  margin: -18px auto 0;
+  position: relative;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.postjob-intro {
+  background: #fff;
+  border-radius: 15px;
+  padding: 22px 25px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 30px rgba(20, 50, 90, 0.08);
+  margin-bottom: 20px;
+}
+
+.postjob-intro-icon {
+  width: 48px;
+  height: 48px;
+  background: #eaf3ff;
+  color: #0756b8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.postjob-intro h2 {
+  margin: 0 0 5px;
+  color: #172b4d;
+  font-size: 19px;
+}
+
+.postjob-intro p {
+  margin: 0;
+  color: #718096;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.postjob-message {
+  min-height: 48px;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.postjob-message svg {
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.postjob-success {
+  color: #16794c;
+  background: #eafaf2;
+  border: 1px solid #c7f0db;
+}
+
+.postjob-error {
+  color: #c53030;
+  background: #fff1f1;
+  border: 1px solid #ffd0d0;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.postjob-form {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(20, 50, 90, 0.08);
+}
+
+.postjob-section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 22px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.postjob-section-number {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #0756b8;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.postjob-section-title h3 {
+  margin: 0 0 3px;
+  color: #172b4d;
+  font-size: 19px;
+}
+
+.postjob-section-title p {
+  margin: 0;
+  color: #8492a6;
+  font-size: 13px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.postjob-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  column-gap: 40px;
-  row-gap: 22px;
+  gap: 22px 24px;
 }
 
-.ddd_input_box {
+.postjob-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
-.ddd_input_box label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333333;
+.postjob-full {
+  grid-column: 1 / -1;
 }
 
-/* Common input fields, selects and textarea styling */
-.ddd_input_box input[type="text"],
-.ddd_input_box input[type="date"],
-.ddd_input_box select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  font-size: 14px;
-  color: #555555;
-  outline: none;
-  background-color: #ffffff;
-  box-sizing: border-box;
-}
+/* =========================
+   LABEL
+========================= */
 
-.ddd_input_box input:focus,
-.ddd_input_box select:focus,
-.ddd_input_box textarea:focus {
-  border-color: #2196f3;
-}
-
-/* Full Width row setup for text area */
-.ddd_full_width {
-  grid-column: span 2;
-}
-
-.ddd_input_box textarea {
-  width: 100%;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  padding: 12px;
-  font-size: 14px;
-  font-family: inherit;
-  outline: none;
-  resize: vertical;
-  box-sizing: border-box;
-}
-
-/* Submit Button Wrapper */
-.ddd_action_section {
+.postjob-field label {
   display: flex;
-  justify-content: flex-start;
-  margin-top: 10px;
+  align-items: center;
+  gap: 7px;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
-.ddd_submit_btn {
-  background-color: #2196f3;
-  color: white;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 4px;
+.postjob-field label svg {
+  color: #0756b8;
   font-size: 15px;
-  font-weight: 600;
+}
+
+.postjob-field label span {
+  color: #e53935;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.postjob-field input,
+.postjob-field select,
+.postjob-field textarea {
+  width: 100%;
+  border: 1px solid #d9e1eb;
+  border-radius: 9px;
+  background: #fff;
+  color: #172b4d;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.postjob-field input,
+.postjob-field select {
+  height: 47px;
+  padding: 0 14px;
+}
+
+.postjob-field textarea {
+  padding: 13px 14px;
+  min-height: 145px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.postjob-field input::placeholder,
+.postjob-field textarea::placeholder {
+  color: #a3adba;
+}
+
+.postjob-field input:focus,
+.postjob-field select:focus,
+.postjob-field textarea:focus {
+  border-color: #0756b8;
+  box-shadow: 0 0 0 3px rgba(7, 86, 184, 0.09);
+}
+
+.postjob-field small {
+  color: #8a96a6;
+  font-size: 11px;
+  margin-top: 6px;
+}
+
+/* =========================
+   SUBMIT AREA
+========================= */
+
+.postjob-submit-area {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid #edf1f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.postjob-submit-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.postjob-submit-info strong {
+  color: #172b4d;
+  font-size: 14px;
+}
+
+.postjob-submit-info span {
+  color: #8a96a6;
+  font-size: 12px;
+}
+
+.postjob-submit-btn {
+  min-width: 155px;
+  height: 48px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 9px;
+  background: linear-gradient(
+    135deg,
+    #0756b8,
+    #003b82
+  );
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 7px 18px rgba(7, 86, 184, 0.22);
+  transition: 0.2s ease;
 }
 
-.ddd_submit_btn:hover {
-  background-color: #1976d2;
+.postjob-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(7, 86, 184, 0.28);
 }
 
-/* Responsive optimization for smaller display widths */
+.postjob-submit-btn:active {
+  transform: translateY(0);
+}
+
+.postjob-submit-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
+/* =========================
+   LOADER
+========================= */
+
+.postjob-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: postjobSpin 0.7s linear infinite;
+}
+
+@keyframes postjobSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
 @media (max-width: 768px) {
-  .ddd_grid {
+  .postjob-header {
+    padding: 30px 18px;
+  }
+
+  .postjob-header h1 {
+    font-size: 25px;
+  }
+
+  .postjob-wrapper {
+    width: calc(100% - 28px);
+  }
+
+  .postjob-form {
+    padding: 25px 20px;
+  }
+
+  .postjob-grid {
     grid-template-columns: 1fr;
-    row-gap: 18px;
+    gap: 18px;
   }
-  .ddd_full_width {
-    grid-column: span 1;
+
+  .postjob-full {
+    grid-column: auto;
   }
-  .ddd_form_wrapper {
-    margin: 15px;
-    padding: 20px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 560px) {
+  .postjob-page {
+    padding-bottom: 30px;
+  }
+
+  .postjob-header {
+    padding: 24px 15px 35px;
+  }
+
+  .postjob-header-content {
+    align-items: flex-start;
+  }
+
+  .postjob-header-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    font-size: 22px;
+  }
+
+  .postjob-header-small {
+    font-size: 10px;
+  }
+
+  .postjob-header h1 {
+    font-size: 21px;
+  }
+
+  .postjob-header p {
+    font-size: 12px;
+  }
+
+  .postjob-wrapper {
+    width: calc(100% - 20px);
+    margin-top: -15px;
+  }
+
+  .postjob-intro {
+    padding: 17px;
+    align-items: flex-start;
+  }
+
+  .postjob-intro-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 19px;
+  }
+
+  .postjob-intro h2 {
+    font-size: 16px;
+  }
+
+  .postjob-intro p {
+    font-size: 12px;
+  }
+
+  .postjob-form {
+    padding: 22px 16px;
+    border-radius: 13px;
+  }
+
+  .postjob-section-title {
+    gap: 10px;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+  }
+
+  .postjob-section-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    font-size: 11px;
+  }
+
+  .postjob-section-title h3 {
+    font-size: 17px;
+  }
+
+  .postjob-section-title p {
+    font-size: 11px;
+  }
+
+  .postjob-submit-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .postjob-submit-info {
+    text-align: center;
+  }
+
+  .postjob-submit-btn {
+    width: 100%;
   }
 }
