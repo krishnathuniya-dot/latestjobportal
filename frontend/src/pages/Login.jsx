@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -22,6 +21,9 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // =========================================
+  // HANDLE INPUT
+  // =========================================
   const handleChangeRrr = (e) => {
     setFormDataRrr({
       ...formDataRrr,
@@ -31,6 +33,9 @@ export default function Login() {
     setMessage("");
   };
 
+  // =========================================
+  // LOGIN
+  // =========================================
   const handleSubmitRrr = async (e) => {
     e.preventDefault();
 
@@ -54,33 +59,96 @@ export default function Login() {
         }
       );
 
-      const data = await response.json();
+      let data = {};
+
+      try {
+        data = await response.json();
+      } catch (error) {
+        console.error("Invalid server response:", error);
+        data = {};
+      }
 
       console.log("Login Response:", data);
 
+      // =========================================
+      // LOGIN SUCCESS
+      // =========================================
       if (response.ok && data.success) {
+        const loggedInUser =
+          data.user ||
+          data.data?.user ||
+          data.data ||
+          null;
+
+        if (!loggedInUser) {
+          setMessage(
+            "Login successful, but user information was not received."
+          );
+          return;
+        }
+
+        console.log(
+          "Logged In User:",
+          loggedInUser
+        );
+
+        // =========================================
+        // IMPORTANT:
+        // Save BOTH keys for compatibility
+        // =========================================
+
+        localStorage.setItem(
+          "User",
+          JSON.stringify(loggedInUser)
+        );
+
         localStorage.setItem(
           "user",
-          JSON.stringify(data.user)
+          JSON.stringify(loggedInUser)
         );
 
         console.log(
-          "Current User =>",
-          JSON.parse(localStorage.getItem("user"))
+          "User =>",
+          JSON.parse(
+            localStorage.getItem("User")
+          )
         );
 
-        setMessage(data.message || "Login successful!");
+        console.log(
+          "user =>",
+          JSON.parse(
+            localStorage.getItem("user")
+          )
+        );
 
+        setMessage(
+          data.message ||
+            "Login successful!"
+        );
+
+        // Clear password field
+        setFormDataRrr({
+          email: "",
+          password: "",
+        });
+
+        // =========================================
+        // REDIRECT
+        // =========================================
         setTimeout(() => {
           navigate("/search");
         }, 800);
       } else {
         setMessage(
-          data.message || "Invalid email or password."
+          data.message ||
+            "Invalid email or password."
         );
       }
     } catch (error) {
-      console.error("Login Error:", error);
+      console.error(
+        "Login Error:",
+        error
+      );
 
       setMessage(
         "Unable to connect to server. Please try again."
@@ -94,26 +162,34 @@ export default function Login() {
     <div className="login-body-rrr">
 
       {/* ================= HEADER ================= */}
+
       <div className="login-top-banner-rrr">
+
         <div className="login-header-content-rrr">
 
           <div className="login-logo-rrr">
             <span>JOB</span> PORTAL
           </div>
 
-          <h1>Login To Your Account</h1>
+          <h1>
+            Login To Your Account
+          </h1>
 
           <p>
-            Access your account and continue your job journey
+            Access your account and continue
+            your job journey
           </p>
 
         </div>
+
       </div>
 
       {/* ================= LOGIN CONTAINER ================= */}
+
       <div className="login-container-rrr">
 
         {/* Back Home */}
+
         <Link
           to="/"
           className="login-back-link-rrr"
@@ -123,21 +199,33 @@ export default function Login() {
         </Link>
 
         {/* Profile Icon */}
+
         <div className="login-profile-icon-rrr">
           <FiUser />
         </div>
 
         {/* Title */}
+
         <div className="login-welcome-rrr">
-          <h2>Welcome Back!</h2>
-          <p>Sign in to access your account</p>
+
+          <h2>
+            Welcome Back!
+          </h2>
+
+          <p>
+            Sign in to access your account
+          </p>
+
         </div>
 
         {/* Message */}
+
         {message && (
           <div
             className={`login-message-rrr ${
-              message.toLowerCase().includes("success")
+              message
+                .toLowerCase()
+                .includes("success")
                 ? "login-success-rrr"
                 : "login-error-rrr"
             }`}
@@ -147,15 +235,19 @@ export default function Login() {
         )}
 
         {/* Form */}
+
         <form
           className="login-form-rrr"
           onSubmit={handleSubmitRrr}
         >
 
           {/* Email */}
+
           <div className="login-input-group-rrr">
 
-            <FiMail className="login-input-icon-rrr" />
+            <FiMail
+              className="login-input-icon-rrr"
+            />
 
             <input
               className="login-input-rrr"
@@ -171,9 +263,12 @@ export default function Login() {
           </div>
 
           {/* Password */}
+
           <div className="login-input-group-rrr">
 
-            <FiLock className="login-input-icon-rrr" />
+            <FiLock
+              className="login-input-icon-rrr"
+            />
 
             <input
               className="login-input-rrr login-password-input-rrr"
@@ -194,15 +289,20 @@ export default function Login() {
               type="button"
               className="login-show-password-rrr"
               onClick={() =>
-                setShowPassword(!showPassword)
+                setShowPassword(
+                  !showPassword
+                )
               }
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword
+                ? "Hide"
+                : "Show"}
             </button>
 
           </div>
 
           {/* Forgot */}
+
           <div className="login-forgot-row-rrr">
 
             <Link
@@ -215,11 +315,13 @@ export default function Login() {
           </div>
 
           {/* Login Button */}
+
           <button
             className="login-button-rrr"
             type="submit"
             disabled={loading}
           >
+
             {loading ? (
               <>
                 <span className="login-loader-rrr"></span>
@@ -231,16 +333,19 @@ export default function Login() {
                 <FiArrowRight />
               </>
             )}
+
           </button>
 
         </form>
 
         {/* Divider */}
+
         <div className="login-or-box-rrr">
           <span>OR</span>
         </div>
 
         {/* Signup */}
+
         <div className="login-signup-rrr">
 
           <p>
@@ -259,11 +364,12 @@ export default function Login() {
       </div>
 
       {/* Footer */}
+
       <div className="login-footer-rrr">
-        © {new Date().getFullYear()} Job Portal. All Rights Reserved.
+        © {new Date().getFullYear()} Job Portal.
+        All Rights Reserved.
       </div>
 
     </div>
   );
 }
-
