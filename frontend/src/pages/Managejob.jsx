@@ -8,9 +8,13 @@ import {
   FiSearch,
   FiAlertCircle,
   FiRefreshCw,
+  FiX,
+  FiClock,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "../css/Managejob.css";
+
+const BASE_URL = "https://latestjobportal.onrender.com";
 
 export default function Managejob() {
   const [jobData, setJobData] = useState([]);
@@ -20,7 +24,9 @@ export default function Managejob() {
 
   const navigate = useNavigate();
 
-  const BASE_URL = "https://latestjobportal.onrender.com";
+  // =========================================================
+  // FETCH JOBS
+  // =========================================================
 
   const fetchJobs = async () => {
     try {
@@ -33,26 +39,28 @@ export default function Managejob() {
 
       const data = await response.json();
 
-      console.log("API DATA =", data);
+      console.log("MANAGE JOB API DATA =", data);
 
       if (!response.ok) {
         throw new Error(
-          data.message || "Failed to fetch jobs"
+          data?.message || "Failed to fetch jobs"
         );
       }
 
-      setJobData(
-        Array.isArray(data.data)
-          ? data.data
-          : []
-      );
+      const jobs = Array.isArray(data?.data)
+        ? data.data
+        : Array.isArray(data)
+        ? data
+        : [];
+
+      setJobData(jobs);
     } catch (err) {
       console.error("Fetch Jobs Error:", err);
 
       setJobData([]);
 
       setError(
-        err.message ||
+        err?.message ||
           "Failed to load jobs. Please try again."
       );
     } finally {
@@ -63,6 +71,10 @@ export default function Managejob() {
   useEffect(() => {
     fetchJobs();
   }, []);
+
+  // =========================================================
+  // SEARCH
+  // =========================================================
 
   const filteredJobs = useMemo(() => {
     const search = searchText
@@ -87,24 +99,40 @@ export default function Managejob() {
         item?.jobType?.toLowerCase() || "";
 
       const company =
-        item?.employerId?.companyName
-          ?.toLowerCase() || "";
+        item?.employerId?.companyName?.toLowerCase() ||
+        "";
+
+      const salary =
+        String(item?.salaryPackage || "").toLowerCase();
 
       return (
         title.includes(search) ||
         category.includes(search) ||
         location.includes(search) ||
         type.includes(search) ||
-        company.includes(search)
+        company.includes(search) ||
+        salary.includes(search)
       );
     });
   }, [jobData, searchText]);
 
+  // =========================================================
+  // DATE
+  // =========================================================
+
   const formatDate = (date) => {
-    if (!date) return "Date not available";
+    if (!date) {
+      return "Date not available";
+    }
 
     try {
-      return new Date(date).toLocaleDateString(
+      const parsedDate = new Date(date);
+
+      if (Number.isNaN(parsedDate.getTime())) {
+        return "Date not available";
+      }
+
+      return parsedDate.toLocaleDateString(
         "en-IN",
         {
           day: "2-digit",
@@ -113,55 +141,85 @@ export default function Managejob() {
         }
       );
     } catch {
-      return "N/A";
+      return "Date not available";
     }
   };
 
+  // =========================================================
+  // JOB CLICK
+  // =========================================================
+
   const handleJobClick = (jobId) => {
+    if (!jobId) return;
+
     navigate(`/apply/${jobId}`);
+  };
+
+  // =========================================================
+  // CLEAR SEARCH
+  // =========================================================
+
+  const clearSearch = () => {
+    setSearchText("");
+  };
+
+  // =========================================================
+  // COMPANY INITIAL
+  // =========================================================
+
+  const getCompanyInitial = (companyName) => {
+    return (
+      companyName?.charAt(0)?.toUpperCase() || "C"
+    );
   };
 
   return (
     <div className="agagi_jobs_main_container">
 
-      {/* =========================
-          HEADER
-      ========================== */}
+      {/* =====================================================
+          PAGE HEADER
+      ===================================================== */}
 
-      <div className="agagi_jobs_page_header">
+      <section className="agagi_jobs_page_header">
 
-        <div>
+        <div className="agagi_jobs_header_content">
+
           <span className="agagi_jobs_breadcrumb">
-            Job Portal / Jobs
+            Job Portal
+            <span>/</span>
+            Jobs
           </span>
 
           <h1 className="agagi_jobs_heading">
-            Latest Jobs
+            Find Your Next Job
           </h1>
 
           <p className="agagi_jobs_subtitle">
-            Find the right opportunity for your career.
+            Discover the latest job opportunities
+            and take the next step in your career.
           </p>
+
         </div>
 
         <div className="agagi_jobs_header_icon">
           <FiBriefcase />
         </div>
 
-      </div>
+      </section>
 
-      {/* =========================
-          SEARCH
-      ========================== */}
+      {/* =====================================================
+          SEARCH SECTION
+      ===================================================== */}
 
-      <div className="agagi_jobs_search_section">
+      <section className="agagi_jobs_search_section">
 
         <div className="agagi_jobs_search_box">
-          <FiSearch />
+
+          <FiSearch className="agagi_jobs_search_icon" />
 
           <input
             type="text"
-            placeholder="Search by job title, company, location or category..."
+            placeholder="Search job title, company, location or category..."
             className="agagi_jobs_search_input"
             value={searchText}
             onChange={(e) =>
@@ -173,62 +231,103 @@ export default function Managejob() {
             <button
               type="button"
               className="agagi_jobs_clear_btn"
-              onClick={() =>
-                setSearchText("")
-              }
+              onClick={clearSearch}
+              aria-label="Clear search"
             >
-              ×
+              <FiX />
             </button>
           )}
+
         </div>
 
-        <div className="agagi_jobs_result_count">
-          {filteredJobs.length}{" "}
-          {filteredJobs.length === 1
-            ? "Job"
-            : "Jobs"}{" "}
-          Found
+        <div className="agagi_jobs_search_bottom">
+
+          <div className="agagi_jobs_result_count">
+            <strong>
+              {filteredJobs.length}
+            </strong>
+
+            <span>
+              {filteredJobs.length === 1
+                ? "Job"
+                : "Jobs"}{" "}
+              Found
+            </span>
+          </div>
+
+          {!loading && !error && (
+            <button
+              type="button"
+              className="agagi_jobs_refresh_btn"
+              onClick={fetchJobs}
+              title="Refresh jobs"
+            >
+              <FiRefreshCw />
+              Refresh
+            </button>
+          )}
+
         </div>
 
-      </div>
+      </section>
 
-      {/* =========================
+      {/* =====================================================
           SUMMARY
-      ========================== */}
+      ===================================================== */}
 
       {!loading && !error && (
         <div className="agagi_jobs_summary">
+
           <div className="agagi_jobs_summary_icon">
             <FiBriefcase />
           </div>
 
-          <div>
-            <span>Available Opportunities</span>
-            <strong>{jobData.length}</strong>
+          <div className="agagi_jobs_summary_content">
+            <span>
+              Available Opportunities
+            </span>
+
+            <strong>
+              {jobData.length}
+            </strong>
           </div>
+
+          <div className="agagi_jobs_summary_right">
+            <span>
+              Updated jobs
+            </span>
+          </div>
+
         </div>
       )}
 
-      {/* =========================
+      {/* =====================================================
           ERROR
-      ========================== */}
+      ===================================================== */}
 
       {error && !loading && (
         <div className="agagi_jobs_error">
 
-          <FiAlertCircle />
+          <div className="agagi_jobs_error_icon">
+            <FiAlertCircle />
+          </div>
 
-          <div>
+          <div className="agagi_jobs_error_content">
+
             <strong>
               Unable to load jobs
             </strong>
 
-            <p>{error}</p>
+            <p>
+              {error}
+            </p>
+
           </div>
 
           <button
             type="button"
             onClick={fetchJobs}
+            className="agagi_jobs_retry_btn"
           >
             <FiRefreshCw />
             Retry
@@ -237,176 +336,203 @@ export default function Managejob() {
         </div>
       )}
 
-      {/* =========================
+      {/* =====================================================
           LOADING
-      ========================== */}
+      ===================================================== */}
 
       {loading ? (
         <div className="agagi_jobs_status">
 
           <div className="agagi_jobs_loader"></div>
 
-          <h3>Loading Jobs...</h3>
+          <h3>
+            Loading Jobs...
+          </h3>
 
           <p>
             Please wait while we find the latest
-            opportunities.
+            opportunities for you.
           </p>
 
         </div>
       ) : error ? null : filteredJobs.length > 0 ? (
 
-        /* =========================
+        /* ===================================================
            JOB LIST
-        ========================== */
+        =================================================== */
 
         <div className="agagi_jobs_list">
 
-          {filteredJobs.map((item) => (
+          {filteredJobs.map((item) => {
 
-            <div
-              className="agagi_jobs_card"
-              key={item._id}
-              onClick={() =>
-                handleJobClick(item._id)
-              }
-            >
+            const companyName =
+              item?.employerId?.companyName ||
+              item?.category ||
+              "Company";
 
-              {/* Company Logo */}
+            const companyLogo =
+              item?.employerId?.logo
+                ? `${BASE_URL}/uploads/${item.employerId.logo}`
+                : null;
 
-              <div className="agagi_jobs_logo_wrapper">
+            return (
+              <article
+                className="agagi_jobs_card"
+                key={item?._id}
+                onClick={() =>
+                  handleJobClick(item?._id)
+                }
+              >
 
-                {item?.employerId?.logo ? (
-                  <img
-                    src={`${BASE_URL}/uploads/${item.employerId.logo}`}
-                    alt={
-                      item?.employerId
-                        ?.companyName ||
-                      "Company"
-                    }
-                    className="company-logo"
-                    onError={(e) => {
-                      e.currentTarget.style.display =
-                        "none";
+                {/* =========================================
+                    COMPANY LOGO
+                ========================================== */}
 
-                      const parent =
-                        e.currentTarget.parentElement;
+                <div className="agagi_jobs_logo_wrapper">
 
-                      if (parent) {
-                        parent.innerHTML = `
-                          <div class="default-logo">
-                            ${
-                              item?.employerId
-                                ?.companyName
-                                ?.charAt(0)
-                                ?.toUpperCase() ||
-                              "C"
-                            }
-                          </div>
-                        `;
-                      }
+                  {companyLogo ? (
+                    <img
+                      src={companyLogo}
+                      alt={companyName}
+                      className="company-logo"
+                      onError={(e) => {
+                        e.currentTarget.style.display =
+                          "none";
+
+                        const fallback =
+                          e.currentTarget.parentElement?.querySelector(
+                            ".default-logo"
+                          );
+
+                        if (fallback) {
+                          fallback.style.display =
+                            "flex";
+                        }
+                      }}
+                    />
+                  ) : null}
+
+                  <div
+                    className="default-logo"
+                    style={{
+                      display: companyLogo
+                        ? "none"
+                        : "flex",
                     }}
-                  />
-                ) : (
-                  <div className="default-logo">
-                    {item?.employerId
-                      ?.companyName
-                      ?.charAt(0)
-                      ?.toUpperCase() || "C"}
-                  </div>
-                )}
-
-              </div>
-
-              {/* Job Details */}
-
-              <div className="agagi_jobs_details">
-
-                <div className="agagi_jobs_title_row">
-
-                  <div>
-                    <h2 className="agagi_jobs_title">
-                      {item.jobTitle ||
-                        "Untitled Job"}
-                    </h2>
-
-                    <p className="agagi_jobs_company">
-                      {item?.employerId
-                        ?.companyName ||
-                        item.category ||
-                        "Company"}
-                    </p>
-                  </div>
-
-                  <span className="agagi_jobs_type_btn">
-                    {item.jobType ||
-                      "Job"}
-                  </span>
-
-                </div>
-
-                {/* Job Meta */}
-
-                <div className="agagi_jobs_info">
-
-                  <span>
-                    <FiMapPin />
-                    {item.jobLocation ||
-                      "Location not specified"}
-                  </span>
-
-                  <span>
-                    <FiCalendar />
-                    {formatDate(
-                      item.createdAt
+                  >
+                    {getCompanyInitial(
+                      companyName
                     )}
-                  </span>
-
-                  <span>
-                    <FiDollarSign />
-                    ₹
-                    {item.salaryPackage ||
-                      "Not specified"}
-                  </span>
+                  </div>
 
                 </div>
 
-                {/* Category */}
+                {/* =========================================
+                    JOB DETAILS
+                ========================================== */}
 
-                {item.category && (
-                  <div className="agagi_jobs_category">
-                    {item.category}
+                <div className="agagi_jobs_details">
+
+                  <div className="agagi_jobs_title_row">
+
+                    <div className="agagi_jobs_title_content">
+
+                      <h2 className="agagi_jobs_title">
+                        {item?.jobTitle ||
+                          "Untitled Job"}
+                      </h2>
+
+                      <p className="agagi_jobs_company">
+                        {companyName}
+                      </p>
+
+                    </div>
+
+                    <span className="agagi_jobs_type_btn">
+                      {item?.jobType || "Job"}
+                    </span>
+
                   </div>
-                )}
 
-              </div>
+                  {/* =====================================
+                      JOB META
+                  ====================================== */}
 
-              {/* Arrow */}
+                  <div className="agagi_jobs_info">
 
-              <div className="agagi_jobs_arrow">
-                <FiChevronRight />
-              </div>
+                    <span>
+                      <FiMapPin />
+                      {item?.jobLocation ||
+                        "Location not specified"}
+                    </span>
 
-            </div>
+                    <span>
+                      <FiCalendar />
+                      {formatDate(
+                        item?.createdAt
+                      )}
+                    </span>
 
-          ))}
+                    <span>
+                      <FiDollarSign />
+                      ₹
+                      {item?.salaryPackage ||
+                        "Not specified"}
+                    </span>
+
+                  </div>
+
+                  {/* =====================================
+                      CATEGORY
+                  ====================================== */}
+
+                  <div className="agagi_jobs_bottom_row">
+
+                    {item?.category && (
+                      <span className="agagi_jobs_category">
+                        {item.category}
+                      </span>
+                    )}
+
+                    <span className="agagi_jobs_view_text">
+                      View Job
+                      <FiChevronRight />
+                    </span>
+
+                  </div>
+
+                </div>
+
+                {/* =========================================
+                    ARROW
+                ========================================== */}
+
+                <div className="agagi_jobs_arrow">
+                  <FiChevronRight />
+                </div>
+
+              </article>
+            );
+          })}
 
         </div>
 
       ) : (
 
-        /* =========================
+        /* ===================================================
            EMPTY STATE
-        ========================== */
+        =================================================== */
 
         <div className="agagi_jobs_empty">
 
           <div className="agagi_jobs_empty_icon">
+
             {searchText ? (
               <FiSearch />
             ) : (
               <FiBriefcase />
             )}
+
           </div>
 
           <h2>
@@ -424,9 +550,7 @@ export default function Managejob() {
           {searchText && (
             <button
               type="button"
-              onClick={() =>
-                setSearchText("")
-              }
+              onClick={clearSearch}
             >
               Clear Search
             </button>
