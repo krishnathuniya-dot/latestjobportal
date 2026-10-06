@@ -6,7 +6,7 @@ import {
   FiMessageCircle,
   FiRefreshCw,
 } from "react-icons/fi";
-import "../css/ContactPage.css";
+import "../css/Contactpage.css";
 
 const API_URL = "https://latestjobportal.onrender.com";
 
