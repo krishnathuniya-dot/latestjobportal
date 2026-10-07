@@ -23,7 +23,10 @@ const app = express();
 // ===============================
 app.use(
   cors({
-    origin: "https://latestjobportal-1.onrender.com",
+    origin: [
+      "https://latestjobportal-1.onrender.com",
+      "http://localhost:5173",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
