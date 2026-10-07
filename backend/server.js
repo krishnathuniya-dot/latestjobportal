@@ -21,18 +21,36 @@ const app = express();
 // ===============================
 // CORS
 // ===============================
+// ===============================
+// CORS
+// ===============================
 app.use(
   cors({
-    origin: [
-      "https://latestjobportal-1.onrender.com",
-      "http://localhost:5173",
-      "http://localhost:5174",
-    ],
+    origin: function (origin, callback) {
+      // Postman / server-to-server request
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      // Live frontend + any localhost port
+      const allowed =
+        origin === "https://latestjobportal-1.onrender.com" ||
+        /^http:\/\/localhost:\d+$/.test(origin);
+
+      if (allowed) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+
     allowedHeaders: ["Content-Type", "Authorization"],
+
+    credentials: true,
   })
 );
-
 // ===============================
 // Middleware
 // ===============================
