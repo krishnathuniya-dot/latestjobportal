@@ -1,7 +1,9 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import {
   FiBriefcase,
   FiSearch,
+  FiBuilding,
   FiMapPin,
   FiCalendar,
   FiDollarSign,
@@ -10,6 +12,7 @@ import {
   FiX,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+
 import "../css/recenthotjob.css";
 
 const BASE_URL = "https://latestjobportal.onrender.com";
@@ -40,10 +43,16 @@ export default function Searchbar() {
 
       const data = await response.json();
 
+      console.log("Jobs Response:", data);
+
       const allJobs = Array.isArray(data?.data)
         ? data.data
         : Array.isArray(data)
         ? data
+        : Array.isArray(data?.jobs)
+        ? data.jobs
+        : Array.isArray(data?.job)
+        ? data.job
         : [];
 
       setJobs(allJobs);
@@ -51,6 +60,7 @@ export default function Searchbar() {
       console.error("Fetch Jobs Error:", error);
 
       setJobs([]);
+
       setError(
         "Unable to load jobs right now. Please try again."
       );
@@ -75,16 +85,25 @@ export default function Searchbar() {
         job?.jobTitle?.toLowerCase() || "";
 
       const company =
-        job?.employerId?.companyName?.toLowerCase() ||
-        "";
+        job?.employerId?.companyName?.toLowerCase() || "";
 
       const category =
         job?.category?.toLowerCase() || "";
 
+      const location =
+        job?.jobLocation?.toLowerCase() ||
+        job?.location?.toLowerCase() ||
+        "";
+
+      const jobType =
+        job?.jobType?.toLowerCase() || "";
+
       const titleMatch =
         !searchTitle ||
         title.includes(searchTitle) ||
-        category.includes(searchTitle);
+        category.includes(searchTitle) ||
+        location.includes(searchTitle) ||
+        jobType.includes(searchTitle);
 
       const companyMatch =
         !searchCompany ||
@@ -167,6 +186,7 @@ export default function Searchbar() {
                   type="button"
                   className="search-clear-btn"
                   onClick={() => setJobTitle("")}
+                  aria-label="Clear job title"
                 >
                   <FiX />
                 </button>
@@ -197,6 +217,7 @@ export default function Searchbar() {
                   type="button"
                   className="search-clear-btn"
                   onClick={() => setCompanyName("")}
+                  aria-label="Clear company"
                 >
                   <FiX />
                 </button>
@@ -270,6 +291,7 @@ export default function Searchbar() {
                 loading ? "refresh-spinning" : ""
               }
             />
+
             Refresh
           </button>
 
@@ -304,6 +326,7 @@ export default function Searchbar() {
           {loading ? (
             <>
               <div className="rhj_loading_card">
+
                 <div className="rhj_skeleton_logo"></div>
 
                 <div className="rhj_skeleton_content">
@@ -311,9 +334,11 @@ export default function Searchbar() {
                   <span></span>
                   <span></span>
                 </div>
+
               </div>
 
               <div className="rhj_loading_card">
+
                 <div className="rhj_skeleton_logo"></div>
 
                 <div className="rhj_skeleton_content">
@@ -321,9 +346,11 @@ export default function Searchbar() {
                   <span></span>
                   <span></span>
                 </div>
+
               </div>
 
               <div className="rhj_loading_card">
+
                 <div className="rhj_skeleton_logo"></div>
 
                 <div className="rhj_skeleton_content">
@@ -331,13 +358,16 @@ export default function Searchbar() {
                   <span></span>
                   <span></span>
                 </div>
+
               </div>
             </>
           ) : !error && filteredJobs.length > 0 ? (
+
             filteredJobs.map((item) => {
 
               const companyName =
                 item?.employerId?.companyName ||
+                item?.companyName ||
                 "Company";
 
               const companyInitial =
@@ -345,9 +375,27 @@ export default function Searchbar() {
                   .charAt(0)
                   .toUpperCase() || "C";
 
-              const logo = item?.employerId?.logo
-                ? `${BASE_URL}/uploads/${item.employerId.logo}`
-                : null;
+              const logoValue =
+                item?.employerId?.logo ||
+                item?.logo ||
+                "";
+
+              const logo =
+                logoValue
+                  ? logoValue.startsWith("http")
+                    ? logoValue
+                    : `${BASE_URL}/uploads/${logoValue}`
+                  : null;
+
+              const location =
+                item?.jobLocation ||
+                item?.location ||
+                "Location not specified";
+
+              const salary =
+                item?.salaryPackage ||
+                item?.salary ||
+                "Not Mentioned";
 
               return (
                 <article
@@ -428,8 +476,7 @@ export default function Searchbar() {
 
                     <span>
                       <FiMapPin />
-                      {item?.jobLocation ||
-                        "Location not specified"}
+                      {location}
                     </span>
 
                     <span>
@@ -457,6 +504,7 @@ export default function Searchbar() {
                   <div className="rhj_card_bottom">
 
                     <div className="rhj_salary">
+
                       <FiDollarSign />
 
                       <div>
@@ -465,11 +513,10 @@ export default function Searchbar() {
                         </small>
 
                         <strong>
-                          ₹
-                          {item?.salaryPackage ||
-                            "Not Mentioned"}
+                          ₹{salary}
                         </strong>
                       </div>
+
                     </div>
 
                     <span className="rhj_view_job">
@@ -482,7 +529,9 @@ export default function Searchbar() {
                 </article>
               );
             })
+
           ) : !error ? (
+
             <div className="rhj_no_results">
 
               <div className="rhj_no_results_icon">
@@ -508,9 +557,11 @@ export default function Searchbar() {
               </button>
 
             </div>
+
           ) : null}
 
         </div>
+
       </section>
 
     </div>

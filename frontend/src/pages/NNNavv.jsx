@@ -201,7 +201,7 @@ const NNNavv = () => {
 
         <li>
           <NavLink
-            to="/contact"
+            to="/contactpage"
             className={({ isActive }) =>
               `hd-nav-link ${isActive ? "hd-active" : ""}`
             }
