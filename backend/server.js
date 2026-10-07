@@ -26,6 +26,7 @@ app.use(
     origin: [
       "https://latestjobportal-1.onrender.com",
       "http://localhost:5173",
+      "http://localhost:5174",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
