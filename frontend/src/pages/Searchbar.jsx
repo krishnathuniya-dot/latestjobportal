@@ -1,9 +1,8 @@
-
 import React, { useEffect, useMemo, useState } from "react";
 import {
   FiBriefcase,
   FiSearch,
-  FiBuilding,
+  FiHome,
   FiMapPin,
   FiCalendar,
   FiDollarSign,
@@ -61,9 +60,7 @@ export default function Searchbar() {
 
       setJobs([]);
 
-      setError(
-        "Unable to load jobs right now. Please try again."
-      );
+      setError("Unable to load jobs right now. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -81,22 +78,21 @@ export default function Searchbar() {
     const searchCompany = companyName.trim().toLowerCase();
 
     return jobs.filter((job) => {
-      const title =
-        job?.jobTitle?.toLowerCase() || "";
+      const title = job?.jobTitle?.toLowerCase() || "";
 
       const company =
-        job?.employerId?.companyName?.toLowerCase() || "";
+        job?.employerId?.companyName?.toLowerCase() ||
+        job?.companyName?.toLowerCase() ||
+        "";
 
-      const category =
-        job?.category?.toLowerCase() || "";
+      const category = job?.category?.toLowerCase() || "";
 
       const location =
         job?.jobLocation?.toLowerCase() ||
         job?.location?.toLowerCase() ||
         "";
 
-      const jobType =
-        job?.jobType?.toLowerCase() || "";
+      const jobType = job?.jobType?.toLowerCase() || "";
 
       const titleMatch =
         !searchTitle ||
@@ -139,14 +135,11 @@ export default function Searchbar() {
 
   return (
     <div className="search-page">
-
       {/* =================================
           HERO SEARCH SECTION
       ================================= */}
       <section className="job-search-hero">
-
         <div className="job-search-hero-content">
-
           <span className="job-search-eyebrow">
             <FiBriefcase />
             FIND YOUR NEXT OPPORTUNITY
@@ -157,15 +150,13 @@ export default function Searchbar() {
           </h1>
 
           <p className="job-search-description">
-            Search thousands of opportunities and
-            find the right job for your career.
+            Search thousands of opportunities and find the right job
+            for your career.
           </p>
 
           <div className="job-search-container">
-
             {/* Job Title */}
             <div className="job-search-field">
-
               <FiSearch className="job-search-field-icon" />
 
               <div className="job-search-input-content">
@@ -175,9 +166,7 @@ export default function Searchbar() {
                   type="text"
                   placeholder="e.g. React Developer"
                   value={jobTitle}
-                  onChange={(e) =>
-                    setJobTitle(e.target.value)
-                  }
+                  onChange={(e) => setJobTitle(e.target.value)}
                 />
               </div>
 
@@ -191,13 +180,11 @@ export default function Searchbar() {
                   <FiX />
                 </button>
               )}
-
             </div>
 
             {/* Company */}
             <div className="job-search-field">
-
-              <FiBuilding className="job-search-field-icon" />
+              <FiHome className="job-search-field-icon" />
 
               <div className="job-search-input-content">
                 <label>Company</label>
@@ -206,9 +193,7 @@ export default function Searchbar() {
                   type="text"
                   placeholder="e.g. TCS"
                   value={companyName}
-                  onChange={(e) =>
-                    setCompanyName(e.target.value)
-                  }
+                  onChange={(e) => setCompanyName(e.target.value)}
                 />
               </div>
 
@@ -222,7 +207,6 @@ export default function Searchbar() {
                   <FiX />
                 </button>
               )}
-
             </div>
 
             <button
@@ -236,7 +220,6 @@ export default function Searchbar() {
               <FiSearch />
               Search Jobs
             </button>
-
           </div>
 
           {(jobTitle || companyName) && (
@@ -249,7 +232,6 @@ export default function Searchbar() {
               Clear Search
             </button>
           )}
-
         </div>
       </section>
 
@@ -257,9 +239,7 @@ export default function Searchbar() {
           RESULTS SECTION
       ================================= */}
       <section className="recent_hot_jobs_container">
-
         <div className="rhj_results_header">
-
           <div>
             <span className="rhj_results_label">
               JOB OPPORTUNITIES
@@ -272,10 +252,7 @@ export default function Searchbar() {
             {!loading && !error && (
               <p className="rhj_results_count">
                 {filteredJobs.length}{" "}
-                {filteredJobs.length === 1
-                  ? "job"
-                  : "jobs"}{" "}
-                found
+                {filteredJobs.length === 1 ? "job" : "jobs"} found
               </p>
             )}
           </div>
@@ -287,14 +264,10 @@ export default function Searchbar() {
             disabled={loading}
           >
             <FiRefreshCw
-              className={
-                loading ? "refresh-spinning" : ""
-              }
+              className={loading ? "refresh-spinning" : ""}
             />
-
             Refresh
           </button>
-
         </div>
 
         {/* =================================
@@ -302,19 +275,14 @@ export default function Searchbar() {
         ================================= */}
         {error && (
           <div className="rhj_error_state">
-
             <div>
-              <strong>
-                Unable to load jobs
-              </strong>
-
+              <strong>Unable to load jobs</strong>
               <p>{error}</p>
             </div>
 
             <button onClick={fetchJobs}>
               Try Again
             </button>
-
           </div>
         )}
 
@@ -322,11 +290,9 @@ export default function Searchbar() {
             JOB GRID
         ================================= */}
         <div className="rhj_jobs_grid">
-
           {loading ? (
             <>
               <div className="rhj_loading_card">
-
                 <div className="rhj_skeleton_logo"></div>
 
                 <div className="rhj_skeleton_content">
@@ -334,11 +300,9 @@ export default function Searchbar() {
                   <span></span>
                   <span></span>
                 </div>
-
               </div>
 
               <div className="rhj_loading_card">
-
                 <div className="rhj_skeleton_logo"></div>
 
                 <div className="rhj_skeleton_content">
@@ -346,11 +310,9 @@ export default function Searchbar() {
                   <span></span>
                   <span></span>
                 </div>
-
               </div>
 
               <div className="rhj_loading_card">
-
                 <div className="rhj_skeleton_logo"></div>
 
                 <div className="rhj_skeleton_content">
@@ -358,34 +320,28 @@ export default function Searchbar() {
                   <span></span>
                   <span></span>
                 </div>
-
               </div>
             </>
           ) : !error && filteredJobs.length > 0 ? (
-
             filteredJobs.map((item) => {
-
               const companyName =
                 item?.employerId?.companyName ||
                 item?.companyName ||
                 "Company";
 
               const companyInitial =
-                companyName
-                  .charAt(0)
-                  .toUpperCase() || "C";
+                companyName.charAt(0).toUpperCase() || "C";
 
               const logoValue =
                 item?.employerId?.logo ||
                 item?.logo ||
                 "";
 
-              const logo =
-                logoValue
-                  ? logoValue.startsWith("http")
-                    ? logoValue
-                    : `${BASE_URL}/uploads/${logoValue}`
-                  : null;
+              const logo = logoValue
+                ? logoValue.startsWith("http")
+                  ? logoValue
+                  : `${BASE_URL}/uploads/${logoValue}`
+                : null;
 
               const location =
                 item?.jobLocation ||
@@ -405,17 +361,13 @@ export default function Searchbar() {
                     navigate(`/apply/${item?._id}`)
                   }
                 >
-
                   {/* =========================
                       CARD TOP
                   ========================== */}
                   <div className="rhj_card_top">
-
                     <div className="recent_hot_job_left">
-
                       {/* Logo */}
                       <div className="rhj_logo_wrapper">
-
                         {logo ? (
                           <img
                             src={logo}
@@ -428,52 +380,41 @@ export default function Searchbar() {
                         <div
                           className="rhj_fallback_logo"
                           style={{
-                            display: logo
-                              ? "none"
-                              : "flex",
+                            display: logo ? "none" : "flex",
                           }}
                         >
                           {companyInitial}
                         </div>
-
                       </div>
 
                       {/* Job Content */}
                       <div className="recent_hot_content">
-
                         <span className="rhj_job_category">
                           <FiBriefcase />
-                          {item?.category ||
-                            "Job Opportunity"}
+                          {item?.category || "Job Opportunity"}
                         </span>
 
                         <h3>
-                          {item?.jobTitle ||
-                            "Job Title"}
+                          {item?.jobTitle || "Job Title"}
                         </h3>
 
                         <p className="rhj_company_name">
-                          <FiBuilding />
+                          <FiHome />
                           {companyName}
                         </p>
-
                       </div>
-
                     </div>
 
                     {/* Job Type */}
                     <span className="recent_hot_type_btn">
-                      {item?.jobType ||
-                        "Full Time"}
+                      {item?.jobType || "Full Time"}
                     </span>
-
                   </div>
 
                   {/* =========================
                       META
                   ========================== */}
                   <div className="recent_hot_meta">
-
                     <span>
                       <FiMapPin />
                       {location}
@@ -495,57 +436,43 @@ export default function Searchbar() {
                           )
                         : "N/A"}
                     </span>
-
                   </div>
 
                   {/* =========================
                       BOTTOM
                   ========================== */}
                   <div className="rhj_card_bottom">
-
                     <div className="rhj_salary">
-
                       <FiDollarSign />
 
                       <div>
-                        <small>
-                          Salary Package
-                        </small>
+                        <small>Salary Package</small>
 
                         <strong>
                           ₹{salary}
                         </strong>
                       </div>
-
                     </div>
 
                     <span className="rhj_view_job">
                       View Job
                       <FiArrowRight />
                     </span>
-
                   </div>
-
                 </article>
               );
             })
-
           ) : !error ? (
-
             <div className="rhj_no_results">
-
               <div className="rhj_no_results_icon">
                 <FiSearch />
               </div>
 
-              <h2>
-                No Jobs Found
-              </h2>
+              <h2>No Jobs Found</h2>
 
               <p>
-                No jobs match your current
-                search criteria. Try another
-                job title or company name.
+                No jobs match your current search criteria.
+                Try another job title or company name.
               </p>
 
               <button
@@ -555,15 +482,10 @@ export default function Searchbar() {
                 <FiX />
                 Clear Search
               </button>
-
             </div>
-
           ) : null}
-
         </div>
-
       </section>
-
     </div>
   );
 }
