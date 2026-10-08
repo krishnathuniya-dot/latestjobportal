@@ -1,449 +1,369 @@
-/* =========================================
-   MY APPLICATIONS PAGE
-========================================= */
+
+/* ================================
+   APPLICANTS PAGE
+================================ */
 
 .applicant-container {
-  min-height: 100vh;
-  background: #f5f8fc;
-  padding: 40px 22px 70px;
-}
-
-.applications-page-header {
   width: 100%;
-  max-width: 1180px;
-  margin: 0 auto 25px;
-  background: linear-gradient(135deg, #0756b8, #003b82);
-  border-radius: 18px;
-  padding: 28px 30px;
-  color: #ffffff;
+  min-height: 100vh;
+  padding: 35px 5%;
+  background: #f5f7fb;
+  box-sizing: border-box;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.applicant-header {
+  max-width: 1200px;
+  margin: 0 auto 28px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 18px;
-  box-shadow: 0 12px 30px rgba(7, 86, 184, 0.18);
-}
-
-.applications-header-icon {
-  width: 58px;
-  height: 58px;
-  flex: 0 0 58px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.14);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 27px;
-}
-
-.applications-header-content {
-  flex: 1;
-}
-
-.applications-label {
-  display: block;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: #bfdbfe;
-  margin-bottom: 5px;
+  gap: 20px;
 }
 
 .page-title {
   margin: 0;
-  color: #ffffff;
-  font-size: 29px;
-  font-weight: 800;
+  font-size: 32px;
+  font-weight: 700;
+  color: #172033;
 }
 
-.applications-header-content p {
+.page-subtitle {
   margin: 7px 0 0;
-  color: #dbeafe;
-  font-size: 13px;
+  color: #697386;
+  font-size: 15px;
 }
 
-.applications-count {
-  min-width: 105px;
-  padding: 13px 17px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 12px;
-  text-align: center;
+.applicant-count {
+  background: #ffffff;
+  border: 1px solid #e5e9f2;
+  padding: 11px 18px;
+  border-radius: 30px;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.applications-count strong {
-  display: block;
-  font-size: 25px;
-}
+/* ================================
+   APPLICANTS LIST
+================================ */
 
-.applications-count span {
-  display: block;
-  color: #dbeafe;
-  font-size: 11px;
-  margin-top: 2px;
-}
-
-/* =========================================
-   APPLICATION LIST
-========================================= */
-
-.applications-list {
-  width: 100%;
-  max-width: 1180px;
-  margin: 0 auto;
+.applicants-list {
+  max-width: 1200px;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
-/* =========================================
-   APPLICATION CARD
-========================================= */
+/* ================================
+   APPLICANT CARD
+================================ */
 
 .applicant-card {
+  width: 100%;
   background: #ffffff;
-  border: 1px solid #e4eaf1;
-  border-radius: 17px;
-  padding: 23px;
+  border: 1px solid #e8ebf2;
+  border-radius: 18px;
+  padding: 25px;
   display: flex;
-  gap: 22px;
-  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05);
-  transition: 0.25s ease;
+  gap: 25px;
+  box-sizing: border-box;
+  box-shadow: 0 5px 20px rgba(20, 35, 70, 0.06);
+  transition: all 0.25s ease;
 }
 
 .applicant-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.09);
-  border-color: #cbdcf4;
+  box-shadow: 0 12px 30px rgba(20, 35, 70, 0.10);
+  border-color: #d7def0;
 }
 
-/* =========================================
-   COMPANY LOGO
-========================================= */
+/* ================================
+   PROFILE
+================================ */
 
-.company-logo-section {
-  width: 82px;
-  height: 82px;
-  flex: 0 0 82px;
-  border-radius: 14px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.profile-wrapper {
+  flex-shrink: 0;
 }
 
-.company-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 8px;
-  background: #ffffff;
+.profile-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #f0f4ff;
+  background: #f5f7fb;
 }
 
-.default-logo {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #0756b8, #003b82);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 31px;
-  font-weight: 800;
-}
-
-/* =========================================
+/* ================================
    CONTENT
-========================================= */
+================================ */
 
 .applicant-content {
   flex: 1;
   min-width: 0;
 }
 
-.application-top-row {
+.candidate-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 15px;
 }
 
-.application-job-info {
-  min-width: 0;
-}
-
-.application-job-type {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 9px;
-  border-radius: 20px;
-  background: #eff6ff;
-  color: #0756b8;
-  border: 1px solid #dbeafe;
-  font-size: 10px;
-  font-weight: 800;
-  margin-bottom: 7px;
-}
-
 .candidate-name {
   margin: 0;
-  color: #0f172a;
-  font-size: 21px;
-  line-height: 1.3;
-  font-weight: 800;
-  word-break: break-word;
-}
-
-.job-title {
-  margin: 5px 0 0;
-  color: #0756b8;
-  font-size: 14px;
+  color: #172033;
+  font-size: 22px;
   font-weight: 700;
 }
 
-/* =========================================
-   STATUS
-========================================= */
+.candidate-role {
+  margin: 4px 0 0;
+  color: #7a8497;
+  font-size: 13px;
+}
 
 .application-status {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-height: 32px;
-  padding: 0 12px;
+  padding: 6px 13px;
   border-radius: 20px;
-  font-size: 11px;
-  font-weight: 800;
-  white-space: nowrap;
-  flex-shrink: 0;
+  background: #e9f9ef;
+  color: #16803c;
+  font-size: 12px;
+  font-weight: 700;
 }
 
-.application-status.pending {
-  background: #fff7ed;
-  color: #c2410c;
-  border: 1px solid #fed7aa;
+/* ================================
+   DATE
+================================ */
+
+.apply-date {
+  margin: 10px 0;
+  color: #7b8495;
+  font-size: 13px;
 }
 
-.application-status.accepted {
-  background: #ecfdf5;
-  color: #047857;
-  border: 1px solid #a7f3d0;
+.apply-date span {
+  margin-right: 6px;
 }
 
-.application-status.rejected {
-  background: #fef2f2;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
+/* ================================
+   JOB TITLE
+================================ */
+
+.job-title {
+  margin: 10px 0 18px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4b5568;
 }
 
-.application-status.interview {
-  background: #eff6ff;
-  color: #0756b8;
-  border: 1px solid #bfdbfe;
+.job-title span {
+  color: #2563eb;
 }
 
-/* =========================================
-   META
-========================================= */
+/* ================================
+   CONTACT
+================================ */
 
-.application-meta {
-  margin-top: 18px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 18px;
 }
 
-.application-meta-item {
+.contact-item {
+  min-width: 230px;
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 0;
-  padding: 12px;
-  background: #f8fafc;
-  border: 1px solid #e8edf3;
+}
+
+.contact-icon {
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
-}
-
-.meta-icon {
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #0756b8;
+  background: #f1f5ff;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  font-size: 17px;
 }
 
-.application-meta-item small {
-  display: block;
-  color: #94a3b8;
-  font-size: 10px;
-  margin-bottom: 3px;
+.contact-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.application-meta-item strong {
-  display: block;
-  color: #334155;
-  font-size: 12px;
+.contact-item small {
+  color: #8a93a4;
+  font-size: 11px;
+}
+
+.contact-item strong {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 600;
   word-break: break-word;
 }
 
-/* =========================================
+/* ================================
    SKILLS
-========================================= */
+================================ */
 
-.application-skills {
-  margin-top: 16px;
-}
-
-.skills-heading {
+.skill-row {
   display: flex;
-  align-items: center;
-  gap: 7px;
-  color: #475569;
-  font-size: 12px;
-  font-weight: 800;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 15px;
+  background: #f8faff;
+  border: 1px solid #e8edfa;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.skills-heading svg {
-  color: #0756b8;
+.skill-icon {
+  font-size: 15px;
+  margin-top: 2px;
 }
 
-.skill-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
+.skill-row > div {
+  flex: 1;
 }
 
-.application-skill-tag {
-  padding: 6px 10px;
-  border-radius: 16px;
-  background: #f1f5f9;
-  color: #475569;
-  border: 1px solid #e2e8f0;
+.skill-label {
+  display: block;
+  color: #6d778a;
   font-size: 11px;
   font-weight: 600;
+  margin-bottom: 3px;
 }
 
-.no-skills {
-  color: #94a3b8;
-  font-size: 12px;
+.skill-row p {
+  margin: 0;
+  color: #26334d;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
-/* =========================================
+/* ================================
    BUTTONS
-========================================= */
+================================ */
 
 .btn-group {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
 }
 
-.detail-btn,
-.application-btn {
-  min-height: 42px;
+.btn-group button {
+  border: none;
   border-radius: 8px;
-  padding: 0 15px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
+  padding: 11px 16px;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 11px;
-  font-weight: 800;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.resume-btn {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.resume-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 .detail-btn {
-  background: #ffffff;
-  color: #0756b8;
-  border: 1px solid #bcd3ef;
+  background: #eef4ff;
+  color: #2563eb;
+  border: 1px solid #dbe6ff !important;
 }
 
 .detail-btn:hover {
-  background: #eff6ff;
-  border-color: #0756b8;
+  background: #dfeaff;
 }
 
 .application-btn {
-  background: linear-gradient(135deg, #0756b8, #003b82);
+  background: #172033;
   color: #ffffff;
-  border: 1px solid transparent;
-  box-shadow: 0 5px 14px rgba(7, 86, 184, 0.17);
 }
 
 .application-btn:hover {
+  background: #0f172a;
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(7, 86, 184, 0.24);
 }
 
-/* =========================================
-   ERROR
-========================================= */
+.disabled-btn {
+  background: #e5e7eb !important;
+  color: #9ca3af !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
 
-.applications-error {
-  max-width: 1180px;
-  margin: 0 auto 20px;
-  padding: 16px 18px;
-  border-radius: 12px;
-  border: 1px solid #fecaca;
-  background: #fef2f2;
-  color: #b91c1c;
+/* ================================
+   LOADING
+================================ */
+
+.applicants-loading {
+  min-height: 60vh;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 12px;
+  color: #344054;
 }
 
-.applications-error > svg {
-  font-size: 22px;
-  flex-shrink: 0;
+.applicants-loading h3 {
+  margin: 15px 0 5px;
+  font-size: 18px;
 }
 
-.applications-error div {
-  flex: 1;
+.applicants-loading p {
+  margin: 0;
+  color: #8a93a4;
+  font-size: 14px;
 }
 
-.applications-error strong {
-  display: block;
-  font-size: 13px;
+.loading-spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: applicantSpin 0.8s linear infinite;
 }
 
-.applications-error p {
-  margin: 3px 0 0;
-  font-size: 12px;
+@keyframes applicantSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.applications-error button {
-  border: none;
-  background: #b91c1c;
-  color: #ffffff;
-  padding: 8px 13px;
-  border-radius: 7px;
-  cursor: pointer;
-  font-size: 11px;
-  font-weight: 700;
-}
+/* ================================
+   NO APPLICANTS
+================================ */
 
-/* =========================================
-   EMPTY STATE
-========================================= */
-
-.applications-empty {
+.no-applicants {
   max-width: 600px;
-  margin: 60px auto;
+  margin: 70px auto;
+  padding: 50px 30px;
   background: #ffffff;
-  border: 1px solid #e5eaf0;
+  border: 1px solid #e8ebf2;
   border-radius: 18px;
-  padding: 45px 30px;
   text-align: center;
-  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 5px 20px rgba(20, 35, 70, 0.05);
 }
 
 .empty-icon {
@@ -451,207 +371,180 @@
   height: 70px;
   margin: 0 auto 18px;
   border-radius: 50%;
-  background: #eff6ff;
-  color: #0756b8;
+  background: #f1f5ff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 30px;
 }
 
-.applications-empty h2 {
-  margin: 0;
-  color: #0f172a;
-  font-size: 22px;
+.no-applicants h3 {
+  margin: 0 0 8px;
+  color: #172033;
+  font-size: 20px;
 }
 
-.applications-empty p {
-  max-width: 450px;
-  margin: 9px auto 22px;
-  color: #64748b;
-  font-size: 13px;
-  line-height: 1.7;
+.no-applicants p {
+  margin: 0 0 22px;
+  color: #7a8497;
+  font-size: 14px;
 }
 
-.applications-empty button {
-  min-height: 44px;
-  padding: 0 18px;
+.refresh-btn {
   border: none;
+  padding: 11px 20px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #0756b8, #003b82);
+  background: #2563eb;
   color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
-/* =========================================
-   LOADING
-========================================= */
-
-.applications-loading {
-  min-height: 65vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 30px;
+.refresh-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
-.applications-loader {
-  width: 46px;
-  height: 46px;
-  border: 4px solid #dbeafe;
-  border-top-color: #0756b8;
-  border-radius: 50%;
-  animation: applicationLoader 0.8s linear infinite;
-}
-
-@keyframes applicationLoader {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.applications-loading h3 {
-  margin: 17px 0 5px;
-  color: #334155;
-  font-size: 19px;
-}
-
-.applications-loading p {
-  margin: 0;
-  color: #94a3b8;
-  font-size: 13px;
-}
-
-/* =========================================
+/* ================================
    TABLET
-========================================= */
+================================ */
 
-@media (max-width: 850px) {
-  .applications-page-header {
-    padding: 23px;
-  }
-
-  .applications-count {
-    min-width: 90px;
-  }
-
-  .application-meta {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 650px) {
+@media (max-width: 768px) {
   .applicant-container {
-    padding: 22px 12px 50px;
+    padding: 25px 18px;
   }
 
-  .applications-page-header {
-    padding: 22px;
-    border-radius: 15px;
+  .applicant-header {
     align-items: flex-start;
-  }
-
-  .applications-header-icon {
-    width: 48px;
-    height: 48px;
-    flex-basis: 48px;
-    font-size: 22px;
+    flex-direction: column;
   }
 
   .page-title {
-    font-size: 23px;
-  }
-
-  .applications-header-content p {
-    font-size: 12px;
-  }
-
-  .applications-count {
-    display: none;
+    font-size: 27px;
   }
 
   .applicant-card {
-    padding: 18px;
-    flex-direction: column;
-    gap: 16px;
+    padding: 20px;
+    gap: 18px;
   }
 
-  .company-logo-section {
-    width: 68px;
-    height: 68px;
-    flex-basis: 68px;
-  }
-
-  .application-top-row {
-    flex-direction: column;
-  }
-
-  .application-status {
-    align-self: flex-start;
+  .profile-image {
+    width: 75px;
+    height: 75px;
   }
 
   .candidate-name {
     font-size: 19px;
   }
 
+  .contact-item {
+    min-width: 200px;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+  .applicant-container {
+    padding: 20px 12px;
+  }
+
+  .applicant-header {
+    margin-bottom: 20px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .page-subtitle {
+    font-size: 13px;
+  }
+
+  .applicant-count {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  .applicant-card {
+    flex-direction: column;
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .profile-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .profile-image {
+    width: 85px;
+    height: 85px;
+  }
+
+  .candidate-top {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .candidate-name {
+    font-size: 20px;
+  }
+
+  .application-status {
+    align-self: flex-start;
+  }
+
+  .contact-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .contact-item {
+    min-width: 0;
+    width: 100%;
+  }
+
   .btn-group {
     flex-direction: column;
   }
 
-  .detail-btn,
-  .application-btn {
+  .btn-group button {
     width: 100%;
+  }
+
+  .no-applicants {
+    margin: 40px auto;
+    padding: 40px 20px;
   }
 }
 
-/* =========================================
+/* ================================
    SMALL MOBILE
-========================================= */
+================================ */
 
-@media (max-width: 420px) {
-  .applicant-container {
-    padding: 15px 9px 40px;
-  }
-
-  .applications-page-header {
-    gap: 12px;
-    padding: 18px;
-  }
-
-  .applications-header-icon {
-    display: none;
-  }
-
+@media (max-width: 380px) {
   .page-title {
     font-size: 21px;
   }
 
-  .applications-page-header {
-    margin-bottom: 16px;
-  }
-
   .applicant-card {
-    border-radius: 13px;
     padding: 15px;
   }
 
-  .application-meta-item {
-    padding: 10px;
+  .candidate-name {
+    font-size: 18px;
   }
 
-  .applications-empty {
-    padding: 35px 20px;
-    margin-top: 40px;
+  .job-title {
+    font-size: 14px;
+  }
+
+  .contact-item strong {
+    font-size: 12px;
   }
 }
+

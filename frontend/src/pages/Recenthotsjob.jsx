@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "../css/recenthotjob.css";
 import { useNavigate } from "react-router-dom";
+
 import {
   FaSearch,
   FaBriefcase,
@@ -24,23 +25,20 @@ export default function RecenthotsJob() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 6;
 
-  // =========================================
-  // FETCH JOBS
-  // =========================================
+  /* =========================================
+     FETCH JOBS
+  ========================================= */
+
   const fetchJobs = async () => {
     try {
       setLoading(true);
       setError("");
 
-      const response = await fetch(
-        `${API_URL}/api/managejob`
-      );
-
+      const response = await fetch(`${API_URL}/api/managejob`);
       const data = await response.json();
 
       console.log("Recent Hot Jobs Response:", data);
@@ -51,28 +49,23 @@ export default function RecenthotsJob() {
         );
       }
 
-      const jobs =
-        Array.isArray(data)
-          ? data
-          : Array.isArray(data?.data)
-          ? data.data
-          : Array.isArray(data?.jobs)
-          ? data.jobs
-          : Array.isArray(data?.job)
-          ? data.job
-          : [];
+      const jobs = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.data)
+        ? data.data
+        : Array.isArray(data?.jobs)
+        ? data.jobs
+        : Array.isArray(data?.job)
+        ? data.job
+        : [];
 
       setJobData(jobs);
-    } catch (error) {
-      console.error(
-        "Recent Hot Jobs Error:",
-        error
-      );
+    } catch (err) {
+      console.error("Recent Hot Jobs Error:", err);
 
       setJobData([]);
-
       setError(
-        error?.message ||
+        err?.message ||
           "Unable to load jobs. Please try again."
       );
     } finally {
@@ -84,15 +77,14 @@ export default function RecenthotsJob() {
     fetchJobs();
   }, []);
 
-  // =========================================
-  // SEARCH
-  // =========================================
+  /* =========================================
+     SEARCH
+  ========================================= */
+
   const filteredJobs = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    if (!query) {
-      return jobData;
-    }
+    if (!query) return jobData;
 
     return jobData.filter((item) => {
       const title =
@@ -128,9 +120,10 @@ export default function RecenthotsJob() {
     });
   }, [jobData, search]);
 
-  // =========================================
-  // PAGINATION
-  // =========================================
+  /* =========================================
+     PAGINATION
+  ========================================= */
+
   const totalPages = Math.ceil(
     filteredJobs.length / itemsPerPage
   );
@@ -143,33 +136,26 @@ export default function RecenthotsJob() {
     startIndex + itemsPerPage
   );
 
-  // =========================================
-  // DATE
-  // =========================================
+  /* =========================================
+     HELPERS
+  ========================================= */
+
   const formatDate = (date) => {
-    if (!date) {
-      return "Recently Posted";
-    }
+    if (!date) return "Recently";
 
     const parsedDate = new Date(date);
 
     if (Number.isNaN(parsedDate.getTime())) {
-      return "Recently Posted";
+      return "Recently";
     }
 
-    return parsedDate.toLocaleDateString(
-      "en-IN",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }
-    );
+    return parsedDate.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
-  // =========================================
-  // SALARY
-  // =========================================
   const getSalary = (item) => {
     if (item?.salaryPackage) {
       return item.salaryPackage;
@@ -179,10 +165,7 @@ export default function RecenthotsJob() {
       return item.salary;
     }
 
-    if (
-      item?.minSalary ||
-      item?.maxSalary
-    ) {
+    if (item?.minSalary || item?.maxSalary) {
       return `${item?.minSalary || ""} - ${
         item?.maxSalary || ""
       }`;
@@ -191,9 +174,6 @@ export default function RecenthotsJob() {
     return "Salary not disclosed";
   };
 
-  // =========================================
-  // LOCATION
-  // =========================================
   const getLocation = (item) => {
     return (
       item?.jobLocation ||
@@ -202,9 +182,6 @@ export default function RecenthotsJob() {
     );
   };
 
-  // =========================================
-  // COMPANY NAME
-  // =========================================
   const getCompanyName = (item) => {
     return (
       item?.employerId?.companyName ||
@@ -213,17 +190,12 @@ export default function RecenthotsJob() {
     );
   };
 
-  // =========================================
-  // LOGO
-  // =========================================
   const getLogo = (item) => {
     const logo =
       item?.employerId?.logo ||
       item?.logo;
 
-    if (!logo) {
-      return "";
-    }
+    if (!logo) return "";
 
     if (
       typeof logo === "string" &&
@@ -235,33 +207,31 @@ export default function RecenthotsJob() {
     return `${API_URL}/uploads/${logo}`;
   };
 
-  // =========================================
-  // SEARCH PAGE RESET
-  // =========================================
+  /* =========================================
+     RESET SEARCH PAGE
+  ========================================= */
+
   useEffect(() => {
     setCurrentPage(1);
   }, [search]);
 
-  // =========================================
-  // HANDLE JOB
-  // =========================================
+  /* =========================================
+     OPEN JOB
+  ========================================= */
+
   const handleJobClick = (jobId) => {
-    if (!jobId) {
-      return;
-    }
+    if (!jobId) return;
 
     navigate(`/apply/${jobId}`);
   };
 
-  // =========================================
-  // RENDER
-  // =========================================
   return (
     <section className="recent_hot_jobs_container">
 
       {/* =====================================
           HEADER
       ===================================== */}
+
       <div className="rhj_header">
 
         <div className="rhj_header_content">
@@ -276,9 +246,9 @@ export default function RecenthotsJob() {
           </h1>
 
           <p className="rhj_header_description">
-            Discover the latest opportunities from
-            trusted companies and take the next
-            step in your career.
+            Explore the latest job opportunities
+            from trusted companies and find your
+            next career move.
           </p>
 
         </div>
@@ -307,14 +277,15 @@ export default function RecenthotsJob() {
       {/* =====================================
           SEARCH
       ===================================== */}
+
       <div className="rhj_search_wrapper">
 
         <FaSearch className="rhj_search_icon" />
 
         <input
           type="text"
-          placeholder="Search job title, company, location, category..."
           className="rhj_search_input"
+          placeholder="Search job title, company, location..."
           value={search}
           onChange={(e) =>
             setSearch(e.target.value)
@@ -334,12 +305,13 @@ export default function RecenthotsJob() {
       </div>
 
       {/* =====================================
-          RESULTS INFO
+          RESULT INFO
       ===================================== */}
+
       {!loading && !error && (
         <div className="rhj_results_info">
 
-          <div>
+          <span>
             <strong>
               {filteredJobs.length}
             </strong>{" "}
@@ -347,12 +319,14 @@ export default function RecenthotsJob() {
               ? "job"
               : "jobs"}{" "}
             available
-          </div>
+          </span>
 
           {search && (
             <span>
-              Search results for{" "}
-              <strong>"{search}"</strong>
+              Results for{" "}
+              <strong>
+                "{search}"
+              </strong>
             </span>
           )}
 
@@ -362,6 +336,7 @@ export default function RecenthotsJob() {
       {/* =====================================
           ERROR
       ===================================== */}
+
       {error && !loading && (
         <div className="rhj_error_box">
 
@@ -397,33 +372,30 @@ export default function RecenthotsJob() {
       {/* =====================================
           LOADING
       ===================================== */}
-      {loading && (
-        <div className="rhj_jobs_grid">
 
-          {[1, 2, 3, 4, 5, 6].map(
-            (item) => (
+      {loading && (
+        <div className="rhj_jobs_list">
+
+          {Array.from({ length: 6 }).map(
+            (_, index) => (
               <div
                 className="rhj_skeleton_card"
-                key={item}
+                key={index}
               >
 
-                <div className="rhj_skeleton_top">
-                  <div className="rhj_skeleton_logo"></div>
-                  <div className="rhj_skeleton_badge"></div>
+                <div className="rhj_skeleton_logo" />
+
+                <div className="rhj_skeleton_content">
+
+                  <div className="rhj_skeleton_line title" />
+
+                  <div className="rhj_skeleton_line company" />
+
+                  <div className="rhj_skeleton_line meta" />
+
+                  <div className="rhj_skeleton_line bottom" />
+
                 </div>
-
-                <div className="rhj_skeleton_line large"></div>
-
-                <div className="rhj_skeleton_line medium"></div>
-
-                <div className="rhj_skeleton_line small"></div>
-
-                <div className="rhj_skeleton_meta">
-                  <div></div>
-                  <div></div>
-                </div>
-
-                <div className="rhj_skeleton_footer"></div>
 
               </div>
             )
@@ -433,12 +405,14 @@ export default function RecenthotsJob() {
       )}
 
       {/* =====================================
-          JOBS
+          JOB LIST
       ===================================== */}
+
       {!loading &&
         !error &&
         paginatedJobs.length > 0 && (
-          <div className="rhj_jobs_grid">
+
+          <div className="rhj_jobs_list">
 
             {paginatedJobs.map((item) => {
 
@@ -453,83 +427,85 @@ export default function RecenthotsJob() {
 
               return (
                 <article
-                  className="recent_hot_job_card"
                   key={item?._id}
+                  className="recent_hot_job_card"
                   onClick={() =>
-                    handleJobClick(
-                      item?._id
-                    )
+                    handleJobClick(item?._id)
                   }
                 >
 
-                  {/* CARD HEADER */}
-                  <div className="rhj_card_header">
+                  {/* LEFT LOGO */}
 
-                    <div className="recent_hot_job_left">
+                  <div className="rhj_logo_container">
 
-                      <div className="rhj_logo_container">
+                    {logo ? (
+                      <img
+                        src={logo}
+                        alt={companyName}
+                        className="recent_hot_logo_img"
+                        onError={(e) => {
+                          e.currentTarget.style.display =
+                            "none";
 
-                        {logo ? (
-                          <img
-                            src={logo}
-                            alt={companyName}
-                            className="recent_hot_logo_img"
-                            onError={(e) => {
-                              e.currentTarget.style.display =
-                                "none";
+                          const fallback =
+                            e.currentTarget.parentElement?.querySelector(
+                              ".recent_hot_logo"
+                            );
 
-                              const fallback =
-                                e.currentTarget.parentElement?.querySelector(
-                                  ".recent_hot_logo"
-                                );
+                          fallback?.classList.add(
+                            "rhj_show_logo_fallback"
+                          );
+                        }}
+                      />
+                    ) : null}
 
-                              fallback?.classList.add(
-                                "rhj_show_logo_fallback"
-                              );
-                            }}
-                          />
-                        ) : null}
-
-                        <div
-                          className={`recent_hot_logo ${
-                            !logo
-                              ? "rhj_show_logo_fallback"
-                              : ""
-                          }`}
-                        >
-                          {companyName
-                            .charAt(0)
-                            .toUpperCase()}
-                        </div>
-
-                      </div>
-
+                    <div
+                      className={`recent_hot_logo ${
+                        !logo
+                          ? "rhj_show_logo_fallback"
+                          : ""
+                      }`}
+                    >
+                      {companyName
+                        .charAt(0)
+                        .toUpperCase()}
                     </div>
-
-                    <span className="recent_hot_type_btn">
-                      {item?.jobType ||
-                        "Full Time"}
-                    </span>
 
                   </div>
 
-                  {/* CARD CONTENT */}
-                  <div className="recent_hot_content">
+                  {/* JOB DETAILS */}
 
-                    <span className="rhj_category">
-                      {item?.category ||
-                        "Job Opportunity"}
-                    </span>
+                  <div className="rhj_job_content">
 
-                    <h3>
-                      {item?.jobTitle ||
-                        "Job Position"}
-                    </h3>
+                    <div className="rhj_job_top">
 
-                    <p className="rhj_company_name">
-                      <FaBuilding />
-                      {companyName}
-                    </p>
+                      <div className="rhj_job_heading">
+
+                        <span className="rhj_category">
+                          {item?.category ||
+                            "Job Opportunity"}
+                        </span>
+
+                        <h3>
+                          {item?.jobTitle ||
+                            "Job Position"}
+                        </h3>
+
+                        <p className="rhj_company_name">
+                          <FaBuilding />
+                          {companyName}
+                        </p>
+
+                      </div>
+
+                      <span className="recent_hot_type_btn">
+                        {item?.jobType ||
+                          "Full Time"}
+                      </span>
+
+                    </div>
+
+                    {/* INFO */}
 
                     <div className="recent_hot_meta">
 
@@ -542,33 +518,32 @@ export default function RecenthotsJob() {
                         <FaCalendarAlt />
                         {formatDate(
                           item?.createdAt ||
-                          item?.date
+                            item?.date
                         )}
+                      </span>
+
+                      <span className="rhj_salary">
+                        <FaRupeeSign />
+                        {getSalary(item)}
                       </span>
 
                     </div>
 
-                    <div className="rhj_salary">
-                      <FaRupeeSign />
-                      <strong>
-                        {getSalary(item)}
-                      </strong>
+                    {/* FOOTER */}
+
+                    <div className="rhj_card_action">
+
+                      <span className="rhj_posted_time">
+                        <FaClock />
+                        Recently Posted
+                      </span>
+
+                      <span className="rhj_view_job">
+                        View Details
+                        <FaArrowRight />
+                      </span>
+
                     </div>
-
-                  </div>
-
-                  {/* CARD FOOTER */}
-                  <div className="rhj_card_footer">
-
-                    <span className="rhj_posted_time">
-                      <FaClock />
-                      Recently Posted
-                    </span>
-
-                    <span className="rhj_view_job">
-                      View Job
-                      <FaArrowRight />
-                    </span>
 
                   </div>
 
@@ -582,9 +557,11 @@ export default function RecenthotsJob() {
       {/* =====================================
           EMPTY
       ===================================== */}
+
       {!loading &&
         !error &&
         paginatedJobs.length === 0 && (
+
           <div className="rhj_empty_state">
 
             <div className="rhj_empty_icon">
@@ -604,9 +581,7 @@ export default function RecenthotsJob() {
             {search && (
               <button
                 type="button"
-                onClick={() =>
-                  setSearch("")
-                }
+                onClick={() => setSearch("")}
               >
                 View All Jobs
               </button>
@@ -618,17 +593,17 @@ export default function RecenthotsJob() {
       {/* =====================================
           PAGINATION
       ===================================== */}
+
       {!loading &&
         !error &&
         totalPages > 1 && (
+
           <div className="rhj_pagination">
 
             <button
               type="button"
               className="rhj_page_btn rhj_arrow_btn"
-              disabled={
-                currentPage === 1
-              }
+              disabled={currentPage === 1}
               onClick={() =>
                 setCurrentPage(
                   (prev) => prev - 1
@@ -640,25 +615,25 @@ export default function RecenthotsJob() {
             </button>
 
             {Array.from(
-              {
-                length: totalPages,
-              },
+              { length: totalPages },
               (_, index) => index + 1
             ).map((page) => (
+
               <button
                 type="button"
                 key={page}
-                onClick={() =>
-                  setCurrentPage(page)
-                }
                 className={`rhj_page_btn ${
                   currentPage === page
                     ? "rhj_active_page"
                     : ""
                 }`}
+                onClick={() =>
+                  setCurrentPage(page)
+                }
               >
                 {page}
               </button>
+
             ))}
 
             <button

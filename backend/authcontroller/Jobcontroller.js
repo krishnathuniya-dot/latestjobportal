@@ -1,7 +1,11 @@
+const mongoose = require("mongoose");
 
-const Apply = require("../model/Apply");
 const Job = require("../model/Job");
 const Application = require("../model/Apply");
+
+/* =========================================================
+   POST JOB
+========================================================= */
 
 const postjob = async (req, res) => {
   try {
@@ -18,7 +22,13 @@ const postjob = async (req, res) => {
       jobDescription,
     } = req.body;
 
-    // CREATE JOB INSTANCE
+    if (!employerId) {
+      return res.status(400).json({
+        success: false,
+        message: "Employer ID is required",
+      });
+    }
+
     const newJob = new Job({
       employerId,
       category,
@@ -32,7 +42,6 @@ const postjob = async (req, res) => {
       jobDescription,
     });
 
-    // SAVE INSTANCE
     const savedJob = await newJob.save();
 
     return res.status(201).json({
@@ -40,9 +49,8 @@ const postjob = async (req, res) => {
       message: "Job Posted Successfully",
       job: savedJob,
     });
-
   } catch (error) {
-    console.log(error);
+    console.log("Post Job Error:", error);
 
     return res.status(500).json({
       success: false,
@@ -50,34 +58,61 @@ const postjob = async (req, res) => {
     });
   }
 };
+
+
+/* =========================================================
+   MANAGE ALL JOBS
+========================================================= */
+
 const managejob = async (req, res) => {
   try {
-
-    const managejob = await Job.find()
+    const jobs = await Job.find()
       .populate(
         "employerId",
         "personName companyName email logo website tagline description"
       )
       .sort({ createdAt: -1 });
 
-    res.status(200).json({
-      total: managejob.length,
-      data: managejob,
+    return res.status(200).json({
+      success: true,
+      total: jobs.length,
+      data: jobs,
     });
+  } catch (error) {
+    console.log("Manage Job Error:", error);
 
-  } catch (err) {
-
-    res.status(500).json({
+    return res.status(500).json({
+      success: false,
       message: "Server error",
-      error: err.message,
+      error: error.message,
     });
-
   }
 };
+
+
+/* =========================================================
+   GET SINGLE JOB
+========================================================= */
+
 const managejobb = async (req, res) => {
   try {
-    // 🎯 फिक्स: findById के बाद से सेमीकोलन (;) हटा दिया गया है ताकि .populate चेन हो सके
-    const job = await Job.findById(req.params.id).populate(
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Job ID is required",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Job ID",
+      });
+    }
+
+    const job = await Job.findById(id).populate(
       "employerId",
       "personName companyName email logo website tagline description"
     );
@@ -89,23 +124,94 @@ const managejobb = async (req, res) => {
       });
     }
 
-    res.json({
+    return res.status(200).json({
       success: true,
-      job, // फ्रंटएंड अब सीधे data.job रीड कर पाएगा
+      job,
     });
+  } catch (error) {
+    console.log("Single Job Error:", error);
 
-  } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: err.message,
+      message: error.message,
     });
   }
 };
 
 
+/* =========================================================
+   APPLY JOB
+========================================================= */
+
 const applyJob = async (req, res) => {
   try {
+    console.log("================================");
+    console.log("          APPLY JOB");
+    console.log("================================");
+    console.log("Request Body:", req.body);
+
     const { jobId, candidateId } = req.body;
+
+    /* -----------------------------------------
+       Check Job ID
+    ----------------------------------------- */
+
+    if (!jobId) {
+      return res.status(400).json({
+        success: false,
+        message: "Job ID is required",
+      });
+    }
+
+    /* -----------------------------------------
+       Check Candidate ID
+    ----------------------------------------- */
+
+    if (!candidateId) {
+      return res.status(400).json({
+        success: false,
+        message: "Candidate ID is required",
+      });
+    }
+
+    /* -----------------------------------------
+       Validate Job ID
+    ----------------------------------------- */
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Job ID",
+      });
+    }
+
+    /* -----------------------------------------
+       Validate Candidate ID
+    ----------------------------------------- */
+
+    if (!mongoose.Types.ObjectId.isValid(candidateId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Candidate ID",
+      });
+    }
+
+    /* -----------------------------------------
+       Check Job Exists
+    ----------------------------------------- */
+
+    const job = await Job.findById(jobId);
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: "Job not found",
+      });
+    }
+
+    /* -----------------------------------------
+       Check Already Applied
+    ----------------------------------------- */
 
     const alreadyApplied = await Application.findOne({
       jobId,
@@ -119,85 +225,187 @@ const applyJob = async (req, res) => {
       });
     }
 
+    /* -----------------------------------------
+       Create Application
+    ----------------------------------------- */
+
     const application = await Application.create({
       jobId,
       candidateId,
+      status: "Not Responded Yet",
+      message: "",
     });
 
-    res.status(201).json({
+    console.log("================================");
+    console.log("APPLICATION CREATED");
+    console.log("Application ID:", application._id);
+    console.log("Job ID:", application.jobId);
+    console.log("Candidate ID:", application.candidateId);
+    console.log("================================");
+
+    return res.status(201).json({
       success: true,
       message: "Applied Successfully",
       application,
     });
+
   } catch (error) {
-    res.status(500).json({
+    console.log("Apply Job Error:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
-// controller/applicationController.js
 
 
+/* =========================================================
+   GET APPLICANTS FOR JOB
+========================================================= */
 
 const getApplicants = async (req, res) => {
   try {
+    const { jobId } = req.params;
 
-    const applicants =
-      await Application.find({
-        jobId: req.params.jobId
+    if (!jobId) {
+      return res.status(400).json({
+        success: false,
+        message: "Job ID is required",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Job ID",
+      });
+    }
+
+    const applicants = await Application.find({
+      jobId,
+      candidateId: { $ne: null },
+    })
+      .populate({
+        path: "candidateId",
       })
-      .populate("candidateId")
-      .populate("jobId");
+      .populate({
+        path: "jobId",
+        populate: {
+          path: "employerId",
+          select:
+            "personName companyName email logo website tagline description",
+        },
+      })
+      .sort({ createdAt: -1 });
 
-    res.status(200).json({
+    console.log("================================");
+    console.log("GET APPLICANTS");
+    console.log("Job ID:", jobId);
+    console.log("Total Applicants:", applicants.length);
+    console.log("================================");
+
+    return res.status(200).json({
       success: true,
-      data: applicants
+      count: applicants.length,
+      data: applicants,
     });
 
   } catch (error) {
+    console.log("Get Applicants Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-
   }
 };
 
+
+/* =========================================================
+   MY APPLICATIONS
+========================================================= */
 
 const myApplications = async (req, res) => {
   try {
     const { candidateId } = req.params;
 
-    const applications = await Application.find({ candidateId })
-      // 🎯 जादू यहाँ है: jobId को लाओ, और उसके अंदर छिपे employerId को भी खींच लाओ!
+    if (!candidateId) {
+      return res.status(400).json({
+        success: false,
+        message: "Candidate ID is required",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(candidateId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Candidate ID",
+      });
+    }
+
+    const applications = await Application.find({
+      candidateId,
+    })
       .populate({
         path: "jobId",
         populate: {
-          path: "employerId", // इसके ज़रिए कंपनी का लोगो और नाम मिल जाएगा
-        }
+          path: "employerId",
+          select:
+            "personName companyName email logo website tagline description",
+        },
       })
-      .populate("candidateId");
+      .populate("candidateId")
+      .sort({ createdAt: -1 });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       count: applications.length,
       data: applications,
     });
+
   } catch (error) {
-    res.status(500).json({
+    console.log("My Applications Error:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
+
+
+/* =========================================================
+   APPLICATION DETAILS
+========================================================= */
+
 const getApplicationDetails = async (req, res) => {
   try {
-    const application = await Application.findById(
-      req.params.id
-    )
-      .populate("jobId")
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Application ID is required",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Application ID",
+      });
+    }
+
+    const application = await Application.findById(id)
+      .populate({
+        path: "jobId",
+        populate: {
+          path: "employerId",
+          select:
+            "personName companyName email logo website tagline description",
+        },
+      })
       .populate("candidateId");
 
     if (!application) {
@@ -207,30 +415,66 @@ const getApplicationDetails = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: application,
     });
+
   } catch (error) {
-    res.status(500).json({
+    console.log("Application Details Error:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
+
+
+/* =========================================================
+   UPDATE APPLICATION STATUS
+========================================================= */
+
 const updateApplicationStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status, message } = req.body;
 
-    const application = await Application.findByIdAndUpdate(
-      id,
-      {
-        status,
-        message,
-      },
-      { new: true }
-    );
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Application ID is required",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Application ID",
+      });
+    }
+
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+        message: "Status is required",
+      });
+    }
+
+    const application =
+      await Application.findByIdAndUpdate(
+        id,
+        {
+          status,
+          message: message || "",
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+        .populate("jobId")
+        .populate("candidateId");
 
     if (!application) {
       return res.status(404).json({
@@ -239,66 +483,120 @@ const updateApplicationStatus = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Application Updated Successfully",
       data: application,
     });
 
   } catch (error) {
-    res.status(500).json({
+    console.log(
+      "Update Application Error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
+
+
+/* =========================================================
+   GET EMPLOYER JOBS
+========================================================= */
+
 const getEmployerJobs = async (req, res) => {
   try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "Employer ID is required",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Employer ID",
+      });
+    }
 
     const jobs = await Job.find({
-      employerId: req.params.userId
-    });
+      employerId: userId,
+    })
+      .populate("employerId")
+      .sort({ createdAt: -1 });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: jobs
+      data: jobs,
     });
 
   } catch (error) {
+    console.log("Employer Jobs Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-
   }
 };
+
+
+/* =========================================================
+   GET JOBS BY CATEGORY
+========================================================= */
 
 const getJobsByCategory = async (req, res) => {
   try {
     const { category } = req.params;
 
-    const jobs = await Job.find({
-      category: category,
-    });
+    if (!category) {
+      return res.status(400).json({
+        success: false,
+        message: "Category is required",
+      });
+    }
 
-    res.status(200).json({
+    const jobs = await Job.find({
+      category,
+    })
+      .populate(
+        "employerId",
+        "personName companyName email logo website tagline description"
+      )
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
       success: true,
       count: jobs.length,
       jobs,
     });
+
   } catch (error) {
-    res.status(500).json({
+    console.log(
+      "Category Jobs Error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
- // अपने Job Model का सही पाथ यहाँ डालें
+
+
+/* =========================================================
+   GET JOBS BY EMPLOYER ID
+========================================================= */
 
 const getidjobs = async (req, res) => {
   try {
-    // फ्रंटएंड से भेजी गई यूजर (Employer) की आईडी req.params.id से मिलेगी
     const employerId = req.params.id;
 
     if (!employerId) {
@@ -308,31 +606,55 @@ const getidjobs = async (req, res) => {
       });
     }
 
-    // डेटाबेस में 'employerId' फ़ील्ड से मैच करने वाली केवल इस यूजर की जॉब्स ढूंढें
-    // .populate('employerId') से कंपनी का नाम और लोगो भी साथ आ जाएगा
-    const jobs = await Job.find({ employerId: employerId }).populate('employerId');
+    if (!mongoose.Types.ObjectId.isValid(employerId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Employer ID",
+      });
+    }
 
-    // फ्रंटएंड 'data.data' रीड कर रहा है, इसलिए की (Key) का नाम 'data' ही रखें
-    res.json({
+    const jobs = await Job.find({
+      employerId,
+    })
+      .populate(
+        "employerId",
+        "personName companyName email logo website tagline description"
+      )
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
       success: true,
-      data: jobs, 
+      data: jobs,
     });
 
-  } catch (err) {
-    res.status(500).json({
+  } catch (error) {
+    console.log(
+      "Get Employer Jobs Error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: err.message,
+      message: error.message,
     });
   }
 };
 
 
-
-
-
+/* =========================================================
+   EXPORT
+========================================================= */
 
 module.exports = {
   postjob,
   managejob,
-  managejobb,applyJob,getApplicants,myApplications,getApplicationDetails,updateApplicationStatus,getEmployerJobs,getJobsByCategory,getidjobs
+  managejobb,
+  applyJob,
+  getApplicants,
+  myApplications,
+  getApplicationDetails,
+  updateApplicationStatus,
+  getEmployerJobs,
+  getJobsByCategory,
+  getidjobs,
 };

@@ -59,7 +59,6 @@ export default function Searchbar() {
       console.error("Fetch Jobs Error:", error);
 
       setJobs([]);
-
       setError("Unable to load jobs right now. Please try again.");
     } finally {
       setLoading(false);
@@ -102,8 +101,7 @@ export default function Searchbar() {
         jobType.includes(searchTitle);
 
       const companyMatch =
-        !searchCompany ||
-        company.includes(searchCompany);
+        !searchCompany || company.includes(searchCompany);
 
       return titleMatch && companyMatch;
     });
@@ -125,7 +123,7 @@ export default function Searchbar() {
 
     const fallback =
       e.currentTarget.parentElement.querySelector(
-        ".rhj_fallback_logo"
+        ".sb_fallback_logo"
       );
 
     if (fallback) {
@@ -134,32 +132,32 @@ export default function Searchbar() {
   };
 
   return (
-    <div className="search-page">
+    <div className="sb_search_page">
       {/* =================================
           HERO SEARCH SECTION
       ================================= */}
-      <section className="job-search-hero">
-        <div className="job-search-hero-content">
-          <span className="job-search-eyebrow">
+      <section className="sb_search_hero">
+        <div className="sb_search_hero_content">
+          <span className="sb_search_eyebrow">
             <FiBriefcase />
             FIND YOUR NEXT OPPORTUNITY
           </span>
 
-          <h1 className="job-search-heading">
+          <h1 className="sb_search_heading">
             Find Your Dream Job
           </h1>
 
-          <p className="job-search-description">
+          <p className="sb_search_description">
             Search thousands of opportunities and find the right job
             for your career.
           </p>
 
-          <div className="job-search-container">
+          <div className="sb_search_container">
             {/* Job Title */}
-            <div className="job-search-field">
-              <FiSearch className="job-search-field-icon" />
+            <div className="sb_search_field">
+              <FiSearch className="sb_search_field_icon" />
 
-              <div className="job-search-input-content">
+              <div className="sb_search_input_content">
                 <label>Job Title or Keyword</label>
 
                 <input
@@ -173,7 +171,7 @@ export default function Searchbar() {
               {jobTitle && (
                 <button
                   type="button"
-                  className="search-clear-btn"
+                  className="sb_search_clear_btn"
                   onClick={() => setJobTitle("")}
                   aria-label="Clear job title"
                 >
@@ -183,10 +181,10 @@ export default function Searchbar() {
             </div>
 
             {/* Company */}
-            <div className="job-search-field">
-              <FiHome className="job-search-field-icon" />
+            <div className="sb_search_field">
+              <FiHome className="sb_search_field_icon" />
 
-              <div className="job-search-input-content">
+              <div className="sb_search_input_content">
                 <label>Company</label>
 
                 <input
@@ -200,7 +198,7 @@ export default function Searchbar() {
               {companyName && (
                 <button
                   type="button"
-                  className="search-clear-btn"
+                  className="sb_search_clear_btn"
                   onClick={() => setCompanyName("")}
                   aria-label="Clear company"
                 >
@@ -211,10 +209,9 @@ export default function Searchbar() {
 
             <button
               type="button"
-              className="job-search-submit-btn"
+              className="sb_search_submit_btn"
               onClick={() => {
                 // Search is already reactive.
-                // Button kept for user interaction.
               }}
             >
               <FiSearch />
@@ -225,7 +222,7 @@ export default function Searchbar() {
           {(jobTitle || companyName) && (
             <button
               type="button"
-              className="clear-all-search"
+              className="sb_clear_all_search"
               onClick={clearSearch}
             >
               <FiX />
@@ -238,19 +235,19 @@ export default function Searchbar() {
       {/* =================================
           RESULTS SECTION
       ================================= */}
-      <section className="recent_hot_jobs_container">
-        <div className="rhj_results_header">
+      <section className="sb_results_container">
+        <div className="sb_results_header">
           <div>
-            <span className="rhj_results_label">
+            <span className="sb_results_label">
               JOB OPPORTUNITIES
             </span>
 
-            <h2 className="recent_hot_jobs_heading">
+            <h2 className="sb_results_heading">
               Search Results
             </h2>
 
             {!loading && !error && (
-              <p className="rhj_results_count">
+              <p className="sb_results_count">
                 {filteredJobs.length}{" "}
                 {filteredJobs.length === 1 ? "job" : "jobs"} found
               </p>
@@ -259,12 +256,12 @@ export default function Searchbar() {
 
           <button
             type="button"
-            className="rhj_refresh_btn"
+            className="sb_refresh_btn"
             onClick={fetchJobs}
             disabled={loading}
           >
             <FiRefreshCw
-              className={loading ? "refresh-spinning" : ""}
+              className={loading ? "sb_refresh_spinning" : ""}
             />
             Refresh
           </button>
@@ -274,7 +271,7 @@ export default function Searchbar() {
             ERROR
         ================================= */}
         {error && (
-          <div className="rhj_error_state">
+          <div className="sb_error_state">
             <div>
               <strong>Unable to load jobs</strong>
               <p>{error}</p>
@@ -289,33 +286,33 @@ export default function Searchbar() {
         {/* =================================
             JOB GRID
         ================================= */}
-        <div className="rhj_jobs_grid">
+        <div className="sb_jobs_grid">
           {loading ? (
             <>
-              <div className="rhj_loading_card">
-                <div className="rhj_skeleton_logo"></div>
+              <div className="sb_loading_card">
+                <div className="sb_skeleton_logo"></div>
 
-                <div className="rhj_skeleton_content">
+                <div className="sb_skeleton_content">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
               </div>
 
-              <div className="rhj_loading_card">
-                <div className="rhj_skeleton_logo"></div>
+              <div className="sb_loading_card">
+                <div className="sb_skeleton_logo"></div>
 
-                <div className="rhj_skeleton_content">
+                <div className="sb_skeleton_content">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
               </div>
 
-              <div className="rhj_loading_card">
-                <div className="rhj_skeleton_logo"></div>
+              <div className="sb_loading_card">
+                <div className="sb_skeleton_logo"></div>
 
-                <div className="rhj_skeleton_content">
+                <div className="sb_skeleton_content">
                   <span></span>
                   <span></span>
                   <span></span>
@@ -355,7 +352,7 @@ export default function Searchbar() {
 
               return (
                 <article
-                  className="recent_hot_job_card"
+                  className="sb_job_card"
                   key={item?._id}
                   onClick={() =>
                     navigate(`/apply/${item?._id}`)
@@ -364,21 +361,21 @@ export default function Searchbar() {
                   {/* =========================
                       CARD TOP
                   ========================== */}
-                  <div className="rhj_card_top">
-                    <div className="recent_hot_job_left">
+                  <div className="sb_card_top">
+                    <div className="sb_job_left">
                       {/* Logo */}
-                      <div className="rhj_logo_wrapper">
+                      <div className="sb_logo_wrapper">
                         {logo ? (
                           <img
                             src={logo}
                             alt={companyName}
-                            className="recent_hot_logo_img"
+                            className="sb_logo_img"
                             onError={handleLogoError}
                           />
                         ) : null}
 
                         <div
-                          className="rhj_fallback_logo"
+                          className="sb_fallback_logo"
                           style={{
                             display: logo ? "none" : "flex",
                           }}
@@ -388,17 +385,18 @@ export default function Searchbar() {
                       </div>
 
                       {/* Job Content */}
-                      <div className="recent_hot_content">
-                        <span className="rhj_job_category">
+                      <div className="sb_job_content">
+                        <span className="sb_job_category">
                           <FiBriefcase />
-                          {item?.category || "Job Opportunity"}
+                          {item?.category ||
+                            "Job Opportunity"}
                         </span>
 
                         <h3>
                           {item?.jobTitle || "Job Title"}
                         </h3>
 
-                        <p className="rhj_company_name">
+                        <p className="sb_company_name">
                           <FiHome />
                           {companyName}
                         </p>
@@ -406,7 +404,7 @@ export default function Searchbar() {
                     </div>
 
                     {/* Job Type */}
-                    <span className="recent_hot_type_btn">
+                    <span className="sb_job_type">
                       {item?.jobType || "Full Time"}
                     </span>
                   </div>
@@ -414,7 +412,7 @@ export default function Searchbar() {
                   {/* =========================
                       META
                   ========================== */}
-                  <div className="recent_hot_meta">
+                  <div className="sb_job_meta">
                     <span>
                       <FiMapPin />
                       {location}
@@ -441,8 +439,8 @@ export default function Searchbar() {
                   {/* =========================
                       BOTTOM
                   ========================== */}
-                  <div className="rhj_card_bottom">
-                    <div className="rhj_salary">
+                  <div className="sb_card_bottom">
+                    <div className="sb_salary">
                       <FiDollarSign />
 
                       <div>
@@ -454,7 +452,7 @@ export default function Searchbar() {
                       </div>
                     </div>
 
-                    <span className="rhj_view_job">
+                    <span className="sb_view_job">
                       View Job
                       <FiArrowRight />
                     </span>
@@ -463,8 +461,8 @@ export default function Searchbar() {
               );
             })
           ) : !error ? (
-            <div className="rhj_no_results">
-              <div className="rhj_no_results_icon">
+            <div className="sb_no_results">
+              <div className="sb_no_results_icon">
                 <FiSearch />
               </div>
 

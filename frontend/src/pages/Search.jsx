@@ -1,7 +1,7 @@
-// 📂 Jobs.jsx
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   FaSearch,
   FaBriefcase,
@@ -25,7 +25,6 @@ export default function Search() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const jobsPerPage = 6;
@@ -33,6 +32,7 @@ export default function Search() {
   // =========================================
   // FETCH JOBS
   // =========================================
+
   const fetchJobs = async () => {
     try {
       setLoading(true);
@@ -52,16 +52,15 @@ export default function Search() {
         );
       }
 
-      const jobList =
-        Array.isArray(data)
-          ? data
-          : Array.isArray(data.jobs)
-          ? data.jobs
-          : Array.isArray(data.data)
-          ? data.data
-          : Array.isArray(data.job)
-          ? data.job
-          : [];
+      const jobList = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.jobs)
+        ? data.jobs
+        : Array.isArray(data?.data)
+        ? data.data
+        : Array.isArray(data?.job)
+        ? data.job
+        : [];
 
       setJobs(jobList);
     } catch (err) {
@@ -83,6 +82,7 @@ export default function Search() {
   // =========================================
   // SEARCH
   // =========================================
+
   const filteredJobs = useMemo(() => {
     const value = search.trim().toLowerCase();
 
@@ -98,13 +98,16 @@ export default function Search() {
         job?.category?.toLowerCase() || "";
 
       const location =
-        job?.location?.toLowerCase() || "";
+        job?.location?.toLowerCase() ||
+        job?.jobLocation?.toLowerCase() ||
+        "";
 
       const jobType =
         job?.jobType?.toLowerCase() || "";
 
       const company =
         job?.employerId?.companyName?.toLowerCase() ||
+        job?.companyName?.toLowerCase() ||
         "";
 
       return (
@@ -120,6 +123,7 @@ export default function Search() {
   // =========================================
   // PAGINATION
   // =========================================
+
   const totalPages = Math.ceil(
     filteredJobs.length / jobsPerPage
   );
@@ -139,8 +143,11 @@ export default function Search() {
   // =========================================
   // DATE FORMAT
   // =========================================
+
   const formatDate = (date) => {
-    if (!date) return "Recently Posted";
+    if (!date) {
+      return "Recently Posted";
+    }
 
     const parsedDate = new Date(date);
 
@@ -161,7 +168,12 @@ export default function Search() {
   // =========================================
   // SALARY
   // =========================================
+
   const getSalary = (job) => {
+    if (job?.salaryPackage) {
+      return job.salaryPackage;
+    }
+
     if (job?.salary) {
       return job.salary;
     }
@@ -181,6 +193,7 @@ export default function Search() {
   // =========================================
   // COMPANY LOGO
   // =========================================
+
   const getLogo = (job) => {
     const logo =
       job?.employerId?.logo ||
@@ -198,27 +211,27 @@ export default function Search() {
   };
 
   return (
-    <div className="jobs-page">
+    <div className="sj_page">
 
       {/* =========================================
           TOP BANNER
       ========================================= */}
 
-      <section className="top-banner">
+      <section className="sj_banner">
 
-        <div className="top-banner-content">
+        <div className="sj_banner_content">
 
-          <span className="banner-tag">
+          <span className="sj_banner_tag">
             <FaBriefcase />
             EMPLOYER JOBS
           </span>
 
-          <h1>
+          <h1 className="sj_banner_title">
             Find Your Next
             <span> Career Opportunity</span>
           </h1>
 
-          <p>
+          <p className="sj_banner_description">
             Explore the latest job opportunities
             from trusted companies and apply for
             the position that matches your skills.
@@ -229,17 +242,18 @@ export default function Search() {
       </section>
 
       {/* =========================================
-          SEARCH SECTION
+          SEARCH
       ========================================= */}
 
-      <section className="search-section">
+      <section className="sj_search_section">
 
-        <div className="search-box">
+        <div className="sj_search_box">
 
-          <FaSearch className="search-icon" />
+          <FaSearch className="sj_search_icon" />
 
           <input
             type="text"
+            className="sj_search_input"
             placeholder="Search by job title, company, location or category..."
             value={search}
             onChange={(e) =>
@@ -250,8 +264,9 @@ export default function Search() {
           {search && (
             <button
               type="button"
-              className="clear-search"
+              className="sj_clear_search"
               onClick={() => setSearch("")}
+              aria-label="Clear search"
             >
               ×
             </button>
@@ -259,7 +274,7 @@ export default function Search() {
 
           <button
             type="button"
-            className="search-button"
+            className="sj_search_button"
           >
             <FaSearch />
             Search
@@ -270,15 +285,16 @@ export default function Search() {
       </section>
 
       {/* =========================================
-          LATEST JOBS HEADER
+          JOB SECTION
       ========================================= */}
 
-      <section className="latest-jobs">
+      <section className="sj_jobs_section">
 
-        <div className="jobs-heading">
+        <div className="sj_jobs_heading">
 
-          <div>
-            <span className="section-label">
+          <div className="sj_heading_content">
+
+            <span className="sj_section_label">
               CAREER OPPORTUNITIES
             </span>
 
@@ -291,17 +307,18 @@ export default function Search() {
                 ? "Finding the latest opportunities..."
                 : `${filteredJobs.length} jobs available`}
             </p>
+
           </div>
 
           <button
-            className="refresh-btn"
+            className="sj_refresh_button"
             onClick={fetchJobs}
             disabled={loading}
           >
             <FaRedo
               className={
                 loading
-                  ? "refresh-loading"
+                  ? "sj_refresh_loading"
                   : ""
               }
             />
@@ -316,17 +333,22 @@ export default function Search() {
         ========================================= */}
 
         {error && (
-          <div className="jobs-error">
+          <div className="sj_error">
 
-            <div>
+            <div className="sj_error_content">
+
               <strong>
                 Unable to load jobs
               </strong>
 
               <p>{error}</p>
+
             </div>
 
-            <button onClick={fetchJobs}>
+            <button
+              className="sj_retry_button"
+              onClick={fetchJobs}
+            >
               Try Again
             </button>
 
@@ -338,23 +360,31 @@ export default function Search() {
         ========================================= */}
 
         {loading && (
-          <div className="jobs-grid">
+          <div className="sj_jobs_grid">
 
             {[1, 2, 3, 4, 5, 6].map(
               (item) => (
                 <div
-                  className="job-card skeleton-card"
+                  className="sj_job_card sj_skeleton_card"
                   key={item}
                 >
-                  <div className="skeleton-logo"></div>
 
-                  <div className="skeleton-line large"></div>
+                  <div className="sj_skeleton_top">
 
-                  <div className="skeleton-line"></div>
+                    <div className="sj_skeleton_logo"></div>
 
-                  <div className="skeleton-line small"></div>
+                    <div className="sj_skeleton_type"></div>
 
-                  <div className="skeleton-bottom"></div>
+                  </div>
+
+                  <div className="sj_skeleton_line sj_skeleton_large"></div>
+
+                  <div className="sj_skeleton_line"></div>
+
+                  <div className="sj_skeleton_line sj_skeleton_small"></div>
+
+                  <div className="sj_skeleton_bottom"></div>
+
                 </div>
               )
             )}
@@ -369,9 +399,9 @@ export default function Search() {
         {!loading &&
           !error &&
           currentJobs.length === 0 && (
-            <div className="no-jobs">
+            <div className="sj_no_jobs">
 
-              <div className="no-jobs-icon">
+              <div className="sj_no_jobs_icon">
                 <FaBriefcase />
               </div>
 
@@ -386,6 +416,7 @@ export default function Search() {
 
               {search && (
                 <button
+                  className="sj_view_all_button"
                   onClick={() =>
                     setSearch("")
                   }
@@ -404,77 +435,73 @@ export default function Search() {
         {!loading &&
           !error &&
           currentJobs.length > 0 && (
-            <div className="jobs-grid">
+            <div className="sj_jobs_grid">
 
               {currentJobs.map((job) => {
 
-                const logo =
-                  getLogo(job);
+                const logo = getLogo(job);
 
                 const companyName =
-                  job?.employerId
-                    ?.companyName ||
+                  job?.employerId?.companyName ||
                   job?.companyName ||
                   "Company";
 
                 return (
-                  <div
-                    className="job-card"
-                    key={job._id}
+                  <article
+                    className="sj_job_card"
+                    key={job?._id}
                     onClick={() =>
                       navigate(
-                        `/apply/${job._id}`
+                        `/apply/${job?._id}`
                       )
                     }
                   >
 
-                    {/* Card Top */}
+                    {/* CARD TOP */}
 
-                    <div className="job-card-top">
+                    <div className="sj_card_top">
 
-                      <div className="company-logo">
+                      <div className="sj_company_logo">
 
                         {logo ? (
                           <img
                             src={logo}
-                            alt={
-                              companyName
-                            }
+                            alt={companyName}
                             onError={(e) => {
                               e.currentTarget.style.display =
                                 "none";
 
                               e.currentTarget.parentElement
                                 .querySelector(
-                                  ".logo-fallback"
+                                  ".sj_logo_fallback"
                                 )
                                 ?.classList.add(
-                                  "show-logo-fallback"
+                                  "sj_show_logo_fallback"
                                 );
                             }}
                           />
                         ) : null}
 
-                        <div className="logo-fallback">
+                        <div className="sj_logo_fallback">
                           {companyName
-                            .charAt(0)
-                            .toUpperCase()}
+                            ?.charAt(0)
+                            ?.toUpperCase() || "C"}
                         </div>
 
                       </div>
 
-                      <span className="job-type">
+                      <span className="sj_job_type">
                         {job?.jobType ||
                           "Full Time"}
                       </span>
 
                     </div>
 
-                    {/* Job Title */}
+                    {/* JOB MAIN */}
 
-                    <div className="job-main">
+                    <div className="sj_job_main">
 
-                      <span className="job-category">
+                      <span className="sj_job_category">
                         {job?.category ||
                           "Job Opportunity"}
                       </span>
@@ -484,25 +511,28 @@ export default function Search() {
                           "Job Position"}
                       </h3>
 
-                      <div className="company-name">
+                      <div className="sj_company_name">
 
                         <FaBuilding />
 
-                        {companyName}
+                        <span>
+                          {companyName}
+                        </span>
 
                       </div>
 
                     </div>
 
-                    {/* Job Details */}
+                    {/* JOB DETAILS */}
 
-                    <div className="job-details">
+                    <div className="sj_job_details">
 
                       <div>
                         <FaMapMarkerAlt />
 
                         <span>
                           {job?.location ||
+                            job?.jobLocation ||
                             "Location not specified"}
                         </span>
                       </div>
@@ -528,23 +558,23 @@ export default function Search() {
 
                     </div>
 
-                    {/* Card Footer */}
+                    {/* CARD FOOTER */}
 
-                    <div className="job-card-footer">
+                    <div className="sj_card_footer">
 
-                      <span className="posted-time">
+                      <span className="sj_posted_time">
                         <FaClock />
                         Recently Posted
                       </span>
 
-                      <span className="view-job">
+                      <span className="sj_view_job">
                         View Job
                         <FaArrowRight />
                       </span>
 
                     </div>
 
-                  </div>
+                  </article>
                 );
               })}
 
@@ -558,16 +588,14 @@ export default function Search() {
         {!loading &&
           !error &&
           totalPages > 1 && (
-            <div className="pagination">
+            <div className="sj_pagination">
 
               <button
-                disabled={
-                  currentPage === 1
-                }
+                className="sj_page_button"
+                disabled={currentPage === 1}
                 onClick={() =>
                   setCurrentPage(
-                    (prev) =>
-                      prev - 1
+                    (prev) => prev - 1
                   )
                 }
               >
@@ -582,11 +610,11 @@ export default function Search() {
               ).map((page) => (
                 <button
                   key={page}
-                  className={
+                  className={`sj_page_button ${
                     currentPage === page
-                      ? "active"
+                      ? "sj_active_page"
                       : ""
-                  }
+                  }`}
                   onClick={() =>
                     setCurrentPage(page)
                   }
@@ -596,13 +624,13 @@ export default function Search() {
               ))}
 
               <button
+                className="sj_page_button"
                 disabled={
                   currentPage === totalPages
                 }
                 onClick={() =>
                   setCurrentPage(
-                    (prev) =>
-                      prev + 1
+                    (prev) => prev + 1
                   )
                 }
               >
@@ -617,3 +645,4 @@ export default function Search() {
     </div>
   );
 }
+

@@ -1,8 +1,15 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiUser, FiMail, FiLock, FiArrowRight, FiHome } from "react-icons/fi";
+import {
+  FiUser,
+  FiMail,
+  FiLock,
+  FiArrowRight,
+  FiHome,
+} from "react-icons/fi";
 import "../css/seekerlogin.css";
+
+const BASE_URL = "https://latestjobportal.onrender.com";
 
 const Seekerrlogin = () => {
   const navigate = useNavigate();
@@ -16,6 +23,9 @@ const Seekerrlogin = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // ==========================================
+  // INPUT CHANGE
+  // ==========================================
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,6 +35,9 @@ const Seekerrlogin = () => {
     setMessage("");
   };
 
+  // ==========================================
+  // LOGIN
+  // ==========================================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,7 +51,7 @@ const Seekerrlogin = () => {
       setMessage("");
 
       const response = await fetch(
-        "https://latestjobportal.onrender.com/api/loginn",
+        `${BASE_URL}/api/loginn`,
         {
           method: "POST",
           headers: {
@@ -50,55 +63,149 @@ const Seekerrlogin = () => {
 
       const result = await response.json();
 
-      console.log("Login Response:", result);
+      console.log("================================");
+      console.log("SEEKER LOGIN RESPONSE");
+      console.log("Status:", response.status);
+      console.log("Response:", result);
+      console.log("================================");
 
-      if (response.ok) {
-        setMessage(result.message || "Login successful!");
-
-        // Save complete user
-        if (result.user) {
-          localStorage.setItem(
-            "user",
-            JSON.stringify(result.user)
-          );
-
-          // Candidate ID
-          if (result.user._id) {
-            localStorage.setItem(
-              "candidateId",
-              result.user._id
-            );
-          }
-
-          // Candidate Name
-          if (result.user.fullName) {
-            localStorage.setItem(
-              "candidateName",
-              result.user.fullName
-            );
-          }
-
-          console.log(
-            "Candidate ID Saved:",
-            result.user._id
-          );
-
-          console.log(
-            "Candidate Name Saved:",
-            result.user.fullName
-          );
-        }
-
-        setTimeout(() => {
-          navigate("/home");
-        }, 800);
-      } else {
+      if (!response.ok) {
         setMessage(
-          result.message || "Invalid email or password."
+          result?.message ||
+            "Invalid email or password."
+        );
+
+        return;
+      }
+
+      // ==========================================
+      // GET USER FROM RESPONSE
+      // ==========================================
+      const loggedInUser =
+        result?.user ||
+        result?.data?.user ||
+        result?.data ||
+        null;
+
+      console.log(
+        "Logged In User:",
+        loggedInUser
+      );
+
+      // ==========================================
+      // CHECK USER
+      // ==========================================
+      if (!loggedInUser) {
+        console.error(
+          "User data not found in login response"
+        );
+
+        setMessage(
+          "Login successful, but user information was not received."
+        );
+
+        return;
+      }
+
+      // ==========================================
+      // GET CANDIDATE ID
+      // ==========================================
+      const candidateId =
+        loggedInUser?._id ||
+        loggedInUser?.id;
+
+      console.log(
+        "Candidate ID:",
+        candidateId
+      );
+
+      // ==========================================
+      // CANDIDATE ID REQUIRED
+      // ==========================================
+      if (!candidateId) {
+        console.error(
+          "Candidate ID missing from login response:",
+          loggedInUser
+        );
+
+        setMessage(
+          "Login successful, but candidate ID is missing."
+        );
+
+        return;
+      }
+
+      // ==========================================
+      // SAVE COMPLETE USER
+      // ==========================================
+      localStorage.setItem(
+        "user",
+        JSON.stringify(loggedInUser)
+      );
+
+      // ==========================================
+      // SAVE CANDIDATE ID
+      // ==========================================
+      localStorage.setItem(
+        "candidateId",
+        candidateId
+      );
+
+      // ==========================================
+      // SAVE USER ID ALSO
+      // ==========================================
+      localStorage.setItem(
+        "userId",
+        candidateId
+      );
+
+      // ==========================================
+      // SAVE CANDIDATE NAME
+      // ==========================================
+      if (loggedInUser?.fullName) {
+        localStorage.setItem(
+          "candidateName",
+          loggedInUser.fullName
         );
       }
+
+      // ==========================================
+      // DEBUG LOCAL STORAGE
+      // ==========================================
+      console.log("================================");
+      console.log("LOGIN SUCCESS");
+      console.log(
+        "Stored User:",
+        localStorage.getItem("user")
+      );
+      console.log(
+        "Stored Candidate ID:",
+        localStorage.getItem("candidateId")
+      );
+      console.log(
+        "Stored User ID:",
+        localStorage.getItem("userId")
+      );
+      console.log("================================");
+
+      setMessage(
+        result?.message ||
+          "Login successful!"
+      );
+
+      // ==========================================
+      // GO HOME
+      // ==========================================
+      setTimeout(() => {
+        navigate("/home");
+      }, 800);
+
     } catch (error) {
-      console.error("Login Error:", error);
+      console.error(
+        "Login Error:",
+        error
+      );
+
       setMessage(
         "Unable to connect to server. Please try again."
       );
@@ -110,37 +217,53 @@ const Seekerrlogin = () => {
   return (
     <div className="seeker-login-page">
 
-      {/* Header */}
+      {/* ==========================================
+          HEADER
+      ========================================== */}
       <div className="login-header">
         <div className="login-header-content">
+
           <div className="login-logo">
             <span>JOB</span> PORTAL
           </div>
 
-          <p>Find your dream job and build your career</p>
+          <p>
+            Find your dream job and build your career
+          </p>
+
         </div>
       </div>
 
-      {/* Main */}
+      {/* ==========================================
+          MAIN
+      ========================================== */}
       <div className="login-container">
 
         <div className="login-card">
 
-          {/* Icon */}
+          {/* PROFILE ICON */}
           <div className="profile-icon">
             <FiUser />
           </div>
 
+          {/* TITLE */}
           <div className="login-title">
-            <h2>Welcome Back!</h2>
-            <p>Login to continue to your account</p>
+            <h2>
+              Welcome Back!
+            </h2>
+
+            <p>
+              Login to continue to your account
+            </p>
           </div>
 
-          {/* Message */}
+          {/* MESSAGE */}
           {message && (
             <div
               className={`message ${
-                message.toLowerCase().includes("success")
+                message
+                  .toLowerCase()
+                  .includes("success")
                   ? "success-message"
                   : "error-message"
               }`}
@@ -149,11 +272,14 @@ const Seekerrlogin = () => {
             </div>
           )}
 
-          {/* Form */}
+          {/* ==========================================
+              FORM
+          ========================================== */}
           <form onSubmit={handleSubmit}>
 
-            {/* Email */}
+            {/* EMAIL */}
             <div className="input-group">
+
               <FiMail className="input-icon" />
 
               <input
@@ -165,14 +291,20 @@ const Seekerrlogin = () => {
                 autoComplete="email"
                 required
               />
+
             </div>
 
-            {/* Password */}
+            {/* PASSWORD */}
             <div className="input-group">
+
               <FiLock className="input-icon" />
 
               <input
-                type={showPassword ? "text" : "password"}
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
                 name="password"
                 placeholder="Enter your password"
                 value={formData.password}
@@ -185,24 +317,31 @@ const Seekerrlogin = () => {
                 type="button"
                 className="show-password"
                 onClick={() =>
-                  setShowPassword(!showPassword)
+                  setShowPassword(
+                    !showPassword
+                  )
                 }
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword
+                  ? "Hide"
+                  : "Show"}
               </button>
+
             </div>
 
-            {/* Forgot */}
+            {/* FORGOT PASSWORD */}
             <div className="forgot-row">
+
               <Link
                 to="/forgot-password"
                 className="forgot-link"
               >
                 Forgot Password?
               </Link>
+
             </div>
 
-            {/* Submit */}
+            {/* SUBMIT */}
             <button
               type="submit"
               className="login-btn"
@@ -220,15 +359,17 @@ const Seekerrlogin = () => {
                 </>
               )}
             </button>
+
           </form>
 
-          {/* Divider */}
+          {/* DIVIDER */}
           <div className="login-divider">
             <span>OR</span>
           </div>
 
-          {/* Signup */}
+          {/* SIGNUP */}
           <div className="signup-section">
+
             <p>
               Don't have an account?
             </p>
@@ -239,9 +380,10 @@ const Seekerrlogin = () => {
             >
               CREATE NEW ACCOUNT
             </Link>
+
           </div>
 
-          {/* Home */}
+          {/* BACK HOME */}
           <button
             className="back-home"
             onClick={() => navigate("/")}
@@ -251,11 +393,13 @@ const Seekerrlogin = () => {
           </button>
 
         </div>
+
       </div>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <div className="login-footer">
-        © {new Date().getFullYear()} Job Portal. All Rights Reserved.
+        © {new Date().getFullYear()} Job Portal.
+        All Rights Reserved.
       </div>
 
     </div>
@@ -263,4 +407,3 @@ const Seekerrlogin = () => {
 };
 
 export default Seekerrlogin;
-

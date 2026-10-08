@@ -23,15 +23,16 @@ export default function Apply() {
   const [job, setJob] = useState({});
   const [loading, setLoading] = useState(true);
   const [applyLoading, setApplyLoading] = useState(false);
+  const [alreadyApplied, setAlreadyApplied] = useState(false);
 
   const [message, setMessage] = useState({
     type: "",
     text: "",
   });
 
-  // =========================
-  // Fetch Single Job
-  // =========================
+  // ==========================================
+  // FETCH SINGLE JOB
+  // ==========================================
   const fetchSingleJob = async () => {
     setLoading(true);
 
@@ -45,16 +46,22 @@ export default function Apply() {
         `${BASE_URL}/api/managejob/${id}`
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch job details");
-      }
-
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message || "Failed to fetch job details"
+        );
+      }
 
       const jobData =
         data?.job ||
         data?.data ||
         data;
+
+      console.log("========== JOB DETAILS ==========");
+      console.log("Job:", jobData);
+      console.log("Job ID:", jobData?._id);
 
       setJob(jobData || {});
     } catch (error) {
@@ -75,36 +82,76 @@ export default function Apply() {
     }
   }, [id]);
 
-  // =========================
-  // Apply Job
-  // =========================
+  // ==========================================
+  // GET LOGGED-IN CANDIDATE
+  // ==========================================
+  const getCandidateId = () => {
+    let storedUser = null;
+
+    // ------------------------------------------
+    // First check "user"
+    // ------------------------------------------
+    try {
+      const userData = localStorage.getItem("user");
+
+      if (userData) {
+        storedUser = JSON.parse(userData);
+      }
+    } catch (error) {
+      console.error(
+        "Invalid user data:",
+        error
+      );
+    }
+
+    console.log(
+      "========== STORED USER =========="
+    );
+    console.log("Stored User:", storedUser);
+
+    // ------------------------------------------
+    // Candidate ID fallback
+    // ------------------------------------------
+    const candidateId =
+      storedUser?._id ||
+      storedUser?.id ||
+      localStorage.getItem("candidateId") ||
+      localStorage.getItem("userId");
+
+    console.log(
+      "Candidate ID:",
+      candidateId
+    );
+
+    return candidateId;
+  };
+
+  // ==========================================
+  // APPLY JOB
+  // ==========================================
   const handleApply = async () => {
+    if (applyLoading || alreadyApplied) {
+      return;
+    }
+
     setMessage({
       type: "",
       text: "",
     });
 
-    let homeseekerData = null;
+    // ------------------------------------------
+    // Candidate ID
+    // ------------------------------------------
+    const candidateId = getCandidateId();
 
-    try {
-      const storedUser = localStorage.getItem("user");
-
-      if (storedUser) {
-        homeseekerData = JSON.parse(storedUser);
-      }
-    } catch (error) {
-      console.error("Invalid user data:", error);
-    }
-
-    const candidateId = homeseekerData?._id;
-
-    // =========================
-    // Login Check
-    // =========================
+    // ------------------------------------------
+    // Candidate Login Check
+    // ------------------------------------------
     if (!candidateId) {
       setMessage({
         type: "error",
-        text: "Please login first as a job seeker to apply for this job.",
+        text:
+          "Please login first as a job seeker to apply for this job.",
       });
 
       setTimeout(() => {
@@ -114,17 +161,24 @@ export default function Apply() {
       return;
     }
 
-    // =========================
+    // ------------------------------------------
     // Job Check
-    // =========================
+    // ------------------------------------------
     if (!job?._id) {
       setMessage({
         type: "error",
-        text: "Job information is not available.",
+        text:
+          "Job information is not available.",
       });
 
       return;
     }
+
+    console.log(
+      "========== APPLY JOB =========="
+    );
+    console.log("Candidate ID:", candidateId);
+    console.log("Job ID:", job._id);
 
     setApplyLoading(true);
 
@@ -133,11 +187,13 @@ export default function Apply() {
         `${BASE_URL}/api/applyjob`,
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
-            candidateId,
+            candidateId: candidateId,
             jobId: job._id,
           }),
         }
@@ -145,36 +201,78 @@ export default function Apply() {
 
       const data = await response.json();
 
-      if (response.ok) {
+      console.log(
+        "========== APPLY RESPONSE =========="
+      );
+      console.log("Status:", response.status);
+      console.log("Response:", data);
+
+      // ------------------------------------------
+      // Success
+      // ------------------------------------------
+      if (
+        response.ok &&
+        data?.success
+      ) {
+        setAlreadyApplied(true);
+
         setMessage({
           type: "success",
           text:
             data?.message ||
             "Job applied successfully!",
         });
-      } else {
+
+        return;
+      }
+
+      // ------------------------------------------
+      // Duplicate Application
+      // ------------------------------------------
+      if (
+        response.status === 400 &&
+        data?.message
+          ?.toLowerCase()
+          .includes("already")
+      ) {
+        setAlreadyApplied(true);
+
         setMessage({
           type: "error",
-          text:
-            data?.message ||
-            "Application failed. Please try again.",
+          text: data.message,
         });
+
+        return;
       }
+
+      // ------------------------------------------
+      // Other Error
+      // ------------------------------------------
+      setMessage({
+        type: "error",
+        text:
+          data?.message ||
+          "Application failed. Please try again.",
+      });
     } catch (error) {
-      console.error("Apply Job Error:", error);
+      console.error(
+        "Apply Job Error:",
+        error
+      );
 
       setMessage({
         type: "error",
-        text: "Something went wrong. Please try again later.",
+        text:
+          "Something went wrong. Please try again later.",
       });
     } finally {
       setApplyLoading(false);
     }
   };
 
-  // =========================
-  // Company Details
-  // =========================
+  // ==========================================
+  // COMPANY DETAILS
+  // ==========================================
   const companyName =
     job?.employerId?.companyName ||
     "Company";
@@ -187,9 +285,9 @@ export default function Apply() {
       ? `${BASE_URL}/uploads/${job.employerId.logo}`
       : null;
 
-  // =========================
-  // Format Date
-  // =========================
+  // ==========================================
+  // FORMAT DATE
+  // ==========================================
   const formatDate = (date) => {
     if (!date) {
       return "N/A";
@@ -209,9 +307,9 @@ export default function Apply() {
     }
   };
 
-  // =========================
-  // Skills
-  // =========================
+  // ==========================================
+  // SKILLS
+  // ==========================================
   const skills =
     typeof job?.skillRequired === "string"
       ? job.skillRequired
@@ -220,9 +318,9 @@ export default function Apply() {
           .filter(Boolean)
       : [];
 
-  // =========================
-  // Loading
-  // =========================
+  // ==========================================
+  // LOADING
+  // ==========================================
   if (loading) {
     return (
       <div className="apply_loading_page">
@@ -240,9 +338,9 @@ export default function Apply() {
     );
   }
 
-  // =========================
-  // Main UI
-  // =========================
+  // ==========================================
+  // MAIN UI
+  // ==========================================
   return (
     <div className="jobdetails_main">
       <div className="jobdetails_wrapper">
@@ -252,9 +350,7 @@ export default function Apply() {
         ================================== */}
         <main className="jobdetails_content">
 
-          {/* =========================
-              Message
-          ========================== */}
+          {/* MESSAGE */}
           {message.text && (
             <div
               className={`apply_message ${
@@ -275,12 +371,10 @@ export default function Apply() {
             </div>
           )}
 
-          {/* =========================
-              Job Header
-          ========================== */}
+          {/* JOB HEADER */}
           <section className="jobdetails_header">
 
-            {/* Company Logo */}
+            {/* COMPANY LOGO */}
             <div className="company_logo_wrapper">
 
               {companyLogo ? (
@@ -318,7 +412,7 @@ export default function Apply() {
 
             </div>
 
-            {/* Job Information */}
+            {/* JOB INFORMATION */}
             <div className="jobdetails_info_box">
 
               <span className="jobdetails_badge">
@@ -336,7 +430,7 @@ export default function Apply() {
                 {companyName}
               </p>
 
-              {/* Meta */}
+              {/* META */}
               <div className="job_meta">
 
                 <span>
@@ -356,7 +450,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Salary */}
+              {/* SALARY */}
               <div className="salary_box">
 
                 <FiDollarSign />
@@ -375,7 +469,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Actions */}
+              {/* ACTIONS */}
               <div className="job_actions">
 
                 <span className="fulltime_btn">
@@ -386,18 +480,30 @@ export default function Apply() {
                 </span>
 
                 <button
+                  type="button"
                   className="apply_btn"
                   onClick={handleApply}
-                  disabled={applyLoading}
+                  disabled={
+                    applyLoading ||
+                    alreadyApplied
+                  }
                 >
                   {applyLoading ? (
                     <>
                       <span className="apply_button_spinner"></span>
+
                       Applying...
+                    </>
+                  ) : alreadyApplied ? (
+                    <>
+                      <FiCheckCircle />
+
+                      Applied
                     </>
                   ) : (
                     <>
                       <FiSend />
+
                       APPLY FOR THIS JOB
                     </>
                   )}
@@ -408,9 +514,7 @@ export default function Apply() {
             </div>
           </section>
 
-          {/* =========================
-              Job Overview
-          ========================== */}
+          {/* JOB OVERVIEW */}
           <section className="detail_section">
 
             <div className="section_title">
@@ -438,9 +542,7 @@ export default function Apply() {
 
           </section>
 
-          {/* =========================
-              Experience
-          ========================== */}
+          {/* EXPERIENCE */}
           <section className="detail_section">
 
             <div className="section_title">
@@ -469,9 +571,7 @@ export default function Apply() {
 
           </section>
 
-          {/* =========================
-              Skills
-          ========================== */}
+          {/* SKILLS */}
           <section className="detail_section">
 
             <div className="section_title">
@@ -516,9 +616,7 @@ export default function Apply() {
 
           </section>
 
-          {/* =========================
-              Job Information
-          ========================== */}
+          {/* JOB INFORMATION */}
           <section className="detail_section">
 
             <div className="section_title">
@@ -542,7 +640,7 @@ export default function Apply() {
 
             <div className="job_information_grid">
 
-              {/* Location */}
+              {/* LOCATION */}
               <div className="information_item">
 
                 <span>
@@ -562,7 +660,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Salary */}
+              {/* SALARY */}
               <div className="information_item">
 
                 <span>
@@ -583,7 +681,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Job Type */}
+              {/* JOB TYPE */}
               <div className="information_item">
 
                 <span>
@@ -603,7 +701,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Posted On */}
+              {/* POSTED ON */}
               <div className="information_item">
 
                 <span>
@@ -628,9 +726,7 @@ export default function Apply() {
 
           </section>
 
-          {/* =========================
-              Bottom Apply
-          ========================== */}
+          {/* BOTTOM APPLY */}
           <div className="bottom_apply_box">
 
             <div>
@@ -647,18 +743,30 @@ export default function Apply() {
             </div>
 
             <button
+              type="button"
               className="apply_btn bottom_apply_btn"
               onClick={handleApply}
-              disabled={applyLoading}
+              disabled={
+                applyLoading ||
+                alreadyApplied
+              }
             >
               {applyLoading ? (
                 <>
                   <span className="apply_button_spinner"></span>
+
                   Applying...
+                </>
+              ) : alreadyApplied ? (
+                <>
+                  <FiCheckCircle />
+
+                  Applied
                 </>
               ) : (
                 <>
                   <FiSend />
+
                   Apply Now
                 </>
               )}
@@ -675,7 +783,7 @@ export default function Apply() {
 
           <div className="sidebar_card">
 
-            {/* Sidebar Logo */}
+            {/* SIDEBAR LOGO */}
             <div className="sidebar_logo_wrapper">
 
               {companyLogo ? (
@@ -713,7 +821,7 @@ export default function Apply() {
 
             </div>
 
-            {/* Sidebar Body */}
+            {/* SIDEBAR BODY */}
             <div className="sidebar_body">
 
               <span className="sidebar_company_label">
@@ -724,7 +832,7 @@ export default function Apply() {
                 {companyName}
               </h2>
 
-              {/* Industry */}
+              {/* INDUSTRY */}
               <div className="sidebar_item">
 
                 <div className="sidebar_item_icon">
@@ -744,7 +852,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Business Entity */}
+              {/* BUSINESS ENTITY */}
               <div className="sidebar_item">
 
                 <div className="sidebar_item_icon">
@@ -763,7 +871,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Established */}
+              {/* ESTABLISHED */}
               <div className="sidebar_item">
 
                 <div className="sidebar_item_icon">
@@ -782,7 +890,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Employees */}
+              {/* EMPLOYEES */}
               <div className="sidebar_item">
 
                 <div className="sidebar_item_icon">
@@ -801,7 +909,7 @@ export default function Apply() {
 
               </div>
 
-              {/* Location */}
+              {/* LOCATION */}
               <div className="sidebar_item">
 
                 <div className="sidebar_item_icon">
@@ -821,16 +929,22 @@ export default function Apply() {
 
               </div>
 
-              {/* Sidebar Apply Button */}
+              {/* SIDEBAR APPLY */}
               <button
+                type="button"
                 className="sidebar_apply_btn"
                 onClick={handleApply}
-                disabled={applyLoading}
+                disabled={
+                  applyLoading ||
+                  alreadyApplied
+                }
               >
                 <FiSend />
 
                 {applyLoading
                   ? "Applying..."
+                  : alreadyApplied
+                  ? "Applied"
                   : "Apply for this Job"}
               </button>
 

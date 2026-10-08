@@ -1,18 +1,30 @@
+
 import React, { useEffect, useState } from "react";
 import "../css/applicants.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Canditatelist() {
-  // 🎯 यहाँ 'setApplicants' को बिल्कुल सही तरीके से डिक्लेयर किया गया है
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
+
+  const API_URL = "https://latestjobportal.onrender.com";
 
   const fetchApplicants = async () => {
     try {
-      // 1️⃣ लोकल स्टोरेज से एम्प्लॉयर (नियोक्ता) का डेटा और आईडी निकाली
-      const storedEmployer = JSON.parse(localStorage.getItem("User"));
-      const employerId = storedEmployer?._id;
+      setLoading(true);
+
+      // Employer data
+      let storedEmployer = null;
+
+      try {
+        storedEmployer = JSON.parse(localStorage.getItem("User"));
+      } catch (error) {
+        console.log("Invalid employer data in localStorage");
+      }
+
+      const employerId = storedEmployer?._id || storedEmployer?.id;
 
       if (!employerId) {
         alert("Please Login First as an Employer!");
@@ -20,30 +32,42 @@ export default function Canditatelist() {
         return;
       }
 
-      // 2️⃣ लोकल स्टोरेज से जॉब आईडी निकाली
+      // Job ID
       const jobId = localStorage.getItem("jobId");
 
       if (!jobId) {
         alert("No Job Selected!");
-        setLoading(false);
+        setApplicants([]);
         return;
       }
 
-      // 3️⃣ एपीआई कॉल में ?employerId=${employerId} को पास किया
       const response = await fetch(
-        `https://latestjobportal.onrender.com/api/applicants/${jobId}?employerId=${employerId}`
+        `${API_URL}/api/applicants/${jobId}?employerId=${employerId}`
       );
+
+      if (!response.ok) {
+        throw new Error(`Server Error: ${response.status}`);
+      }
 
       const data = await response.json();
 
-      if (data.success) {
-        // ✅ यहाँ अब सही 'setApplicants' फंक्शन कॉल हो रहा है, जिससे एरर नहीं आएगी
-        setApplicants(data.data || []);
+      console.log("Applicants API Response:", data);
+
+      if (data?.success) {
+        const applicantData =
+          Array.isArray(data.data)
+            ? data.data
+            : Array.isArray(data.applicants)
+            ? data.applicants
+            : [];
+
+        setApplicants(applicantData);
       } else {
         setApplicants([]);
       }
     } catch (error) {
-      console.log("Error fetching applicants:", error);
+      console.error("Error fetching applicants:", error);
+      setApplicants([]);
     } finally {
       setLoading(false);
     }
@@ -53,92 +77,235 @@ export default function Canditatelist() {
     fetchApplicants();
   }, []);
 
+  // Loading
   if (loading) {
-    return <h2 style={{ textAlign: "center", marginTop: "50px" }}>Loading Applicants...</h2>;
+    return (
+      <div className="applicants-loading">
+        <div className="loading-spinner"></div>
+        <h3>Loading Applicants...</h3>
+        <p>Please wait...</p>
+      </div>
+    );
   }
 
   return (
     <div className="applicant-container">
-      <h1 className="page-title">Job Applicants</h1>
 
+      {/* Header */}
+      <div className="applicant-header">
+        <div>
+          <h1 className="page-title">Job Applicants</h1>
+          <p className="page-subtitle">
+            View and manage candidates who applied for this job.
+          </p>
+        </div>
+
+        <div className="applicant-count">
+          {applicants.length}{" "}
+          {applicants.length === 1 ? "Applicant" : "Applicants"}
+        </div>
+      </div>
+
+      {/* Applicants */}
       {applicants.length > 0 ? (
-        applicants.map((item) => (
-          <div className="applicant-card" key={item._id}>
-            
-            {/* प्रोफाइल इमेज */}
-            {item.candidateId?.profilePic ? (
-              <img
-                src={`https://latestjobportal.onrender.com/uploads/${item.candidateId.profilePic}`}
-                alt="Profile"
-                className="profile-image"
-              />
-            ) : (
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                alt="Default Profile"
-                className="profile-image"
-              />
-            )}
+        <div className="applicants-list">
 
-            <div className="applicant-content">
-              {/* कैंडिडेट का नाम */}
-              <h2 className="candidate-name">
-                {item.candidateId?.fullName || item.candidateId?.name || "Candidate Name"}
-              </h2>
+          {applicants.map((item) => {
+            const candidate = item?.candidateId || {};
+            const job = item?.jobId || {};
 
-              <p className="apply-date">
-                Applied Date :{" "}
-                {new Date(item.createdAt).toLocaleString()}
-              </p>
+            const candidateName =
+              candidate.fullName ||
+              candidate.name ||
+              "Candidate Name";
 
-              <h3 className="job-title">
-                Applied For Job : {item.jobId?.jobTitle}
-              </h3>
+            const profileImage = candidate.profilePic
+              ? `${API_URL}/uploads/${candidate.profilePic}`
+              : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
-              <div className="contact-row">
-                <span>📞 {item.candidateId?.contactNumber || item.candidateId?.mobile || "N/A"}</span>
-                <span>📧 {item.candidateId?.email || "N/A"}</span>
+            const resumeUrl = candidate.resume
+              ? `${API_URL}/uploads/${candidate.resume}`
+              : null;
+
+            return (
+              <div className="applicant-card" key={item?._id}>
+
+                {/* Profile Image */}
+                <div className="profile-wrapper">
+                  <img
+                    src={profileImage}
+                    alt={candidateName}
+                    className="profile-image"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+                    }}
+                  />
+                </div>
+
+                {/* Applicant Content */}
+                <div className="applicant-content">
+
+                  {/* Top Section */}
+                  <div className="candidate-top">
+                    <div>
+                      <h2 className="candidate-name">
+                        {candidateName}
+                      </h2>
+
+                      <p className="candidate-role">
+                        Candidate
+                      </p>
+                    </div>
+
+                    <span className="application-status">
+                      Applied
+                    </span>
+                  </div>
+
+                  {/* Applied Date */}
+                  <p className="apply-date">
+                    <span>📅</span>
+                    Applied Date:{" "}
+                    {item?.createdAt
+                      ? new Date(item.createdAt).toLocaleString()
+                      : "N/A"}
+                  </p>
+
+                  {/* Job */}
+                  <h3 className="job-title">
+                    Applied For:{" "}
+                    <span>
+                      {job.jobTitle || "Job Title Not Available"}
+                    </span>
+                  </h3>
+
+                  {/* Contact */}
+                  <div className="contact-row">
+
+                    <div className="contact-item">
+                      <span className="contact-icon">📞</span>
+                      <div>
+                        <small>Phone</small>
+                        <strong>
+                          {candidate.contactNumber ||
+                            candidate.mobile ||
+                            "N/A"}
+                        </strong>
+                      </div>
+                    </div>
+
+                    <div className="contact-item">
+                      <span className="contact-icon">📧</span>
+                      <div>
+                        <small>Email</small>
+                        <strong>
+                          {candidate.email || "N/A"}
+                        </strong>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Skills */}
+                  <div className="skill-row">
+                    <span className="skill-icon">🔖</span>
+
+                    <div>
+                      <span className="skill-label">
+                        Required Skills
+                      </span>
+
+                      <p>
+                        {job.skillRequired || "N/A"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="btn-group">
+
+                    {/* Resume */}
+                    {resumeUrl ? (
+                      <button
+                        type="button"
+                        className="resume-btn"
+                        onClick={() =>
+                          window.open(
+                            resumeUrl,
+                            "_blank",
+                            "noopener,noreferrer"
+                          )
+                        }
+                      >
+                        📄 VIEW RESUME
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="resume-btn disabled-btn"
+                        disabled
+                      >
+                        📄 RESUME NOT AVAILABLE
+                      </button>
+                    )}
+
+                    {/* Candidate Detail */}
+                    <button
+                      type="button"
+                      className="detail-btn"
+                      onClick={() =>
+                        navigate(`/view/${candidate?._id}`)
+                      }
+                    >
+                      👤 VIEW DETAIL
+                    </button>
+
+                    {/* Application Details */}
+                    <button
+                      type="button"
+                      className="application-btn"
+                      onClick={() =>
+                        navigate(
+                          `/applicationdetails/${item?._id}`
+                        )
+                      }
+                    >
+                      📋 APPLICATION DETAILS
+                    </button>
+
+                  </div>
+                </div>
               </div>
+            );
+          })}
 
-              <div className="skill-row">
-                🔖 Required Skills: {item.jobId?.skillRequired || "N/A"}
-              </div>
-
-              <div className="btn-group">
-                <button
-                  className="resume-btn"
-                  onClick={() =>
-                    window.open(
-                      `https://latestjobportal.onrender.com/uploads/${item.candidateId?.resume}`,
-                      "_blank"
-                    )
-                  }
-                >
-                  RESUME
-                </button>
-                
-                <button
-                  className="detail-btn"
-                  onClick={() => navigate(`/view/${item.candidateId?._id}`)}
-                >
-                  VIEW DETAIL
-                </button>
-
-                <button
-                  className="application-btn"
-                  onClick={() => navigate(`/applicationdetails/${item._id}`)}
-                >
-                  APPLICATION DETAILS
-                </button>
-              </div>
-            </div>
-          </div>
-        ))
+        </div>
       ) : (
-        <h3 style={{ textAlign: "center", marginTop: "30px" }}>
-          No applicants found for this job post.
-        </h3>
+        <div className="no-applicants">
+
+          <div className="empty-icon">
+            👥
+          </div>
+
+          <h3>No Applicants Found</h3>
+
+          <p>
+            No applicants have applied for this job post yet.
+          </p>
+
+          <button
+            type="button"
+            className="refresh-btn"
+            onClick={fetchApplicants}
+          >
+            🔄 Refresh
+          </button>
+
+        </div>
       )}
+
     </div>
   );
 }
+

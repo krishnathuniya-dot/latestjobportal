@@ -1,5 +1,6 @@
+
 import React, { useEffect, useState } from "react";
-import "../css/recenthotjob.css";
+
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -117,9 +118,7 @@ export default function Categoryjob() {
   };
 
   useEffect(() => {
-    if (category) {
-      fetchJobs();
-    }
+    fetchJobs();
   }, [category]);
 
   const handleApply = (jobId) => {
@@ -127,200 +126,273 @@ export default function Categoryjob() {
   };
 
   return (
-    <div className="category-jobs-page">
+    <div className="cj_page">
+
       {/* ================= BANNER ================= */}
-      <section className="category_banner">
+
+      <section className="cj_banner">
         <img
           src={currentBanner.image}
           alt={currentBanner.title}
-          className="category_banner_img"
+          className="cj_banner_img"
         />
 
-        <div className="category_banner_overlay">
-          <div className="category_banner_content">
-            <span className="category_banner_badge">
+        <div className="cj_banner_overlay">
+          <div className="cj_banner_content">
+
+            <span className="cj_banner_badge">
               💼 Career Opportunities
             </span>
 
-            <h1>{currentBanner.title}</h1>
+            <h1 className="cj_banner_title">
+              {currentBanner.title}
+            </h1>
 
-            <p>{currentBanner.subtitle}</p>
+            <p className="cj_banner_subtitle">
+              {currentBanner.subtitle}
+            </p>
 
-            <div className="category_banner_stats">
-              <div>
+            <div className="cj_banner_stats">
+
+              <div className="cj_stat_item">
                 <strong>{jobData.length}</strong>
                 <span>Available Jobs</span>
               </div>
 
-              <div>
+              <div className="cj_stat_item">
                 <strong>100%</strong>
                 <span>Career Growth</span>
               </div>
 
-              <div>
+              <div className="cj_stat_item">
                 <strong>24/7</strong>
                 <span>Job Search</span>
               </div>
+
             </div>
+
           </div>
         </div>
       </section>
 
       {/* ================= JOB SECTION ================= */}
-      <section className="recent_hot_jobs_container">
-        <div className="category_jobs_header">
-          <div>
-            <span className="category_section_tag">
+
+      <section className="cj_jobs_section">
+
+        <div className="cj_jobs_header">
+
+          <div className="cj_heading_content">
+
+            <span className="cj_section_tag">
               🔥 Latest Opportunities
             </span>
 
-            <h1 className="recent_hot_jobs_heading">
+            <h2 className="cj_jobs_heading">
               {decodedCategory} Jobs
-            </h1>
+            </h2>
 
-            <p className="category_jobs_subtitle">
-              Explore the latest {decodedCategory.toLowerCase()} job
-              opportunities and take the next step in your career.
+            <p className="cj_jobs_subtitle">
+              Explore the latest{" "}
+              {decodedCategory.toLowerCase()} job opportunities
+              and take the next step in your career.
             </p>
+
           </div>
 
-          <div className="category_job_count">
+          <div className="cj_job_count">
             <strong>{jobData.length}</strong>
             <span>Jobs Found</span>
           </div>
+
         </div>
 
         {/* ================= LOADING ================= */}
+
         {loading ? (
-          <div className="category_loading">
-            <div className="category_loader"></div>
+          <div className="cj_loading">
+
+            <div className="cj_loader"></div>
 
             <h3>Finding the best jobs...</h3>
 
-            <p>Please wait while we load available opportunities.</p>
+            <p>
+              Please wait while we load available opportunities.
+            </p>
+
           </div>
         ) : error ? (
+
           /* ================= ERROR ================= */
-          <div className="category_empty_state">
-            <div className="empty_icon">⚠️</div>
+
+          <div className="cj_empty_state">
+
+            <div className="cj_empty_icon">
+              ⚠️
+            </div>
 
             <h2>Something went wrong</h2>
 
             <p>{error}</p>
 
             <button
-              className="retry_jobs_btn"
+              className="cj_retry_btn"
               onClick={fetchJobs}
             >
               Try Again
             </button>
+
           </div>
+
         ) : jobData.length > 0 ? (
+
           /* ================= JOB LIST ================= */
-          <div className="category_jobs_list">
+
+          <div className="cj_jobs_grid">
+
             {jobData.map((item) => {
+
               const companyName =
                 item?.employerId?.companyName ||
                 item?.companyName ||
                 item?.category ||
                 "Company";
 
-              const companyLogo = item?.employerId?.logo;
+              const companyLogo =
+                item?.employerId?.logo || item?.logo;
 
               return (
                 <article
-                  className="recent_hot_job_card"
+                  className="cj_job_card"
                   key={item?._id}
                   onClick={() => handleApply(item?._id)}
                 >
-                  {/* LEFT */}
-                  <div className="recent_hot_job_left">
-                    {/* COMPANY LOGO */}
-                    <div className="recent_hot_logo_wrapper">
-                      {companyLogo ? (
-                        <img
-                          src={`https://latestjobportal.onrender.com/uploads/${companyLogo}`}
-                          alt={companyName}
-                          className="recent_hot_logo_img"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                            e.currentTarget.nextElementSibling.style.display =
-                              "flex";
+
+                  {/* CARD TOP */}
+
+                  <div className="cj_card_top">
+
+                    <div className="cj_job_left">
+
+                      {/* LOGO */}
+
+                      <div className="cj_logo_wrapper">
+
+                        {companyLogo ? (
+                          <img
+                            src={`https://latestjobportal.onrender.com/uploads/${companyLogo}`}
+                            alt={companyName}
+                            className="cj_logo_img"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+
+                              if (
+                                e.currentTarget
+                                  .nextElementSibling
+                              ) {
+                                e.currentTarget.nextElementSibling.style.display =
+                                  "flex";
+                              }
+                            }}
+                          />
+                        ) : null}
+
+                        <div
+                          className="cj_logo_fallback"
+                          style={{
+                            display: companyLogo
+                              ? "none"
+                              : "flex",
                           }}
-                        />
-                      ) : null}
+                        >
+                          {companyName
+                            ?.charAt(0)
+                            ?.toUpperCase() || "C"}
+                        </div>
 
-                      <div
-                        className="recent_hot_logo"
-                        style={{
-                          display: companyLogo ? "none" : "flex",
-                        }}
-                      >
-                        {companyName
-                          ?.charAt(0)
-                          ?.toUpperCase() || "C"}
                       </div>
+
+                      {/* CONTENT */}
+
+                      <div className="cj_job_content">
+
+                        <div className="cj_title_row">
+
+                          <h3 className="cj_job_title">
+                            {item?.jobTitle ||
+                              "Job Opportunity"}
+                          </h3>
+
+                          {item?.isFeatured && (
+                            <span className="cj_featured_badge">
+                              ⭐ Featured
+                            </span>
+                          )}
+
+                        </div>
+
+                        <p className="cj_company_name">
+                          🏢 {companyName}
+                        </p>
+
+                      </div>
+
                     </div>
 
-                    {/* JOB CONTENT */}
-                    <div className="recent_hot_content">
-                      <div className="job_title_row">
-                        <h3>{item?.jobTitle || "Job Opportunity"}</h3>
-
-                        {item?.isFeatured && (
-                          <span className="featured_job_badge">
-                            ⭐ Featured
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="company_name">
-                        🏢 {companyName}
-                      </p>
-
-                      <div className="recent_hot_meta">
-                        <span>
-                          📍 {item?.jobLocation || "Location not specified"}
-                        </span>
-
-                        <span>
-                          📅{" "}
-                          {item?.createdAt
-                            ? new Date(
-                                item.createdAt
-                              ).toLocaleDateString("en-IN")
-                            : "N/A"}
-                        </span>
-
-                        {item?.experience && (
-                          <span>
-                            💼 {item.experience}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="job_bottom_info">
-                        <h4>
-                          💰 ₹{item?.salaryPackage || "Not disclosed"}
-                        </h4>
-
-                        {item?.category && (
-                          <span className="job_category_badge">
-                            {item.category}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* RIGHT */}
-                  <div className="recent_hot_job_right">
-                    <span className="recent_hot_type_btn">
+                    <span className="cj_job_type">
                       {item?.jobType || "Full Time"}
                     </span>
 
+                  </div>
+
+                  {/* META */}
+
+                  <div className="cj_job_meta">
+
+                    <span>
+                      📍{" "}
+                      {item?.jobLocation ||
+                        "Location not specified"}
+                    </span>
+
+                    <span>
+                      📅{" "}
+                      {item?.createdAt
+                        ? new Date(
+                            item.createdAt
+                          ).toLocaleDateString("en-IN")
+                        : "N/A"}
+                    </span>
+
+                    {item?.experience && (
+                      <span>
+                        💼 {item.experience}
+                      </span>
+                    )}
+
+                  </div>
+
+                  {/* BOTTOM */}
+
+                  <div className="cj_card_bottom">
+
+                    <div className="cj_salary_area">
+
+                      <h4 className="cj_salary">
+                        💰 ₹
+                        {item?.salaryPackage ||
+                          "Not disclosed"}
+                      </h4>
+
+                      {item?.category && (
+                        <span className="cj_category_badge">
+                          {item.category}
+                        </span>
+                      )}
+
+                    </div>
+
                     <button
-                      className="category_apply_btn"
+                      className="cj_apply_btn"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleApply(item?._id);
@@ -329,33 +401,46 @@ export default function Categoryjob() {
                       Apply Now
                       <span>→</span>
                     </button>
+
                   </div>
+
                 </article>
               );
             })}
+
           </div>
+
         ) : (
+
           /* ================= EMPTY ================= */
-          <div className="category_empty_state">
-            <div className="empty_icon">🔍</div>
+
+          <div className="cj_empty_state">
+
+            <div className="cj_empty_icon">
+              🔍
+            </div>
 
             <h2>No Jobs Found</h2>
 
             <p>
-              We couldn't find any {decodedCategory.toLowerCase()} jobs
+              We couldn't find any{" "}
+              {decodedCategory.toLowerCase()} jobs
               right now.
             </p>
 
             <button
-              className="browse_all_jobs_btn"
+              className="cj_browse_btn"
               onClick={() => navigate("/jobs")}
             >
               Browse All Jobs
               <span>→</span>
             </button>
+
           </div>
         )}
+
       </section>
     </div>
   );
 }
+
