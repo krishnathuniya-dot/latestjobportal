@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -27,6 +28,37 @@ export default function Applyjob() {
   const navigate = useNavigate();
 
   // =========================================
+  // GET CANDIDATE ID
+  // =========================================
+  const getCandidateId = () => {
+    // Direct localStorage keys
+    const directId =
+      localStorage.getItem("candidateId") ||
+      localStorage.getItem("userId");
+
+    if (directId) {
+      return directId;
+    }
+
+    // User object saved during seeker login
+    try {
+      const storedUser = JSON.parse(
+        localStorage.getItem("user") || "null"
+      );
+
+      return (
+        storedUser?._id ||
+        storedUser?.id ||
+        storedUser?.candidateId ||
+        ""
+      );
+    } catch (error) {
+      console.error("Unable to read user data:", error);
+      return "";
+    }
+  };
+
+  // =========================================
   // FETCH APPLICATIONS
   // =========================================
   const fetchApplications = async () => {
@@ -34,17 +66,22 @@ export default function Applyjob() {
       setLoading(true);
       setError("");
 
-      const candidateId =
-        localStorage.getItem("candidateId");
+      const candidateId = getCandidateId();
+
+      console.log("Candidate ID:", candidateId);
 
       if (!candidateId) {
         setApplications([]);
-        setLoading(false);
+        setError(
+          "Candidate login details were not found. Please login as a job seeker."
+        );
         return;
       }
 
       const response = await fetch(
-        `${API_URL}/api/my-applications/${candidateId}`
+        `${API_URL}/api/my-applications/${encodeURIComponent(
+          candidateId
+        )}`
       );
 
       let data = {};
@@ -55,7 +92,7 @@ export default function Applyjob() {
         data = {};
       }
 
-      console.log("Applications =", data);
+      console.log("Applications response:", data);
 
       if (!response.ok) {
         throw new Error(
@@ -64,20 +101,31 @@ export default function Applyjob() {
         );
       }
 
-      if (data?.success) {
-        setApplications(
-          Array.isArray(data.data)
-            ? data.data
-            : []
+      // Support common backend response structures
+      const applicationData =
+        Array.isArray(data)
+          ? data
+          : Array.isArray(data?.data)
+          ? data.data
+          : Array.isArray(data?.applications)
+          ? data.applications
+          : Array.isArray(data?.data?.applications)
+          ? data.data.applications
+          : [];
+
+      if (
+        data?.success === false &&
+        applicationData.length === 0
+      ) {
+        throw new Error(
+          data?.message ||
+            "Unable to fetch applications."
         );
-      } else {
-        setApplications([]);
       }
+
+      setApplications(applicationData);
     } catch (error) {
-      console.error(
-        "Applications Error:",
-        error
-      );
+      console.error("Applications Error:", error);
 
       setError(
         error.message ||
@@ -108,21 +156,20 @@ export default function Applyjob() {
       return "Date not available";
     }
 
-    return parsedDate.toLocaleDateString(
-      "en-IN",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }
-    );
+    return parsedDate.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   // =========================================
   // TIME FORMAT
   // =========================================
   const formatTime = (date) => {
-    if (!date) return "";
+    if (!date) {
+      return "";
+    }
 
     const parsedDate = new Date(date);
 
@@ -130,27 +177,29 @@ export default function Applyjob() {
       return "";
     }
 
-    return parsedDate.toLocaleTimeString(
-      "en-IN",
-      {
-        hour: "2-digit",
-        minute: "2-digit",
-      }
-    );
+    return parsedDate.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   // =========================================
   // STATUS CLASS
   // =========================================
   const getStatusClass = (status) => {
-    const value =
-      status?.toLowerCase() || "pending";
+    const value = String(status || "Pending").toLowerCase();
 
-    if (value.includes("accept")) {
+    if (
+      value.includes("accept") ||
+      value.includes("approved")
+    ) {
       return "status-accepted";
     }
 
-    if (value.includes("reject")) {
+    if (
+      value.includes("reject") ||
+      value.includes("declined")
+    ) {
       return "status-rejected";
     }
 
@@ -165,112 +214,123 @@ export default function Applyjob() {
   };
 
   // =========================================
-  // LOGO
+  // CLOUDINARY + LEGACY LOGO SUPPORT
   // =========================================
   const getLogo = (item) => {
-    const logo =
-      item?.jobId?.employerId?.logo;
+    const logo = item?.jobId?.employerId?.logo;
 
-    if (!logo) {
+    if (!logo || typeof logo !== "string") {
       return "";
     }
 
-    if (logo.startsWith("http")) {
-      return logo;
+    const cleanLogo = logo.trim();
+
+    // Cloudinary or another complete image URL
+    if (/^https?:\/\//i.test(cleanLogo)) {
+      return cleanLogo;
     }
 
-    return `${API_URL}/uploads/${logo}`;
+    // Legacy local uploads
+    return `${API_URL}/uploads/${cleanLogo.replace(
+      /^\/+/,
+      ""
+    )}`;
   };
 
+  // =========================================
+  // NORMALIZE SKILLS
+  // =========================================
+  const getSkills = (job) => {
+    const rawSkills =
+      job?.skillRequired ??
+      job?.skills ??
+      "";
+
+    if (Array.isArray(rawSkills)) {
+      return rawSkills
+        .map((skill) => String(skill).trim())
+        .filter(Boolean);
+    }
+
+    if (typeof rawSkills === "string") {
+      return rawSkills
+        .split(",")
+        .map((skill) => skill.trim())
+        .filter(Boolean);
+    }
+
+    return [];
+  };
+
+  // =========================================
+  // LOADING UI
+  // =========================================
   return (
     <div className="my-applications-page">
-
       {/* =========================================
           HERO
       ========================================= */}
-
       <section className="applications-hero">
-
         <div className="applications-hero-content">
-
           <div className="applications-hero-icon">
             <FiBriefcase />
           </div>
 
           <div>
-            <span>
-              CANDIDATE DASHBOARD
-            </span>
+            <span>CANDIDATE DASHBOARD</span>
 
-            <h1>
-              My Applications
-            </h1>
+            <h1>My Applications</h1>
 
             <p>
-              Track all your job applications
-              and check their latest status.
+              Track all your job applications and check
+              their latest status.
             </p>
           </div>
-
         </div>
-
       </section>
 
       {/* =========================================
           MAIN
       ========================================= */}
-
       <main className="applications-main">
-
-        {/* Header */}
-
+        {/* HEADER */}
         <div className="applications-heading">
-
           <div>
             <span className="applications-label">
               APPLICATION HISTORY
             </span>
 
-            <h2>
-              Your Job Applications
-            </h2>
+            <h2>Your Job Applications</h2>
 
             <p>
               {loading
                 ? "Loading your applications..."
                 : `${applications.length} application${
-                    applications.length !== 1
-                      ? "s"
-                      : ""
+                    applications.length !== 1 ? "s" : ""
                   } found`}
             </p>
           </div>
 
           <button
+            type="button"
             className="applications-refresh"
             onClick={fetchApplications}
             disabled={loading}
           >
             <FiRefreshCw
               className={
-                loading
-                  ? "applications-spin"
-                  : ""
+                loading ? "applications-spin" : ""
               }
             />
-
             Refresh
           </button>
-
         </div>
 
         {/* =========================================
             ERROR
         ========================================= */}
-
         {error && (
           <div className="applications-error">
-
             <div className="applications-error-icon">
               <FiAlertCircle />
             </div>
@@ -280,115 +340,111 @@ export default function Applyjob() {
                 Unable to load applications
               </strong>
 
-              <p>
-                {error}
-              </p>
+              <p>{error}</p>
             </div>
 
             <button
-              onClick={fetchApplications}
+              type="button"
+              onClick={() => {
+                if (
+                  error.toLowerCase().includes("login")
+                ) {
+                  navigate("/seekerlogin");
+                } else {
+                  fetchApplications();
+                }
+              }}
             >
-              Try Again
+              {error.toLowerCase().includes("login")
+                ? "Login"
+                : "Try Again"}
             </button>
-
           </div>
         )}
 
         {/* =========================================
-            LOADING
+            LOADING SKELETON
         ========================================= */}
-
         {loading && (
           <div className="applications-list">
-
             {[1, 2, 3].map((item) => (
               <div
                 className="application-card application-skeleton"
                 key={item}
               >
-
                 <div className="skeleton-company-logo"></div>
 
                 <div className="skeleton-content">
-
                   <div className="skeleton-line title"></div>
-
                   <div className="skeleton-line medium"></div>
-
                   <div className="skeleton-line small"></div>
-
                   <div className="skeleton-details"></div>
-
                 </div>
-
               </div>
             ))}
-
           </div>
         )}
 
         {/* =========================================
-            EMPTY
+            EMPTY STATE
         ========================================= */}
-
         {!loading &&
           !error &&
           applications.length === 0 && (
             <div className="applications-empty">
-
               <div className="empty-icon">
                 <FiInbox />
               </div>
 
-              <h3>
-                No Applications Found
-              </h3>
+              <h3>No Applications Found</h3>
 
               <p>
                 You haven't applied for any jobs yet.
-                Start exploring jobs and apply for
-                your desired position.
+                Start exploring jobs and apply for your
+                desired position.
               </p>
 
               <button
-                onClick={() =>
-                  navigate("/hhome")
-                }
+                type="button"
+                onClick={() => navigate("/hhome")}
               >
                 <FiBriefcase />
                 Explore Jobs
               </button>
-
             </div>
           )}
 
         {/* =========================================
             APPLICATION LIST
         ========================================= */}
-
         {!loading &&
           !error &&
           applications.length > 0 && (
             <div className="applications-list">
-
-              {applications.map((item) => {
-
+              {applications.map((item, index) => {
                 const job =
-                  item?.jobId || {};
+                  item?.jobId &&
+                  typeof item.jobId === "object"
+                    ? item.jobId
+                    : {};
 
                 const employer =
-                  job?.employerId || {};
+                  job?.employerId &&
+                  typeof job.employerId === "object"
+                    ? job.employerId
+                    : {};
 
-                const logo =
-                  getLogo(item);
+                const logo = getLogo(item);
 
                 const companyName =
                   employer?.companyName ||
                   "Company";
 
+                const companyInitial =
+                  companyName.charAt(0).toUpperCase();
+
                 const jobTitle =
-                  job?.jobTitle ||
-                  "Job Title";
+                  job?.jobTitle || "Job Title";
 
                 const location =
                   job?.jobLocation ||
@@ -400,81 +456,67 @@ export default function Applyjob() {
                   job?.salary ||
                   "Not Mentioned";
 
-                const skills =
-                  job?.skillRequired ||
-                  job?.skills ||
-                  "";
+                const skills = getSkills(job);
 
                 const status =
-                  item?.status ||
-                  "Pending";
+                  item?.status || "Pending";
 
                 return (
                   <article
                     className="application-card"
-                    key={item._id}
+                    key={
+                      item?._id ||
+                      item?.id ||
+                      `${job?._id || "job"}-${index}`
+                    }
                   >
-
-                    {/* =================================
-                        COMPANY LOGO
-                    ================================= */}
-
+                    {/* COMPANY LOGO */}
                     <div className="application-company">
-
                       <div className="application-logo">
-
-                        {logo ? (
+                        {logo && (
                           <img
                             src={logo}
-                            alt={companyName}
+                            alt={`${companyName} logo`}
+                            loading="lazy"
                             onError={(e) => {
+                              e.currentTarget.onerror = null;
                               e.currentTarget.style.display =
                                 "none";
 
-                              e.currentTarget.parentElement
-                                .querySelector(
+                              const fallback =
+                                e.currentTarget.parentElement?.querySelector(
                                   ".application-logo-fallback"
-                                )
-                                ?.classList.add(
-                                  "show"
                                 );
+
+                              fallback?.classList.add("show");
                             }}
                           />
-                        ) : null}
+                        )}
 
-                        <div className="application-logo-fallback">
-                          {companyName
-                            .charAt(0)
-                            .toUpperCase()}
+                        <div
+                          className={`application-logo-fallback ${
+                            logo ? "" : "show"
+                          }`}
+                        >
+                          {companyInitial}
                         </div>
-
                       </div>
-
                     </div>
 
-                    {/* =================================
-                        CONTENT
-                    ================================= */}
-
+                    {/* APPLICATION CONTENT */}
                     <div className="application-content">
-
                       <div className="application-top">
-
                         <div>
-
                           <span className="application-category">
                             JOB APPLICATION
                           </span>
 
-                          <h2>
-                            {jobTitle}
-                          </h2>
+                          <h2>{jobTitle}</h2>
 
                           <h3>
                             <FiBriefcase />
                             {companyName}
                           </h3>
-
                         </div>
 
                         <span
@@ -483,57 +525,36 @@ export default function Applyjob() {
                           )}`}
                         >
                           <FiCheckCircle />
-
                           {status}
                         </span>
-
                       </div>
 
-                      {/* =================================
-                          APPLIED DATE
-                      ================================= */}
-
+                      {/* APPLIED DATE */}
                       <div className="application-date">
-
                         <span>
                           <FiCalendar />
 
                           Applied on{" "}
                           <strong>
-                            {formatDate(
-                              item?.createdAt
-                            )}
+                            {formatDate(item?.createdAt)}
                           </strong>
                         </span>
 
-                        {formatTime(
-                          item?.createdAt
-                        ) && (
+                        {formatTime(item?.createdAt) && (
                           <span>
                             <FiClock />
-
-                            {formatTime(
-                              item?.createdAt
-                            )}
+                            {formatTime(item?.createdAt)}
                           </span>
                         )}
-
                       </div>
 
-                      {/* =================================
-                          JOB DETAILS
-                      ================================= */}
-
+                      {/* JOB DETAILS */}
                       <div className="application-details">
-
                         <div>
                           <FiMapPin />
 
                           <span>
-                            <small>
-                              Location
-                            </small>
-
+                            <small>Location</small>
                             {location}
                           </span>
                         </div>
@@ -542,100 +563,78 @@ export default function Applyjob() {
                           <FiDollarSign />
 
                           <span>
-                            <small>
-                              Salary
-                            </small>
-
-                            ₹{salary}
+                            <small>Salary</small>
+                            {typeof salary === "number"
+                              ? `₹${salary}`
+                              : salary === "Not Mentioned"
+                              ? salary
+                              : `₹${salary}`}
                           </span>
                         </div>
-
                       </div>
 
-                      {/* =================================
-                          SKILLS
-                      ================================= */}
-
+                      {/* SKILLS */}
                       <div className="application-skills">
-
                         <div className="skills-heading">
                           <FiFileText />
                           Required Skills
                         </div>
 
                         <div className="skill-tags">
-
-                          {skills ? (
-                            skills
-                              .split(",")
-                              .map(
-                                (
-                                  skill,
-                                  index
-                                ) => (
-                                  <span
-                                    key={
-                                      index
-                                    }
-                                  >
-                                    {skill.trim()}
-                                  </span>
-                                )
-                              )
+                          {skills.length > 0 ? (
+                            skills.map((skill, skillIndex) => (
+                              <span
+                                key={`${skill}-${skillIndex}`}
+                              >
+                                {skill}
+                              </span>
+                            ))
                           ) : (
-                            <span>
-                              No skills mentioned
-                            </span>
+                            <span>No skills mentioned</span>
                           )}
-
                         </div>
-
                       </div>
 
-                      {/* =================================
-                          BUTTONS
-                      ================================= */}
-
+                      {/* BUTTONS */}
                       <div className="application-actions">
-
                         <button
+                          type="button"
                           className="view-job-btn"
-                          onClick={() =>
-                            navigate(
-                              `/apply/${job?._id}`
-                            )
-                          }
+                          onClick={() => {
+                            if (job?._id) {
+                              navigate(`/apply/${job._id}`);
+                            }
+                          }}
+                          disabled={!job?._id}
                         >
                           <FiEye />
                           View Job
                         </button>
 
                         <button
+                          type="button"
                           className="application-details-btn"
-                          onClick={() =>
-                            navigate(
-                              `/application/${item._id}`
-                            )
-                          }
+                          onClick={() => {
+                            if (item?._id) {
+                              navigate(
+                                `/application/${item._id}`
+                              );
+                            }
+                          }}
+                          disabled={!item?._id}
                         >
                           <FiFileText />
                           Application Details
                           <FiArrowRight />
                         </button>
-
                       </div>
-
                     </div>
-
                   </article>
                 );
               })}
-
             </div>
           )}
-
       </main>
-
     </div>
   );
 }

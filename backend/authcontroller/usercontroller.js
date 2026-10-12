@@ -1,9 +1,9 @@
+
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const User = require("../model/User");
 
-
-
+// REGISTER
 const register = async (req, res) => {
   try {
     const {
@@ -16,7 +16,13 @@ const register = async (req, res) => {
       website,
     } = req.body;
 
-    
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -26,19 +32,12 @@ const register = async (req, res) => {
       });
     }
 
-    
     const salt = await bcrypt.genSalt(10);
-
     const hashedPassword = await bcrypt.hash(password, salt);
 
-   
-    let logo = "";
+    // Cloudinary image URL
+    const logo = req.file ? req.file.path : "";
 
-    if (req.file) {
-      logo = req.file.filename;
-    }
-
-    
     const newUser = new User({
       personName,
       email,
@@ -50,18 +49,15 @@ const register = async (req, res) => {
       logo,
     });
 
-    
     await newUser.save();
 
-    
     res.status(201).json({
       success: true,
       message: "Register Successfully",
       user: newUser,
     });
-
   } catch (error) {
-    console.log(error);
+    console.log("Register Error:", error);
 
     res.status(500).json({
       success: false,
@@ -70,12 +66,11 @@ const register = async (req, res) => {
   }
 };
 
-
+// LOGIN
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find User
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -85,11 +80,7 @@ const login = async (req, res) => {
       });
     }
 
-    // Compare Password
-    const isMatch = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({
@@ -98,15 +89,13 @@ const login = async (req, res) => {
       });
     }
 
-    // Login Success
     res.status(200).json({
       success: true,
       message: "Login Successfully",
-      user: user,
+      user,
     });
-
   } catch (error) {
-    console.log(error);
+    console.log("Login Error:", error);
 
     res.status(500).json({
       success: false,
@@ -114,15 +103,16 @@ const login = async (req, res) => {
     });
   }
 };
+
+// GET USER
 const getUser = async (req, res) => {
   try {
-
     const { id } = req.params;
-
     const user = await User.findById(id);
 
     if (!user) {
       return res.status(404).json({
+        success: false,
         message: "User not found",
       });
     }
@@ -131,10 +121,8 @@ const getUser = async (req, res) => {
       success: true,
       user,
     });
-
   } catch (error) {
-
-    console.log(error);
+    console.log("Get User Error:", error);
 
     res.status(500).json({
       success: false,
@@ -143,8 +131,7 @@ const getUser = async (req, res) => {
   }
 };
 
-
-
+// UPDATE USER PROFILE
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -163,9 +150,16 @@ const updateUser = async (req, res) => {
       established: req.body.established,
     };
 
-    // New logo uploaded
+    // Remove undefined fields so existing values are not overwritten
+    Object.keys(updateData).forEach((key) => {
+      if (updateData[key] === undefined) {
+        delete updateData[key];
+      }
+    });
+
+    // Save Cloudinary URL when a new logo is uploaded
     if (req.file) {
-      updateData.logo = req.file.filename;
+      updateData.logo = req.file.path;
     }
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -186,9 +180,9 @@ const updateUser = async (req, res) => {
       message: "Profile updated successfully",
       user: updatedUser,
     });
-
   } catch (error) {
-    console.log(error);
+    console.log("Update User Error:", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -196,19 +190,12 @@ const updateUser = async (req, res) => {
   }
 };
 
-// Change Password
+// CHANGE PASSWORD
 const changePassword = async (req, res) => {
   try {
-
     const { id } = req.params;
+    const { oldPassword, newPassword } = req.body || {};
 
-    // IMPORTANT
-    const {
-      oldPassword,
-      newPassword,
-    } = req.body || {};
-
-    // Check Empty Fields
     if (!oldPassword || !newPassword) {
       return res.status(400).json({
         success: false,
@@ -216,7 +203,6 @@ const changePassword = async (req, res) => {
       });
     }
 
-    // Find User
     const user = await User.findById(id);
 
     if (!user) {
@@ -226,11 +212,7 @@ const changePassword = async (req, res) => {
       });
     }
 
-    // Match Old Password
-    const isMatch = await bcrypt.compare(
-      oldPassword,
-      user.password
-    );
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!isMatch) {
       return res.status(400).json({
@@ -239,25 +221,17 @@ const changePassword = async (req, res) => {
       });
     }
 
-    // Hash New Password
-    const hashedPassword = await bcrypt.hash(
-      newPassword,
-      10
-    );
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Save New Password
     user.password = hashedPassword;
-
     await user.save();
 
     res.status(200).json({
       success: true,
       message: "Password changed successfully",
     });
-
   } catch (error) {
-
-    console.log(error);
+    console.log("Change Password Error:", error);
 
     res.status(500).json({
       success: false,
@@ -265,11 +239,13 @@ const changePassword = async (req, res) => {
     });
   }
 };
+
+// GET ALL EMPLOYERS
 const getEmployers = async (req, res) => {
   try {
-    const employers = await User.find().sort({
-      createdAt: -1,
-    });
+    const employers = await User.find()
+      .select("-password -resetOtp")
+      .sort({ createdAt: -1 });
 
     res.status(200).json(employers);
   } catch (error) {
@@ -279,9 +255,12 @@ const getEmployers = async (req, res) => {
     });
   }
 };
+
+// GET EMPLOYER BY ID
 const getEmployerById = async (req, res) => {
   try {
-    const employer = await User.findById(req.params.id);
+    const employer = await User.findById(req.params.id)
+      .select("-password -resetOtp");
 
     if (!employer) {
       return res.status(404).json({
@@ -298,6 +277,8 @@ const getEmployerById = async (req, res) => {
     });
   }
 };
+
+// SEND PASSWORD RESET OTP
 const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -314,7 +295,7 @@ const sendOtp = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
 
     user.resetOtp = otp;
-    user.otpExpire = Date.now() + 5 * 60 * 1000; // 5 min
+    user.otpExpire = Date.now() + 5 * 60 * 1000;
 
     await user.save();
 
@@ -343,23 +324,21 @@ const sendOtp = async (req, res) => {
       message: "OTP sent successfully",
     });
   } catch (error) {
+    console.log("Send OTP Error:", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
+
+// VERIFY OTP
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
     const user = await User.findOne({ email });
-
-    console.log("Stored OTP:", user?.resetOtp);
-    console.log("Entered OTP:", otp);
-
-    console.log("Expiry:", user?.otpExpire);
-    console.log("Now:", new Date());
 
     if (!user) {
       return res.status(400).json({
@@ -375,35 +354,44 @@ const verifyOtp = async (req, res) => {
       });
     }
 
-    if (user.otpExpire.getTime() < Date.now()) {
+    if (!user.otpExpire || user.otpExpire.getTime() < Date.now()) {
       return res.status(400).json({
         success: false,
         message: "OTP expired",
       });
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       message: "OTP verified successfully",
     });
-
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
+
+// RESET PASSWORD
 const resetPassword = async (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;
+
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, OTP and new password are required",
+      });
+    }
 
     const user = await User.findOne({ email });
 
     if (
       !user ||
-      user.resetOtp != otp ||
-      user.otpExpire < Date.now()
+      String(user.resetOtp) !== String(otp) ||
+      !user.otpExpire ||
+      user.otpExpire.getTime() < Date.now()
     ) {
       return res.status(400).json({
         success: false,
@@ -412,7 +400,6 @@ const resetPassword = async (req, res) => {
     }
 
     user.password = await bcrypt.hash(newPassword, 10);
-
     user.resetOtp = null;
     user.otpExpire = null;
 
@@ -422,7 +409,6 @@ const resetPassword = async (req, res) => {
       success: true,
       message: "Password reset successfully",
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -430,7 +416,6 @@ const resetPassword = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   register,

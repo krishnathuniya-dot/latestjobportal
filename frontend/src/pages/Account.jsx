@@ -1,165 +1,226 @@
+
 import React, { useEffect, useState } from "react";
 import "../css/aaccount.css";
 
+const API_URL = "https://latestjobportal.onrender.com";
+
+const initialFormData = {
+  personName: "",
+  email: "",
+  companyName: "",
+  tagline: "",
+  description: "",
+  website: "",
+  noOfEmployees: "",
+  industry: "",
+  businessType: "",
+  location: "",
+  established: "",
+  logo: "",
+};
+
 export default function Account() {
-  const [formData, setFormData] = useState({
-    personName: "",
-    email: "",
-    companyName: "",
-    tagline: "", // Added
-    description: "", // Added
-    website: "",
-    noOfEmployees: "", // Added
-    industry: "",
-    businessType: "",
-    location: "",
-    established: "",
-    logo: "",
-  });
-
-  // Image file object ko tracking ke liye alag state
+  const [formData, setFormData] = useState(initialFormData);
   const [logoFile, setLogoFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // ================= FETCH USER =================
-
+  // FETCH USER PROFILE
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("User"));
-        if (!user) return;
+        const storedUser = localStorage.getItem("User");
 
-        const res = await fetch(`https://latestjobportal.onrender.com/api/user/${user._id}`);
-        const data = await res.json();
+        if (!storedUser) return;
 
-        if (data && data.user) {
-          setFormData({
-            personName: data.user.personName || "",
-            email: data.user.email || "",
-            companyName: data.user.companyName || "",
-            tagline: data.user.tagline || "",
-            description: data.user.description || "",
-            website: data.user.website || "",
-            noOfEmployees: data.user.noOfEmployees || "",
-            industry: data.user.industry || "",
-            businessType: data.user.businessType || "",
-            location: data.user.location || "",
-            established: data.user.established || "",
-            logo: data.user.logo || "",
-          });
+        const user = JSON.parse(storedUser);
+
+        if (!user?._id) return;
+
+        const response = await fetch(
+          `${API_URL}/api/user/${user._id}`
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.user) {
+          console.error("Fetch profile failed:", result.message);
+          return;
         }
+
+        const userData = result.user;
+
+        setFormData({
+          personName: userData.personName || "",
+          email: userData.email || "",
+          companyName: userData.companyName || "",
+          tagline: userData.tagline || "",
+          description: userData.description || "",
+          website: userData.website || "",
+          noOfEmployees: userData.noOfEmployees ?? "",
+          industry: userData.industry || "",
+          businessType: userData.businessType || "",
+          location: userData.location || "",
+          established: userData.established || "",
+          logo: userData.logo || "",
+        });
+
+        localStorage.setItem("User", JSON.stringify(userData));
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Fetch user error:", error);
       }
     };
 
     fetchUser();
   }, []);
 
-  // ================= INPUT CHANGE =================
-
+  // INPUT CHANGE
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
   };
 
-  // ================= LOGO CHANGE =================
-
+  // LOGO PREVIEW
   const handleLogo = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setLogoFile(file); // Actual file object backend ke liye save kiya
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only JPG, PNG and WEBP images are allowed.");
+      e.target.value = "";
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image size must be less than 5 MB.");
+      e.target.value = "";
+      return;
+    }
+
+    setLogoFile(file);
+
+    // Local preview only; backend upload happens on submit.
+    const previewUrl = URL.createObjectURL(file);
+
+    setFormData((previous) => ({
+      ...previous,
+      logo: previewUrl,
+    }));
+  };
+
+  // UPDATE PROFILE
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const storedUser = localStorage.getItem("User");
+
+      if (!storedUser) {
+        alert("Please log in again.");
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+
+      if (!user?._id) {
+        alert("User not found. Please log in again.");
+        return;
+      }
+
+      setLoading(true);
+
+      const dataToSend = new FormData();
+
+      dataToSend.append("personName", formData.personName);
+      dataToSend.append("email", formData.email);
+      dataToSend.append("companyName", formData.companyName);
+      dataToSend.append("tagline", formData.tagline);
+      dataToSend.append("description", formData.description);
+      dataToSend.append("website", formData.website);
+      dataToSend.append("noOfEmployees", formData.noOfEmployees);
+      dataToSend.append("industry", formData.industry);
+      dataToSend.append("businessType", formData.businessType);
+      dataToSend.append("location", formData.location);
+      dataToSend.append("established", formData.established);
+
+      // Field name must match upload.single("logo") in backend.
+      if (logoFile) {
+        dataToSend.append("logo", logoFile);
+      }
+
+      const response = await fetch(
+        `${API_URL}/api/update/${user._id}`,
+        {
+          method: "PUT",
+          body: dataToSend,
+        }
+      );
+
+      const result = await response.json();
+
+      console.log("UPDATE RESPONSE:", result);
+
+      if (!response.ok || !result.success) {
+        alert(result.message || "Profile update failed.");
+        return;
+      }
+
+      const updatedUser = result.user;
+
       setFormData({
-        ...formData,
-        logo: URL.createObjectURL(file), // UI display ke liye preview banaya
+        personName: updatedUser.personName || "",
+        email: updatedUser.email || "",
+        companyName: updatedUser.companyName || "",
+        tagline: updatedUser.tagline || "",
+        description: updatedUser.description || "",
+        website: updatedUser.website || "",
+        noOfEmployees: updatedUser.noOfEmployees ?? "",
+        industry: updatedUser.industry || "",
+        businessType: updatedUser.businessType || "",
+        location: updatedUser.location || "",
+        established: updatedUser.established || "",
+        logo: updatedUser.logo || "",
       });
+
+      localStorage.setItem("User", JSON.stringify(updatedUser));
+      setLogoFile(null);
+
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Update error:", error);
+      alert("Unable to update profile. Please check your connection.");
+    } finally {
+      setLoading(false);
     }
   };
-const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  try {
-    const user = JSON.parse(localStorage.getItem("User"));
+  // CLOUDINARY URL OR LEGACY LOCAL IMAGE
+  const getLogoUrl = () => {
+    if (!formData.logo) return "";
 
-    if (!user || !user._id) {
-      alert("User not found");
-      return;
+    // New Cloudinary URL
+    if (formData.logo.startsWith("https://")) {
+      return formData.logo;
     }
 
-    const dataToSend = new FormData();
+    // Legacy local filename from old records
+    return `${API_URL}/uploads/${formData.logo}`;
+  };
 
-    dataToSend.append("personName", formData.personName);
-    dataToSend.append("email", formData.email);
-    dataToSend.append("companyName", formData.companyName);
-    dataToSend.append("tagline", formData.tagline);
-    dataToSend.append("description", formData.description);
-    dataToSend.append("website", formData.website);
-    dataToSend.append("noOfEmployees", formData.noOfEmployees);
-    dataToSend.append("industry", formData.industry);
-    dataToSend.append("businessType", formData.businessType);
-    dataToSend.append("location", formData.location);
-    dataToSend.append("established", formData.established);
-
-    if (logoFile) {
-      dataToSend.append("logo", logoFile);
-    }
-
-    const response = await fetch(
-      `https://latestjobportal.onrender.com/api/update/${user._id}`,
-      {
-        method: "PUT",
-        body: dataToSend,
-      }
-    );
-
-    const result = await response.json();
-
-    console.log("UPDATE RESPONSE =>", result);
-
-    if (!response.ok || !result.success) {
-      alert(result.message || "Update Failed");
-      return;
-    }
-
-    const updatedUser = result.user;
-
-    setFormData({
-      personName: updatedUser.personName || "",
-      email: updatedUser.email || "",
-      companyName: updatedUser.companyName || "",
-      tagline: updatedUser.tagline || "",
-      description: updatedUser.description || "",
-      website: updatedUser.website || "",
-      noOfEmployees: updatedUser.noOfEmployees || "",
-      industry: updatedUser.industry || "",
-      businessType: updatedUser.businessType || "",
-      location: updatedUser.location || "",
-      established: updatedUser.established || "",
-      logo: updatedUser.logo || "",
-    });
-
-    localStorage.setItem(
-      "User",
-      JSON.stringify(updatedUser)
-    );
-
-    setLogoFile(null);
-
-    alert("Profile Updated Successfully");
-  } catch (error) {
-    console.error("Update Error =>", error);
-    alert(error.message);
-  }
-};
-  
-
- return (
+  return (
     <div className="jk_account_container">
       <form className="jk_account_form" onSubmit={handleSubmit}>
         <div className="jk_grid">
-          
-          {/* Row 1 */}
           <div className="jk_input_box">
             <label>Person Name *</label>
             <input
@@ -184,7 +245,6 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-          {/* Row 2 */}
           <div className="jk_input_box">
             <label>Company Name</label>
             <input
@@ -207,9 +267,9 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-          {/* Description Textarea Full Width Row */}
           <div className="jk_input_box jk_full_width">
             <label>Description</label>
+
             <div className="jk_editor_mock">
               <div className="jk_editor_toolbar">
                 <span className="jk_tool_btn"><b>B</b></span>
@@ -219,9 +279,10 @@ const handleSubmit = async (e) => {
                 <span className="jk_tool_select">Font Family</span>
                 <span className="jk_tool_select">Font Format</span>
               </div>
+
               <textarea
                 name="description"
-                placeholder="Tata Consultancy Services"
+                placeholder="Enter company description"
                 value={formData.description}
                 onChange={handleChange}
                 rows="5"
@@ -229,13 +290,12 @@ const handleSubmit = async (e) => {
             </div>
           </div>
 
-          {/* Row 3 */}
           <div className="jk_input_box">
             <label>Website</label>
             <input
               type="text"
               name="website"
-              placeholder="http://company.com"
+              placeholder="https://company.com"
               value={formData.website}
               onChange={handleChange}
             />
@@ -252,7 +312,6 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-          {/* Row 4 */}
           <div className="jk_input_box">
             <label>Industry</label>
             <input
@@ -275,7 +334,6 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-          {/* Row 5 */}
           <div className="jk_input_box">
             <label>Location</label>
             <input
@@ -299,28 +357,46 @@ const handleSubmit = async (e) => {
           </div>
         </div>
 
-        {/* LOGO */}
+        {/* COMPANY LOGO */}
         <div className="jk_logo_section">
           <label className="jk_logo_title">Company Logo</label>
-          <div className="jk_logo_box">
-   
 
-<img
-  src={`https://latestjobportal.onrender.com/uploads/${formData.logo}`}
-  alt="logo"
-  className="pk_logo_img"
-  onError={() => console.log("Image failed to load")}
-/>
+          <div className="jk_logo_box">
+            {formData.logo ? (
+              <img
+                src={getLogoUrl()}
+                alt="Company logo"
+                className="pk_logo_img"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.style.display = "none";
+                  console.error("Company logo failed to load.");
+                }}
+              />
+            ) : (
+              <div className="jk_logo_placeholder">
+                No logo uploaded
+              </div>
+            )}
           </div>
 
           <label className="jk_change_btn">
             Change Logo
-            <input type="file" hidden accept="image/*" onChange={handleLogo} />
+            <input
+              type="file"
+              hidden
+              accept="image/jpeg,image/png,image/webp"
+              onChange={handleLogo}
+            />
           </label>
         </div>
 
-        <button type="submit" className="jk_update_btn">
-          Update Profile
+        <button
+          type="submit"
+          className="jk_update_btn"
+          disabled={loading}
+        >
+          {loading ? "Updating..." : "Update Profile"}
         </button>
       </form>
     </div>

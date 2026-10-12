@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import "../css/recenthotjob.css";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +18,52 @@ import {
 } from "react-icons/fa";
 
 const API_URL = "https://latestjobportal.onrender.com";
+const ITEMS_PER_PAGE = 6;
+
+// =========================================
+// LOGO URL
+// Cloudinary + old uploads support
+// =========================================
+
+const getLogoUrl = (logo) => {
+  if (!logo || typeof logo !== "string") return "";
+
+  const cleanLogo = logo.trim();
+
+  if (!cleanLogo) return "";
+
+  // Cloudinary ya kisi aur server ka complete URL
+  if (/^https?:\/\//i.test(cleanLogo)) {
+    return cleanLogo;
+  }
+
+  // Purane local uploads ke filenames
+  return `${API_URL}/uploads/${cleanLogo.replace(/^\/+/, "")}`;
+};
+
+// =========================================
+// DATE FORMAT
+// =========================================
+
+const formatDate = (date) => {
+  if (!date) return "Recently";
+
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "Recently";
+  }
+
+  return parsedDate.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+// =========================================
+// COMPONENT
+// =========================================
 
 export default function RecenthotsJob() {
   const navigate = useNavigate();
@@ -27,11 +74,9 @@ export default function RecenthotsJob() {
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 6;
-
-  /* =========================================
-     FETCH JOBS
-  ========================================= */
+  // =========================================
+  // FETCH JOBS
+  // =========================================
 
   const fetchJobs = async () => {
     try {
@@ -44,20 +89,22 @@ export default function RecenthotsJob() {
       console.log("Recent Hot Jobs Response:", data);
 
       if (!response.ok) {
-        throw new Error(
-          data?.message || "Failed to fetch jobs"
-        );
+        throw new Error(data?.message || "Failed to fetch jobs.");
       }
 
-      const jobs = Array.isArray(data)
-        ? data
-        : Array.isArray(data?.data)
-        ? data.data
-        : Array.isArray(data?.jobs)
-        ? data.jobs
-        : Array.isArray(data?.job)
-        ? data.job
-        : [];
+      let jobs = [];
+
+      if (Array.isArray(data)) {
+        jobs = data;
+      } else if (Array.isArray(data?.data)) {
+        jobs = data.data;
+      } else if (Array.isArray(data?.jobs)) {
+        jobs = data.jobs;
+      } else if (Array.isArray(data?.job)) {
+        jobs = data.job;
+      } else if (Array.isArray(data?.data?.jobs)) {
+        jobs = data.data.jobs;
+      }
 
       setJobData(jobs);
     } catch (err) {
@@ -65,8 +112,7 @@ export default function RecenthotsJob() {
 
       setJobData([]);
       setError(
-        err?.message ||
-          "Unable to load jobs. Please try again."
+        err?.message || "Unable to load jobs. Please try again."
       );
     } finally {
       setLoading(false);
@@ -77,9 +123,9 @@ export default function RecenthotsJob() {
     fetchJobs();
   }, []);
 
-  /* =========================================
-     SEARCH
-  ========================================= */
+  // =========================================
+  // SEARCH
+  // =========================================
 
   const filteredJobs = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -87,27 +133,25 @@ export default function RecenthotsJob() {
     if (!query) return jobData;
 
     return jobData.filter((item) => {
-      const title =
-        item?.jobTitle?.toLowerCase() || "";
+      const title = String(item?.jobTitle || "").toLowerCase();
 
-      const company =
-        item?.employerId?.companyName?.toLowerCase() ||
-        item?.companyName?.toLowerCase() ||
-        "";
+      const company = String(
+        item?.employerId?.companyName ||
+          item?.companyName ||
+          ""
+      ).toLowerCase();
 
-      const category =
-        item?.category?.toLowerCase() || "";
+      const category = String(item?.category || "").toLowerCase();
 
-      const location =
-        item?.jobLocation?.toLowerCase() ||
-        item?.location?.toLowerCase() ||
-        "";
+      const location = String(
+        item?.jobLocation || item?.location || ""
+      ).toLowerCase();
 
-      const jobType =
-        item?.jobType?.toLowerCase() || "";
+      const jobType = String(item?.jobType || "").toLowerCase();
 
-      const skills =
-        item?.skillRequired?.toLowerCase() || "";
+      const skills = Array.isArray(item?.skillRequired)
+        ? item.skillRequired.join(" ").toLowerCase()
+        : String(item?.skillRequired || "").toLowerCase();
 
       return (
         title.includes(query) ||
@@ -120,122 +164,80 @@ export default function RecenthotsJob() {
     });
   }, [jobData, search]);
 
-  /* =========================================
-     PAGINATION
-  ========================================= */
+  // =========================================
+  // PAGINATION
+  // =========================================
 
   const totalPages = Math.ceil(
-    filteredJobs.length / itemsPerPage
+    filteredJobs.length / ITEMS_PER_PAGE
   );
 
-  const startIndex =
-    (currentPage - 1) * itemsPerPage;
+  const safeCurrentPage = Math.min(
+    currentPage,
+    Math.max(totalPages, 1)
+  );
+
+  const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
 
   const paginatedJobs = filteredJobs.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + ITEMS_PER_PAGE
   );
-
-  /* =========================================
-     HELPERS
-  ========================================= */
-
-  const formatDate = (date) => {
-    if (!date) return "Recently";
-
-    const parsedDate = new Date(date);
-
-    if (Number.isNaN(parsedDate.getTime())) {
-      return "Recently";
-    }
-
-    return parsedDate.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  const getSalary = (item) => {
-    if (item?.salaryPackage) {
-      return item.salaryPackage;
-    }
-
-    if (item?.salary) {
-      return item.salary;
-    }
-
-    if (item?.minSalary || item?.maxSalary) {
-      return `${item?.minSalary || ""} - ${
-        item?.maxSalary || ""
-      }`;
-    }
-
-    return "Salary not disclosed";
-  };
-
-  const getLocation = (item) => {
-    return (
-      item?.jobLocation ||
-      item?.location ||
-      "Location not specified"
-    );
-  };
-
-  const getCompanyName = (item) => {
-    return (
-      item?.employerId?.companyName ||
-      item?.companyName ||
-      "Company"
-    );
-  };
-
-  const getLogo = (item) => {
-    const logo =
-      item?.employerId?.logo ||
-      item?.logo;
-
-    if (!logo) return "";
-
-    if (
-      typeof logo === "string" &&
-      logo.startsWith("http")
-    ) {
-      return logo;
-    }
-
-    return `${API_URL}/uploads/${logo}`;
-  };
-
-  /* =========================================
-     RESET SEARCH PAGE
-  ========================================= */
 
   useEffect(() => {
     setCurrentPage(1);
   }, [search]);
 
-  /* =========================================
-     OPEN JOB
-  ========================================= */
+  // =========================================
+  // JOB HELPERS
+  // =========================================
+
+  const getSalary = (item) => {
+    if (item?.salaryPackage) return item.salaryPackage;
+    if (item?.salary) return item.salary;
+
+    if (item?.minSalary || item?.maxSalary) {
+      return `${item?.minSalary || ""} - ${item?.maxSalary || ""}`;
+    }
+
+    return "Salary not disclosed";
+  };
+
+  const getLocation = (item) =>
+    item?.jobLocation ||
+    item?.location ||
+    "Location not specified";
+
+  const getCompanyName = (item) =>
+    item?.employerId?.companyName ||
+    item?.companyName ||
+    "Company";
+
+  const getLogo = (item) =>
+    getLogoUrl(item?.employerId?.logo || item?.companyLogo || item?.logo);
+
+  const getCompanyInitial = (companyName) =>
+    companyName?.trim()?.charAt(0)?.toUpperCase() || "C";
+
+  // =========================================
+  // OPEN JOB
+  // =========================================
 
   const handleJobClick = (jobId) => {
     if (!jobId) return;
-
     navigate(`/apply/${jobId}`);
   };
 
+  // =========================================
+  // RENDER
+  // =========================================
+
   return (
     <section className="recent_hot_jobs_container">
-
-      {/* =====================================
-          HEADER
-      ===================================== */}
+      {/* HEADER */}
 
       <div className="rhj_header">
-
         <div className="rhj_header_content">
-
           <span className="rhj_section_badge">
             <FaBriefcase />
             CAREER OPPORTUNITIES
@@ -246,11 +248,9 @@ export default function RecenthotsJob() {
           </h1>
 
           <p className="rhj_header_description">
-            Explore the latest job opportunities
-            from trusted companies and find your
-            next career move.
+            Explore the latest job opportunities from trusted companies
+            and find your next career move.
           </p>
-
         </div>
 
         <button
@@ -259,27 +259,14 @@ export default function RecenthotsJob() {
           onClick={fetchJobs}
           disabled={loading}
         >
-          <FaRedo
-            className={
-              loading
-                ? "rhj_refresh_loading"
-                : ""
-            }
-          />
-
-          {loading
-            ? "Loading..."
-            : "Refresh"}
+          <FaRedo className={loading ? "rhj_refresh_loading" : ""} />
+          {loading ? "Loading..." : "Refresh"}
         </button>
-
       </div>
 
-      {/* =====================================
-          SEARCH
-      ===================================== */}
+      {/* SEARCH */}
 
       <div className="rhj_search_wrapper">
-
         <FaSearch className="rhj_search_icon" />
 
         <input
@@ -287,9 +274,7 @@ export default function RecenthotsJob() {
           className="rhj_search_input"
           placeholder="Search job title, company, location..."
           value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
+          onChange={(e) => setSearch(e.target.value)}
         />
 
         {search && (
@@ -297,364 +282,258 @@ export default function RecenthotsJob() {
             type="button"
             className="rhj_clear_search"
             onClick={() => setSearch("")}
+            aria-label="Clear search"
           >
             ×
           </button>
         )}
-
       </div>
 
-      {/* =====================================
-          RESULT INFO
-      ===================================== */}
+      {/* RESULTS */}
 
       {!loading && !error && (
         <div className="rhj_results_info">
-
           <span>
-            <strong>
-              {filteredJobs.length}
-            </strong>{" "}
-            {filteredJobs.length === 1
-              ? "job"
-              : "jobs"}{" "}
-            available
+            <strong>{filteredJobs.length}</strong>{" "}
+            {filteredJobs.length === 1 ? "job" : "jobs"} available
           </span>
 
           {search && (
             <span>
-              Results for{" "}
-              <strong>
-                "{search}"
-              </strong>
+              Results for <strong>"{search}"</strong>
             </span>
           )}
-
         </div>
       )}
 
-      {/* =====================================
-          ERROR
-      ===================================== */}
+      {/* ERROR */}
 
       {error && !loading && (
         <div className="rhj_error_box">
-
           <div className="rhj_error_content">
-
-            <div className="rhj_error_icon">
-              !
-            </div>
+            <div className="rhj_error_icon">!</div>
 
             <div>
-              <h3>
-                Unable to load jobs
-              </h3>
-
-              <p>
-                {error}
-              </p>
+              <h3>Unable to load jobs</h3>
+              <p>{error}</p>
             </div>
-
           </div>
 
-          <button
-            type="button"
-            onClick={fetchJobs}
-          >
+          <button type="button" onClick={fetchJobs}>
             <FaRedo />
             Try Again
           </button>
-
         </div>
       )}
 
-      {/* =====================================
-          LOADING
-      ===================================== */}
+      {/* LOADING SKELETON */}
 
       {loading && (
         <div className="rhj_jobs_list">
+          {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+            <div className="rhj_skeleton_card" key={index}>
+              <div className="rhj_skeleton_logo" />
 
-          {Array.from({ length: 6 }).map(
-            (_, index) => (
-              <div
-                className="rhj_skeleton_card"
-                key={index}
-              >
-
-                <div className="rhj_skeleton_logo" />
-
-                <div className="rhj_skeleton_content">
-
-                  <div className="rhj_skeleton_line title" />
-
-                  <div className="rhj_skeleton_line company" />
-
-                  <div className="rhj_skeleton_line meta" />
-
-                  <div className="rhj_skeleton_line bottom" />
-
-                </div>
-
+              <div className="rhj_skeleton_content">
+                <div className="rhj_skeleton_line title" />
+                <div className="rhj_skeleton_line company" />
+                <div className="rhj_skeleton_line meta" />
+                <div className="rhj_skeleton_line bottom" />
               </div>
-            )
-          )}
-
+            </div>
+          ))}
         </div>
       )}
 
-      {/* =====================================
-          JOB LIST
-      ===================================== */}
+      {/* JOB LIST */}
 
-      {!loading &&
-        !error &&
-        paginatedJobs.length > 0 && (
+      {!loading && !error && paginatedJobs.length > 0 && (
+        <div className="rhj_jobs_list">
+          {paginatedJobs.map((item, index) => {
+            const companyName = getCompanyName(item);
+            const logo = getLogo(item);
+            const location = getLocation(item);
+            const jobId = item?._id || item?.id;
 
-          <div className="rhj_jobs_list">
-
-            {paginatedJobs.map((item) => {
-
-              const companyName =
-                getCompanyName(item);
-
-              const logo =
-                getLogo(item);
-
-              const location =
-                getLocation(item);
-
-              return (
-                <article
-                  key={item?._id}
-                  className="recent_hot_job_card"
-                  onClick={() =>
-                    handleJobClick(item?._id)
+            return (
+              <article
+                key={jobId || index}
+                className="recent_hot_job_card"
+                onClick={() => handleJobClick(jobId)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleJobClick(jobId);
                   }
-                >
-
-                  {/* LEFT LOGO */}
-
-                  <div className="rhj_logo_container">
-
-                    {logo ? (
-                      <img
-                        src={logo}
-                        alt={companyName}
-                        className="recent_hot_logo_img"
-                        onError={(e) => {
-                          e.currentTarget.style.display =
-                            "none";
-
-                          const fallback =
-                            e.currentTarget.parentElement?.querySelector(
-                              ".recent_hot_logo"
-                            );
-
-                          fallback?.classList.add(
-                            "rhj_show_logo_fallback"
-                          );
-                        }}
-                      />
-                    ) : null}
-
-                    <div
-                      className={`recent_hot_logo ${
-                        !logo
-                          ? "rhj_show_logo_fallback"
-                          : ""
-                      }`}
-                    >
-                      {companyName
-                        .charAt(0)
-                        .toUpperCase()}
-                    </div>
-
-                  </div>
-
-                  {/* JOB DETAILS */}
-
-                  <div className="rhj_job_content">
-
-                    <div className="rhj_job_top">
-
-                      <div className="rhj_job_heading">
-
-                        <span className="rhj_category">
-                          {item?.category ||
-                            "Job Opportunity"}
-                        </span>
-
-                        <h3>
-                          {item?.jobTitle ||
-                            "Job Position"}
-                        </h3>
-
-                        <p className="rhj_company_name">
-                          <FaBuilding />
-                          {companyName}
-                        </p>
-
-                      </div>
-
-                      <span className="recent_hot_type_btn">
-                        {item?.jobType ||
-                          "Full Time"}
-                      </span>
-
-                    </div>
-
-                    {/* INFO */}
-
-                    <div className="recent_hot_meta">
-
-                      <span>
-                        <FaMapMarkerAlt />
-                        {location}
-                      </span>
-
-                      <span>
-                        <FaCalendarAlt />
-                        {formatDate(
-                          item?.createdAt ||
-                            item?.date
-                        )}
-                      </span>
-
-                      <span className="rhj_salary">
-                        <FaRupeeSign />
-                        {getSalary(item)}
-                      </span>
-
-                    </div>
-
-                    {/* FOOTER */}
-
-                    <div className="rhj_card_action">
-
-                      <span className="rhj_posted_time">
-                        <FaClock />
-                        Recently Posted
-                      </span>
-
-                      <span className="rhj_view_job">
-                        View Details
-                        <FaArrowRight />
-                      </span>
-
-                    </div>
-
-                  </div>
-
-                </article>
-              );
-            })}
-
-          </div>
-        )}
-
-      {/* =====================================
-          EMPTY
-      ===================================== */}
-
-      {!loading &&
-        !error &&
-        paginatedJobs.length === 0 && (
-
-          <div className="rhj_empty_state">
-
-            <div className="rhj_empty_icon">
-              <FaBriefcase />
-            </div>
-
-            <h3>
-              No Jobs Found
-            </h3>
-
-            <p>
-              {search
-                ? `No jobs found for "${search}".`
-                : "There are currently no job opportunities available."}
-            </p>
-
-            {search && (
-              <button
-                type="button"
-                onClick={() => setSearch("")}
+                }}
               >
-                View All Jobs
-              </button>
-            )}
+                {/* COMPANY LOGO */}
 
+                <div className="rhj_logo_container">
+                  {logo && (
+                    <img
+                      src={logo}
+                      alt={`${companyName} logo`}
+                      className="recent_hot_logo_img"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+
+                        const fallback =
+                          e.currentTarget.parentElement?.querySelector(
+                            ".recent_hot_logo"
+                          );
+
+                        fallback?.classList.add(
+                          "rhj_show_logo_fallback"
+                        );
+                      }}
+                    />
+                  )}
+
+                  <div
+                    className={`recent_hot_logo ${
+                      logo ? "" : "rhj_show_logo_fallback"
+                    }`}
+                  >
+                    {getCompanyInitial(companyName)}
+                  </div>
+                </div>
+
+                {/* JOB DETAILS */}
+
+                <div className="rhj_job_content">
+                  <div className="rhj_job_top">
+                    <div className="rhj_job_heading">
+                      <span className="rhj_category">
+                        {item?.category || "Job Opportunity"}
+                      </span>
+
+                      <h3>{item?.jobTitle || "Job Position"}</h3>
+
+                      <p className="rhj_company_name">
+                        <FaBuilding />
+                        {companyName}
+                      </p>
+                    </div>
+
+                    <span className="recent_hot_type_btn">
+                      {item?.jobType || "Full Time"}
+                    </span>
+                  </div>
+
+                  {/* JOB META */}
+
+                  <div className="recent_hot_meta">
+                    <span>
+                      <FaMapMarkerAlt />
+                      {location}
+                    </span>
+
+                    <span>
+                      <FaCalendarAlt />
+                      {formatDate(item?.createdAt || item?.date)}
+                    </span>
+
+                    <span className="rhj_salary">
+                      <FaRupeeSign />
+                      {getSalary(item)}
+                    </span>
+                  </div>
+
+                  {/* CARD FOOTER */}
+
+                  <div className="rhj_card_action">
+                    <span className="rhj_posted_time">
+                      <FaClock />
+                      {item?.createdAt
+                        ? `Posted ${formatDate(item.createdAt)}`
+                        : "Recently Posted"}
+                    </span>
+
+                    <span className="rhj_view_job">
+                      View Details
+                      <FaArrowRight />
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+
+      {/* EMPTY STATE */}
+
+      {!loading && !error && paginatedJobs.length === 0 && (
+        <div className="rhj_empty_state">
+          <div className="rhj_empty_icon">
+            <FaBriefcase />
           </div>
-        )}
 
-      {/* =====================================
-          PAGINATION
-      ===================================== */}
+          <h3>No Jobs Found</h3>
 
-      {!loading &&
-        !error &&
-        totalPages > 1 && (
+          <p>
+            {search
+              ? `No jobs found for "${search}".`
+              : "There are currently no job opportunities available."}
+          </p>
 
-          <div className="rhj_pagination">
-
-            <button
-              type="button"
-              className="rhj_page_btn rhj_arrow_btn"
-              disabled={currentPage === 1}
-              onClick={() =>
-                setCurrentPage(
-                  (prev) => prev - 1
-                )
-              }
-            >
-              <FaChevronLeft />
-              <span>Prev</span>
+          {search && (
+            <button type="button" onClick={() => setSearch("")}>
+              View All Jobs
             </button>
+          )}
+        </div>
+      )}
 
-            {Array.from(
-              { length: totalPages },
-              (_, index) => index + 1
-            ).map((page) => (
+      {/* PAGINATION */}
 
+      {!loading && !error && totalPages > 1 && (
+        <div className="rhj_pagination">
+          <button
+            type="button"
+            className="rhj_page_btn rhj_arrow_btn"
+            disabled={safeCurrentPage === 1}
+            onClick={() =>
+              setCurrentPage((page) => Math.max(1, page - 1))
+            }
+          >
+            <FaChevronLeft />
+            <span>Prev</span>
+          </button>
+
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+            (page) => (
               <button
                 type="button"
                 key={page}
                 className={`rhj_page_btn ${
-                  currentPage === page
-                    ? "rhj_active_page"
-                    : ""
+                  safeCurrentPage === page ? "rhj_active_page" : ""
                 }`}
-                onClick={() =>
-                  setCurrentPage(page)
-                }
+                onClick={() => setCurrentPage(page)}
               >
                 {page}
               </button>
+            )
+          )}
 
-            ))}
-
-            <button
-              type="button"
-              className="rhj_page_btn rhj_arrow_btn"
-              disabled={
-                currentPage === totalPages
-              }
-              onClick={() =>
-                setCurrentPage(
-                  (prev) => prev + 1
-                )
-              }
-            >
-              <span>Next</span>
-              <FaChevronRight />
-            </button>
-
-          </div>
-        )}
-
+          <button
+            type="button"
+            className="rhj_page_btn rhj_arrow_btn"
+            disabled={safeCurrentPage === totalPages}
+            onClick={() =>
+              setCurrentPage((page) =>
+                Math.min(totalPages, page + 1)
+              )
+            }
+          >
+            <span>Next</span>
+            <FaChevronRight />
+          </button>
+        </div>
+      )}
     </section>
   );
 }

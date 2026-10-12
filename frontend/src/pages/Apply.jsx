@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -15,6 +16,8 @@ import {
 import "../css/apply.css";
 
 const BASE_URL = "https://latestjobportal.onrender.com";
+
+const DEFAULT_COMPANY_NAME = "Company";
 
 export default function Apply() {
   const { id } = useParams();
@@ -59,17 +62,25 @@ export default function Apply() {
         data?.data ||
         data;
 
+      if (!jobData || !jobData._id) {
+        throw new Error("Job details not found");
+      }
+
       console.log("========== JOB DETAILS ==========");
       console.log("Job:", jobData);
-      console.log("Job ID:", jobData?._id);
+      console.log("Job ID:", jobData._id);
+      console.log("Employer:", jobData.employerId);
 
-      setJob(jobData || {});
+      setJob(jobData);
     } catch (error) {
       console.error("Fetch Job Error:", error);
 
+      setJob({});
+
       setMessage({
         type: "error",
-        text: "Unable to load job details. Please try again.",
+        text:
+          "Unable to load job details. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -79,6 +90,8 @@ export default function Apply() {
   useEffect(() => {
     if (id) {
       fetchSingleJob();
+    } else {
+      setLoading(false);
     }
   }, [id]);
 
@@ -88,9 +101,6 @@ export default function Apply() {
   const getCandidateId = () => {
     let storedUser = null;
 
-    // ------------------------------------------
-    // First check "user"
-    // ------------------------------------------
     try {
       const userData = localStorage.getItem("user");
 
@@ -98,30 +108,19 @@ export default function Apply() {
         storedUser = JSON.parse(userData);
       }
     } catch (error) {
-      console.error(
-        "Invalid user data:",
-        error
-      );
+      console.error("Invalid user data:", error);
     }
 
-    console.log(
-      "========== STORED USER =========="
-    );
+    console.log("========== STORED USER ==========");
     console.log("Stored User:", storedUser);
 
-    // ------------------------------------------
-    // Candidate ID fallback
-    // ------------------------------------------
     const candidateId =
       storedUser?._id ||
       storedUser?.id ||
       localStorage.getItem("candidateId") ||
       localStorage.getItem("userId");
 
-    console.log(
-      "Candidate ID:",
-      candidateId
-    );
+    console.log("Candidate ID:", candidateId);
 
     return candidateId;
   };
@@ -139,14 +138,9 @@ export default function Apply() {
       text: "",
     });
 
-    // ------------------------------------------
-    // Candidate ID
-    // ------------------------------------------
     const candidateId = getCandidateId();
 
-    // ------------------------------------------
-    // Candidate Login Check
-    // ------------------------------------------
+    // Candidate login check
     if (!candidateId) {
       setMessage({
         type: "error",
@@ -161,22 +155,17 @@ export default function Apply() {
       return;
     }
 
-    // ------------------------------------------
-    // Job Check
-    // ------------------------------------------
+    // Job check
     if (!job?._id) {
       setMessage({
         type: "error",
-        text:
-          "Job information is not available.",
+        text: "Job information is not available.",
       });
 
       return;
     }
 
-    console.log(
-      "========== APPLY JOB =========="
-    );
+    console.log("========== APPLY JOB ==========");
     console.log("Candidate ID:", candidateId);
     console.log("Job ID:", job._id);
 
@@ -187,13 +176,11 @@ export default function Apply() {
         `${BASE_URL}/api/applyjob`,
         {
           method: "POST",
-
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({
-            candidateId: candidateId,
+            candidateId,
             jobId: job._id,
           }),
         }
@@ -201,19 +188,11 @@ export default function Apply() {
 
       const data = await response.json();
 
-      console.log(
-        "========== APPLY RESPONSE =========="
-      );
+      console.log("========== APPLY RESPONSE ==========");
       console.log("Status:", response.status);
       console.log("Response:", data);
 
-      // ------------------------------------------
-      // Success
-      // ------------------------------------------
-      if (
-        response.ok &&
-        data?.success
-      ) {
+      if (response.ok && data?.success) {
         setAlreadyApplied(true);
 
         setMessage({
@@ -226,14 +205,9 @@ export default function Apply() {
         return;
       }
 
-      // ------------------------------------------
-      // Duplicate Application
-      // ------------------------------------------
       if (
         response.status === 400 &&
-        data?.message
-          ?.toLowerCase()
-          .includes("already")
+        data?.message?.toLowerCase().includes("already")
       ) {
         setAlreadyApplied(true);
 
@@ -245,9 +219,6 @@ export default function Apply() {
         return;
       }
 
-      // ------------------------------------------
-      // Other Error
-      // ------------------------------------------
       setMessage({
         type: "error",
         text:
@@ -255,10 +226,7 @@ export default function Apply() {
           "Application failed. Please try again.",
       });
     } catch (error) {
-      console.error(
-        "Apply Job Error:",
-        error
-      );
+      console.error("Apply Job Error:", error);
 
       setMessage({
         type: "error",
@@ -273,17 +241,42 @@ export default function Apply() {
   // ==========================================
   // COMPANY DETAILS
   // ==========================================
+  const employer =
+    job?.employerId &&
+    typeof job.employerId === "object"
+      ? job.employerId
+      : {};
+
   const companyName =
-    job?.employerId?.companyName ||
-    "Company";
+    employer?.companyName ||
+    DEFAULT_COMPANY_NAME;
 
   const companyInitial =
     companyName.charAt(0).toUpperCase();
 
-  const companyLogo =
-    job?.employerId?.logo
-      ? `${BASE_URL}/uploads/${job.employerId.logo}`
-      : null;
+  // Cloudinary stores a complete URL.
+  // Legacy local filenames are supported too.
+  const getCompanyLogo = (logo) => {
+    if (!logo || typeof logo !== "string") {
+      return "";
+    }
+
+    const trimmedLogo = logo.trim();
+
+    if (
+      trimmedLogo.startsWith("https://") ||
+      trimmedLogo.startsWith("http://")
+    ) {
+      return trimmedLogo;
+    }
+
+    return `${BASE_URL}/uploads/${trimmedLogo.replace(
+      /^\/+/,
+      ""
+    )}`;
+  };
+
+  const companyLogo = getCompanyLogo(employer?.logo);
 
   // ==========================================
   // FORMAT DATE
@@ -293,18 +286,17 @@ export default function Apply() {
       return "N/A";
     }
 
-    try {
-      return new Date(date).toLocaleDateString(
-        "en-IN",
-        {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        }
-      );
-    } catch {
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
       return "N/A";
     }
+
+    return parsedDate.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   // ==========================================
@@ -316,6 +308,10 @@ export default function Apply() {
           .split(",")
           .map((skill) => skill.trim())
           .filter(Boolean)
+      : Array.isArray(job?.skillRequired)
+      ? job.skillRequired
+          .map((skill) => String(skill).trim())
+          .filter(Boolean)
       : [];
 
   // ==========================================
@@ -326,9 +322,7 @@ export default function Apply() {
       <div className="apply_loading_page">
         <div className="apply_loader"></div>
 
-        <h3>
-          Loading Job Details...
-        </h3>
+        <h3>Loading Job Details...</h3>
 
         <p>
           Please wait while we fetch the job
@@ -344,12 +338,8 @@ export default function Apply() {
   return (
     <div className="jobdetails_main">
       <div className="jobdetails_wrapper">
-
-        {/* =================================
-            LEFT CONTENT
-        ================================== */}
+        {/* LEFT CONTENT */}
         <main className="jobdetails_content">
-
           {/* MESSAGE */}
           {message.text && (
             <div
@@ -358,6 +348,8 @@ export default function Apply() {
                   ? "apply_success"
                   : "apply_error"
               }`}
+              role="status"
+              aria-live="polite"
             >
               {message.type === "success" ? (
                 <FiCheckCircle />
@@ -365,66 +357,53 @@ export default function Apply() {
                 <FiAlertCircle />
               )}
 
-              <span>
-                {message.text}
-              </span>
+              <span>{message.text}</span>
             </div>
           )}
 
           {/* JOB HEADER */}
           <section className="jobdetails_header">
-
             {/* COMPANY LOGO */}
             <div className="company_logo_wrapper">
-
-              {companyLogo ? (
+              {companyLogo && (
                 <img
                   src={companyLogo}
-                  alt={companyName}
+                  alt={`${companyName} logo`}
                   className="company_logo"
                   onError={(e) => {
-                    e.currentTarget.style.display =
-                      "none";
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.style.display = "none";
 
                     const fallback =
-                      e.currentTarget.parentElement.querySelector(
+                      e.currentTarget.parentElement?.querySelector(
                         ".fallback_logo"
                       );
 
                     if (fallback) {
-                      fallback.style.display =
-                        "flex";
+                      fallback.style.display = "flex";
                     }
                   }}
                 />
-              ) : null}
+              )}
 
               <div
                 className="fallback_logo"
                 style={{
-                  display: companyLogo
-                    ? "none"
-                    : "flex",
+                  display: companyLogo ? "none" : "flex",
                 }}
               >
                 {companyInitial}
               </div>
-
             </div>
 
             {/* JOB INFORMATION */}
             <div className="jobdetails_info_box">
-
               <span className="jobdetails_badge">
                 <FiBriefcase />
-
                 {job?.jobType || "Job"}
               </span>
 
-              <h1>
-                {job?.jobTitle ||
-                  "Job Title"}
-              </h1>
+              <h1>{job?.jobTitle || "Job Title"}</h1>
 
               <p className="company_name">
                 {companyName}
@@ -432,51 +411,38 @@ export default function Apply() {
 
               {/* META */}
               <div className="job_meta">
-
                 <span>
                   <FiMapPin />
-
                   {job?.jobLocation ||
                     "Location not specified"}
                 </span>
 
                 <span>
                   <FiCalendar />
-
-                  {formatDate(
-                    job?.createdAt
-                  )}
+                  {formatDate(job?.createdAt)}
                 </span>
-
               </div>
 
               {/* SALARY */}
               <div className="salary_box">
-
                 <FiDollarSign />
 
                 <div>
-                  <small>
-                    Salary Package
-                  </small>
+                  <small>Salary Package</small>
 
                   <strong>
-                    ₹
-                    {job?.salaryPackage ||
-                      "Not disclosed"}
+                    {job?.salaryPackage
+                      ? `₹${job.salaryPackage}`
+                      : "Not disclosed"}
                   </strong>
                 </div>
-
               </div>
 
               {/* ACTIONS */}
               <div className="job_actions">
-
                 <span className="fulltime_btn">
                   <FiClock />
-
-                  {job?.jobType ||
-                    "Full Time"}
+                  {job?.jobType || "Full Time"}
                 </span>
 
                 <button
@@ -484,262 +450,176 @@ export default function Apply() {
                   className="apply_btn"
                   onClick={handleApply}
                   disabled={
-                    applyLoading ||
-                    alreadyApplied
+                    applyLoading || alreadyApplied
                   }
                 >
                   {applyLoading ? (
                     <>
                       <span className="apply_button_spinner"></span>
-
                       Applying...
                     </>
                   ) : alreadyApplied ? (
                     <>
                       <FiCheckCircle />
-
                       Applied
                     </>
                   ) : (
                     <>
                       <FiSend />
-
                       APPLY FOR THIS JOB
                     </>
                   )}
                 </button>
-
               </div>
-
             </div>
           </section>
 
           {/* JOB OVERVIEW */}
           <section className="detail_section">
-
             <div className="section_title">
-
               <span className="section_icon">
                 <FiBriefcase />
               </span>
 
               <div>
-                <h3>
-                  Job Overview
-                </h3>
-
-                <p>
-                  About this opportunity
-                </p>
+                <h3>Job Overview</h3>
+                <p>About this opportunity</p>
               </div>
-
             </div>
 
             <p className="detail_text">
               {job?.jobDescription ||
                 "No job description available."}
             </p>
-
           </section>
 
           {/* EXPERIENCE */}
           <section className="detail_section">
-
             <div className="section_title">
-
               <span className="section_icon">
                 <FiStar />
               </span>
 
               <div>
-                <h3>
-                  Required Experience
-                </h3>
-
+                <h3>Required Experience</h3>
                 <p>
-                  Experience expected for
-                  this position
+                  Experience expected for this position
                 </p>
               </div>
-
             </div>
 
             <div className="info_highlight">
-              {job?.experience ||
-                "Not specified"}
+              {job?.experience || "Not specified"}
             </div>
-
           </section>
 
           {/* SKILLS */}
           <section className="detail_section">
-
             <div className="section_title">
-
               <span className="section_icon">
                 <FiCheckCircle />
               </span>
 
               <div>
-                <h3>
-                  Skills Required
-                </h3>
-
-                <p>
-                  Skills and expertise
-                  required
-                </p>
+                <h3>Skills Required</h3>
+                <p>Skills and expertise required</p>
               </div>
-
             </div>
 
             <div className="skills_box">
-
               {skills.length > 0 ? (
-                skills.map(
-                  (skill, index) => (
-                    <span
-                      className="skill_tag"
-                      key={index}
-                    >
-                      {skill}
-                    </span>
-                  )
-                )
+                skills.map((skill, index) => (
+                  <span className="skill_tag" key={`${skill}-${index}`}>
+                    {skill}
+                  </span>
+                ))
               ) : (
                 <span className="no_data">
                   Skills not specified
                 </span>
               )}
-
             </div>
-
           </section>
 
           {/* JOB INFORMATION */}
           <section className="detail_section">
-
             <div className="section_title">
-
               <span className="section_icon">
                 <FiBriefcase />
               </span>
 
               <div>
-                <h3>
-                  Job Information
-                </h3>
-
-                <p>
-                  Important details about
-                  this job
-                </p>
+                <h3>Job Information</h3>
+                <p>Important details about this job</p>
               </div>
-
             </div>
 
             <div className="job_information_grid">
-
-              {/* LOCATION */}
               <div className="information_item">
-
                 <span>
                   <FiMapPin />
                 </span>
 
                 <div>
-                  <small>
-                    Location
-                  </small>
-
+                  <small>Location</small>
                   <strong>
-                    {job?.jobLocation ||
-                      "Not specified"}
+                    {job?.jobLocation || "Not specified"}
                   </strong>
                 </div>
-
               </div>
 
-              {/* SALARY */}
               <div className="information_item">
-
                 <span>
                   <FiDollarSign />
                 </span>
 
                 <div>
-                  <small>
-                    Salary
-                  </small>
-
+                  <small>Salary</small>
                   <strong>
-                    ₹
-                    {job?.salaryPackage ||
-                      "Not disclosed"}
+                    {job?.salaryPackage
+                      ? `₹${job.salaryPackage}`
+                      : "Not disclosed"}
                   </strong>
                 </div>
-
               </div>
 
-              {/* JOB TYPE */}
               <div className="information_item">
-
                 <span>
                   <FiBriefcase />
                 </span>
 
                 <div>
-                  <small>
-                    Job Type
-                  </small>
-
+                  <small>Job Type</small>
                   <strong>
-                    {job?.jobType ||
-                      "Not specified"}
+                    {job?.jobType || "Not specified"}
                   </strong>
                 </div>
-
               </div>
 
-              {/* POSTED ON */}
               <div className="information_item">
-
                 <span>
                   <FiCalendar />
                 </span>
 
                 <div>
-                  <small>
-                    Posted On
-                  </small>
-
+                  <small>Posted On</small>
                   <strong>
-                    {formatDate(
-                      job?.createdAt
-                    )}
+                    {formatDate(job?.createdAt)}
                   </strong>
                 </div>
-
               </div>
-
             </div>
-
           </section>
 
           {/* BOTTOM APPLY */}
           <div className="bottom_apply_box">
-
             <div>
-
-              <h3>
-                Interested in this job?
-              </h3>
+              <h3>Interested in this job?</h3>
 
               <p>
-                Apply now and take the
-                next step in your career.
+                Apply now and take the next step in
+                your career.
               </p>
-
             </div>
 
             <button
@@ -747,186 +627,133 @@ export default function Apply() {
               className="apply_btn bottom_apply_btn"
               onClick={handleApply}
               disabled={
-                applyLoading ||
-                alreadyApplied
+                applyLoading || alreadyApplied
               }
             >
               {applyLoading ? (
                 <>
                   <span className="apply_button_spinner"></span>
-
                   Applying...
                 </>
               ) : alreadyApplied ? (
                 <>
                   <FiCheckCircle />
-
                   Applied
                 </>
               ) : (
                 <>
                   <FiSend />
-
                   Apply Now
                 </>
               )}
             </button>
-
           </div>
-
         </main>
 
-        {/* =================================
-            RIGHT SIDEBAR
-        ================================== */}
+        {/* RIGHT SIDEBAR */}
         <aside className="company_sidebar">
-
           <div className="sidebar_card">
-
             {/* SIDEBAR LOGO */}
             <div className="sidebar_logo_wrapper">
-
-              {companyLogo ? (
+              {companyLogo && (
                 <img
                   src={companyLogo}
-                  alt={companyName}
+                  alt={`${companyName} logo`}
                   className="sidebar_banner"
                   onError={(e) => {
-                    e.currentTarget.style.display =
-                      "none";
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.style.display = "none";
 
                     const fallback =
-                      e.currentTarget.parentElement.querySelector(
+                      e.currentTarget.parentElement?.querySelector(
                         ".sidebar_fallback_logo"
                       );
 
                     if (fallback) {
-                      fallback.style.display =
-                        "flex";
+                      fallback.style.display = "flex";
                     }
                   }}
                 />
-              ) : null}
+              )}
 
               <div
                 className="sidebar_fallback_logo"
                 style={{
-                  display: companyLogo
-                    ? "none"
-                    : "flex",
+                  display: companyLogo ? "none" : "flex",
                 }}
               >
                 {companyInitial}
               </div>
-
             </div>
 
             {/* SIDEBAR BODY */}
             <div className="sidebar_body">
-
               <span className="sidebar_company_label">
                 COMPANY
               </span>
 
-              <h2>
-                {companyName}
-              </h2>
+              <h2>{companyName}</h2>
 
               {/* INDUSTRY */}
               <div className="sidebar_item">
-
                 <div className="sidebar_item_icon">
                   <FiBriefcase />
                 </div>
 
                 <div>
-                  <strong>
-                    Industry
-                  </strong>
-
-                  <p>
-                    {job?.category ||
-                      "Not specified"}
-                  </p>
+                  <strong>Industry</strong>
+                  <p>{job?.category || "Not specified"}</p>
                 </div>
-
               </div>
 
               {/* BUSINESS ENTITY */}
               <div className="sidebar_item">
-
                 <div className="sidebar_item_icon">
                   <FiBriefcase />
                 </div>
 
                 <div>
-                  <strong>
-                    Type of Business Entity
-                  </strong>
-
-                  <p>
-                    Pvt Ltd
-                  </p>
+                  <strong>Type of Business Entity</strong>
+                  <p>{employer?.businessType || "Pvt Ltd"}</p>
                 </div>
-
               </div>
 
               {/* ESTABLISHED */}
               <div className="sidebar_item">
-
                 <div className="sidebar_item_icon">
                   <FiCalendar />
                 </div>
 
                 <div>
-                  <strong>
-                    Established In
-                  </strong>
-
-                  <p>
-                    2000
-                  </p>
+                  <strong>Established In</strong>
+                  <p>{employer?.establishedIn || "2000"}</p>
                 </div>
-
               </div>
 
               {/* EMPLOYEES */}
               <div className="sidebar_item">
-
                 <div className="sidebar_item_icon">
                   <FiUser />
                 </div>
 
                 <div>
-                  <strong>
-                    No. of Employees
-                  </strong>
-
-                  <p>
-                    10000+
-                  </p>
+                  <strong>No. of Employees</strong>
+                  <p>{employer?.employees || "10000+"}</p>
                 </div>
-
               </div>
 
               {/* LOCATION */}
               <div className="sidebar_item">
-
                 <div className="sidebar_item_icon">
                   <FiMapPin />
                 </div>
 
                 <div>
-                  <strong>
-                    Location
-                  </strong>
-
+                  <strong>Location</strong>
                   <p>
-                    {job?.jobLocation ||
-                      "Not specified"}
+                    {job?.jobLocation || "Not specified"}
                   </p>
                 </div>
-
               </div>
 
               {/* SIDEBAR APPLY */}
@@ -935,8 +762,7 @@ export default function Apply() {
                 className="sidebar_apply_btn"
                 onClick={handleApply}
                 disabled={
-                  applyLoading ||
-                  alreadyApplied
+                  applyLoading || alreadyApplied
                 }
               >
                 <FiSend />
@@ -947,13 +773,9 @@ export default function Apply() {
                   ? "Applied"
                   : "Apply for this Job"}
               </button>
-
             </div>
-
           </div>
-
         </aside>
-
       </div>
     </div>
   );
